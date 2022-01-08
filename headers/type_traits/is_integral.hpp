@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 17:37:53 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/08 17:44:47 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/08 20:09:01 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,52 @@
 namespace ft
 {
     template <typename T>
-    struct is_integral : public integral_constant<
-        bool,
-        is_integral<T>::value || std::is_enum<T>::value>
-    {};
+    struct is_integral : false_type {};
+
+    template <>
+    struct is_integral<bool> : true_type {};
+
+    template <>
+    struct is_integral<char> : true_type {};
+
+    template <>
+    struct is_integral<char16_t> : true_type {};
+
+    template <>
+    struct is_integral<char32_t> : true_type {};
+
+    template <>
+    struct is_integral<wchar_t> : true_type {};
+
+    template <>
+    struct is_integral<signed char> : true_type {};
+
+    template <>
+    struct is_integral<short int> : true_type {};
+
+    template <>
+    struct is_integral<int> : true_type {};
+
+    template <>
+    struct is_integral<long int> : true_type {};
+
+    template <>
+    struct is_integral<long long int> : true_type {};
+
+    template <>
+    struct is_integral<unsigned char> : true_type {};
+
+    template <>
+    struct is_integral<unsigned short int> : true_type {};
+
+    template <>
+    struct is_integral<unsigned int> : true_type {};
+    
+    template <>
+    struct is_integral<unsigned long int> : true_type {};
+
+    template <>
+    struct is_integral<unsigned long long int> : true_type {};
 }
 
 #endif
