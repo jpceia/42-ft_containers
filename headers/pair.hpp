@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:42:16 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/08 16:00:18 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/08 16:03:34 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 namespace ft
 {
-    template <class T1, class T2>
+    template <typename T1, typename T2>
     struct pair
     {
     public:
@@ -66,38 +66,38 @@ namespace ft
     // ---------------------------------------------------------------------
 
 
-    template <class T1, class T2>
-    bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+    template <typename T1, typename T2>
+    bool operator== (const pair<T1, T2>& lhs, const pair<T1, T2>& rhs)
     {
         return lhs.first == rhs.first && lhs.second == rhs.second;
     }
 
-    template <class T1, class T2>
-    bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+    template <typename T1, typename T2>
+    bool operator!= (const pair<T1, T2>& lhs, const pair<T1, T2>& rhs)
     {
         return !(lhs == rhs);
     }
 
-    template <class T1, class T2>
-    bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+    template <typename T1, typename T2>
+    bool operator<  (const pair<T1, T2>& lhs, const pair<T1, T2>& rhs)
     {
         return lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second);
     }
 
-    template <class T1, class T2>
-    bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+    template <typename T1, typename T2>
+    bool operator<= (const pair<T1, T2>& lhs, const pair<T1, T2>& rhs)
     {
         return !(rhs < lhs);
     }
 
-    template <class T1, class T2>
-    bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+    template <typename T1, typename T2>
+    bool operator>  (const pair<T1, T2>& lhs, const pair<T1, T2>& rhs)
     {
         return rhs < lhs;
     }
 
-    template <class T1, class T2>
-    bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+    template <typename T1, typename T2>
+    bool operator>= (const pair<T1, T2>& lhs, const pair<T1, T2>& rhs)
     {
         return !(lhs < rhs);
     }
