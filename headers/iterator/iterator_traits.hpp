@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 16:18:59 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/08 17:18:39 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/10 00:23:09 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #ifndef ITERATOR_TRAITS_HPP
 # define ITERATOR_TRAITS_HPP
 
-# include "random_access_iterator_tag.hpp"
+# include <cstddef>
 
 namespace ft
 {
@@ -38,10 +38,10 @@ namespace ft
     public:
         // Member types
         typedef T                                       value_type;
-        typedef ptrdiff_t                               difference_type;
+        typedef std::ptrdiff_t                               difference_type;
         typedef T*                                      pointer;
         typedef T&                                      reference;
-        typedef random_access_iterator_tag              iterator_category;
+        typedef std::random_access_iterator_tag         iterator_category;
     };
 
     // Const pointer specialization
@@ -54,7 +54,7 @@ namespace ft
         typedef ptrdiff_t                               difference_type;
         typedef const T*                                pointer;
         typedef const T&                                reference;
-        typedef random_access_iterator_tag              iterator_category;
+        typedef std::random_access_iterator_tag         iterator_category;
     };
 }
 
