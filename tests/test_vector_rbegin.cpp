@@ -6,17 +6,17 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:30:37 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/11 17:00:03 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/11 21:31:08 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <iostream>
+
 #if USE_STL
     # include <vector>
-    # include <iostream>
     namespace ft = std;
 #else
     # include "vector.hpp"
-    # include <iostream>
 #endif
 
 int main()
