@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_vector_size.cpp                               :+:      :+:    :+:   */
+/*   test_pair_assignment_operator.cpp                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 15:31:58 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/11 21:31:08 by jpceia           ###   ########.fr       */
+/*   Created: 2022/01/11 21:23:13 by jpceia            #+#    #+#             */
+/*   Updated: 2022/01/11 21:27:35 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#include <string>       // std::string
+#include <iostream>     // std::cout
 
 #if USE_STL
-    # include <vector>
+    #include <utility>      // std::pair, std::make_pair
     namespace ft = std;
 #else
-    # include "vector.hpp"
+    #include "pair.hpp"
 #endif
 
-int main()
-{
-    ft::vector<int> myints;
-    std::cout << "0. size: " << myints.size() << '\n';
+int main () {
+    ft::pair<std::string, int> planet, homeplanet;
 
-    for (int i=0; i<10; i++) myints.push_back(i);
-    std::cout << "1. size: " << myints.size() << '\n';
+    planet = ft::make_pair<std::string, int>("Earth",6371);
 
-    myints.insert (myints.end(),10,100);
-    std::cout << "2. size: " << myints.size() << '\n';
+    homeplanet = planet;
 
-    myints.pop_back();
-    std::cout << "3. size: " << myints.size() << '\n';
+    std::cout << "Home planet: " << homeplanet.first << '\n';
+    std::cout << "Planet size: " << homeplanet.second << '\n';
 
     return 0;
 }
