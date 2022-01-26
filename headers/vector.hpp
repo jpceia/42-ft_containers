@@ -591,14 +591,12 @@ namespace ft
          */
         iterator insert(iterator position, const value_type& val)
         {
-            (void)position;
-            if (_end == _end_of_storage)
-                _reallocate();
-            // std::uninitialized_copy(position, _end, _end + 1);
-            _alloc.construct(_end, val);
+            if (_end == _end_of_storage)    // allocate more space if needed
+                this->_reallocate();
+            std::copy(position, _end, position + 1);
+            _alloc.construct(position, val);
             ++_end;
-            
-            return _end - 1;
+            return position;
         }
 
         /**
@@ -610,13 +608,11 @@ namespace ft
          */
         void insert(iterator position, size_type n, const value_type& val)
         {
-            (void)position;
-            (void)val;
-            // TODO: use position to check if we need to reallocate
-            if (_end + n > _end_of_storage)
-                _reallocate(n);
-            //std::uninitialized_copy(position, _end, _end + n);
-            //std::uninitialized_fill(position, position + n, val);
+            while (this->size() + n > this->capacity())
+                this->_reallocate();
+            std::copy(position, _end, position + n);
+            for (size_type i = 0; i < n; ++i)
+                _alloc.construct(position + i, val);
             _end += n;
         }
         
