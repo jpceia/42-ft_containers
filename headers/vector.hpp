@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/26 14:30:49 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/26 14:37:00 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -652,8 +652,8 @@ namespace ft
          */
         iterator erase(iterator position)
         {
+            _alloc.destroy(position);
             std::copy(position + 1, _end, position);
-            _alloc.destroy(_end - 1);
             --_end;
             return position;
         }
