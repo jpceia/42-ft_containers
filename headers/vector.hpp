@@ -713,7 +713,8 @@ namespace ft
          */
         void clear()
         {
-            _alloc.destroy(_begin);
+            for (iterator it = _begin; it != _end; ++it)
+                _alloc.destroy(it);
             _end = _begin;
         }
 
