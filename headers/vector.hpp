@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/07 22:54:31 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/26 11:14:40 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,14 @@ namespace ft
         // ---------------------------------------------------------------------
 
         // Default constructor
-        vector(const allocator_type& alloc = allocator_type()) :
+        explicit vector() :
+            _alloc(allocator_type())
+        {
+            _begin = _end = _alloc.allocate(1);
+            _end_of_storage = _begin + 1;
+        }
+
+        explicit vector(const allocator_type& alloc) :
             _alloc(alloc)
         {
             _begin = _end = _alloc.allocate(1);
@@ -85,8 +92,11 @@ namespace ft
         }
         
         // Fill constructor
-        vector(size_type n, const value_type& val = value_type(),
-               const allocator_type& alloc = allocator_type()) :
+        explicit vector(
+            size_type n,
+            const value_type& val = value_type(),
+            const allocator_type& alloc = allocator_type()
+        ) :
             _alloc(alloc)
         {
             _begin = _alloc.allocate(n);
@@ -94,17 +104,20 @@ namespace ft
             std::uninitialized_fill(_begin, _end, val);
         }
 
+        /*
         // Range constructor
-        template <class InputIterator>
-        vector(InputIterator first, InputIterator last,
+        template <typename InputIterator>
+        vector(InputIterator first,
+               ft::enable_if_t<ft::is_input_iterator<InputIterator>::value last,
                const allocator_type& alloc = allocator_type()) :
             _alloc(alloc)
         {
-            size_type n = last - first; //::std::distance(first, last);
+            size_type n = last - first;//::std::distance(first, last);
             _begin = _alloc.allocate(n);
             _end = _end_of_storage = _begin + n;
             std::uninitialized_copy(first, last, _begin);
         }
+        */
 
         // Copy constructor
         vector(const vector& v) :
@@ -112,11 +125,11 @@ namespace ft
         {
             _begin = _alloc.allocate(v.size());
             _end = _end_of_storage = _begin + v.size();
-            std::uninitialized_copy<iterator, iterator>(v.begin(), v.end(), _begin);
+            std::uninitialized_copy(v.begin(), v.end(), _begin);
         }
         
         // Destructor
-        ~vector()
+        virtual ~vector()
         {
             for (iterator it = _begin; it != _end; ++it)
                 _alloc.destroy(it);
@@ -203,12 +216,14 @@ namespace ft
         // resize
         void resize(size_type n, value_type val = value_type())
         {
-            if (n < size())
+            if (n < this->size())
             {
-                _alloc.destroy(_begin + n, _end);
+                iterator it = _begin + n;
+                for (; it != _end; ++it)
+                    _alloc.destroy(it);
                 _end = _begin + n;
             }
-            else if (n > size())
+            else if (n > this->size())
             {
                 _reallocate(n);
                 std::uninitialized_fill(_end, _begin + n, val);
@@ -292,23 +307,26 @@ namespace ft
 
 
         // assign - range
-        template <class InputIterator>
+        template <typename InputIterator>
         void assign(InputIterator first, InputIterator last)
         {
-            size_type n = ::std::distance(first, last);
-            _alloc.destroy(_begin, _end);
-            _alloc.deallocate(_begin, _end_of_storage - _begin);
-            _begin = _end = _end_of_storage = _alloc.allocate(n);
-            std::uninitialized_copy(first, last, _begin);
+            size_type n = last - first;
+            (void)n;
+            //this->clear();
+            //_alloc.deallocate(_begin, _end_of_storage - _begin);
+            //_begin = _end = _end_of_storage = _alloc.allocate(n);
+            //std::uninitialized_copy(first, last, _begin);
         }
 
         // assign - fill
         void assign(size_type n, const value_type& val)
         {
+            (void)n;
+            (void)val;
             _alloc.destroy(_begin, _end);
             _end = _begin;
-            _reallocate(n);
-            std::uninitialized_fill(_begin, _end, val);
+            //_reallocate(n);
+            //std::uninitialized_fill(_begin, _end, val);
         }
 
         // push_back
@@ -331,11 +349,12 @@ namespace ft
         }
         
         // insert - single element
-        iterator insert(const_iterator position, const value_type& val)
+        iterator insert(iterator position, const value_type& val)
         {
+            (void)position;
             if (_end == _end_of_storage)
                 _reallocate();
-            std::uninitialized_copy(position, _end, _end + 1);
+            // std::uninitialized_copy(position, _end, _end + 1);
             _alloc.construct(_end, val);
             ++_end;
             
@@ -343,28 +362,32 @@ namespace ft
         }
         
         // insert - fill
-        void insert(const_iterator position, size_type n, const value_type& val)
+        void insert(iterator position, size_type n, const value_type& val)
         {
+            (void)position;
+            (void)val;
+            // TODO: use position to check if we need to reallocate
             if (_end + n > _end_of_storage)
                 _reallocate(n);
-            std::uninitialized_copy(position, _end, _end + n);
-            std::uninitialized_fill(_end, _end + n, val);
+            //std::uninitialized_copy(position, _end, _end + n);
+            //std::uninitialized_fill(position, position + n, val);
             _end += n;
         }
         
         // insert - range
-        template <class InputIterator>
-        void insert(const_iterator position, InputIterator first, InputIterator last)
+        template <typename InputIterator>
+        void insert(iterator position, InputIterator first, InputIterator last)
         {
+            (void)position;
             if (_end + (last - first) > _end_of_storage)
                 _reallocate(last - first);
-            std::uninitialized_copy(position, _end, _end + (last - first));
-            std::uninitialized_copy(first, last, _end);
+            // std::uninitialized_copy(position, _end, _end + (last - first));
+            // std::uninitialized_copy(first, last, _end);
             _end += (last - first);
         }
-        
+       
         // erase - single element
-        iterator erase(const_iterator position)
+        iterator erase(iterator position)
         {
             std::copy(position + 1, _end, position);
             _alloc.destroy(_end - 1);
@@ -373,7 +396,7 @@ namespace ft
         }
         
         // erase - range
-        iterator erase(const_iterator first, const_iterator last) 
+        iterator erase(iterator first, iterator last) 
         {
             std::copy(last, _end, first);
             _alloc.destroy(_end - (last - first));
@@ -391,7 +414,7 @@ namespace ft
         
         void clear()
         {
-            _alloc.destroy(_begin, _end);
+            _alloc.destroy(_begin);
             _end = _begin;
         }
 
@@ -415,22 +438,12 @@ namespace ft
         {
             size_type new_capacity = (n == 0) ? capacity() * 2 : n;
             size_type current_size = size();
-            std::cout << "reallocate from " << capacity() << " to " << new_capacity << std::endl;
             iterator new_begin = _alloc.allocate(new_capacity, _begin);
             std::uninitialized_copy(_begin, _end, new_begin);
             _alloc.deallocate(_begin, _end_of_storage - _begin);
             _begin = new_begin;
             _end = _begin + current_size;
             _end_of_storage = _begin + new_capacity;
-            /*
-            size_type new_capacity = (n == 0) ? capacity() * 2 : n;
-            size_type current_size = size();
-            std::cout << "reallocate from " << capacity() << " to " << new_capacity << std::endl;
-            iterator new_begin = _alloc.allocate(new_capacity, _begin);
-            _begin = new_begin;
-            _end = _begin + current_size;
-            _end_of_storage = _begin + new_capacity;
-            */
         }
 
         void shrink_to_fit()
@@ -438,6 +451,35 @@ namespace ft
             _reallocate(size());
         }
     };
+
+    // ---------------------------------------------------------------------
+    // Relational operators
+    // ---------------------------------------------------------------------
+    template <typename T, typename Alloc>
+    bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+    {
+        if (lhs.size() != rhs.size())
+            return false;
+        for (size_t i = 0; i < lhs.size(); ++i)
+        {
+            if (lhs[i] != rhs[i])
+                return false;
+        }
+        return true;
+    }
+
+    template <typename T, typename Alloc>
+    bool operator!=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    template <typename T, typename Alloc>
+    bool operator<(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+    {
+        return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    }
+    
 }
 
 #endif
