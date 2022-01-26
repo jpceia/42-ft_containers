@@ -547,8 +547,8 @@ namespace ft
         void push_back(const value_type& val)
         {
             if (_end == _end_of_storage)
-                _reallocate();
-            _alloc.construct(_end, value);
+                this->_reallocate();
+            _alloc.construct(_end, val);
             ++_end;
         }
 
