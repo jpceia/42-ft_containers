@@ -726,27 +726,16 @@ namespace ft
         }
         
     private:
+
+        void _reallocate()
+        {
+            reserve(this->capacity() > 0 ? 2 * this->capacity() : 1);
+        }
+    
         iterator _begin;
         iterator _end;
         iterator _end_of_storage;
         allocator_type _alloc;
-
-        void _reallocate(size_type n = 0)
-        {
-            size_type new_capacity = (n == 0) ? capacity() * 2 : n;
-            size_type current_size = size();
-            iterator new_begin = _alloc.allocate(new_capacity, _begin);
-            std::uninitialized_copy(_begin, _end, new_begin);
-            _alloc.deallocate(_begin, _end_of_storage - _begin);
-            _begin = new_begin;
-            _end = _begin + current_size;
-            _end_of_storage = _begin + new_capacity;
-        }
-
-        void shrink_to_fit()
-        {
-            _reallocate(size());
-        }
     };
 
     // ---------------------------------------------------------------------
@@ -776,7 +765,7 @@ namespace ft
     {
         return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
     }
-    
+
 }
 
 #endif
