@@ -611,19 +611,26 @@ namespace ft
                 _alloc.construct(position + i, val);
             _end += n;
         }
-        
-        // insert - range
+
+        // TODO: insert function with iterator range
+        /*
         template <typename InputIterator>
-        void insert(iterator position, InputIterator first, InputIterator last)
+        void insert(
+            iterator position,
+            InputIterator first, // ft::enable_if()
+            InputIterator last
+        )
         {
-            (void)position;
-            if (_end + (last - first) > _end_of_storage)
-                _reallocate(last - first);
-            // std::uninitialized_copy(position, _end, _end + (last - first));
-            // std::uninitialized_copy(first, last, _end);
-            _end += (last - first);
+            difference_type n = last - first;
+            while (_end_of_storage - _end < n)
+                this->_reallocate();
+            std::copy(position, _end, position + n);
+            for (difference_type i = 0; i < n; ++i)
+                _alloc.construct(position + i, *(first + i));
+            _end += n;
         }
-       
+        */
+
         /**
          * @brief   Erase elements
          * 
