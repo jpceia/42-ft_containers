@@ -6,7 +6,7 @@
 #    By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/04 19:07:05 by jceia             #+#    #+#              #
-#    Updated: 2022/01/26 10:45:17 by jpceia           ###   ########.fr        #
+#    Updated: 2022/01/26 14:36:18 by jpceia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC_DIR     = tests
 BIN_DIR     = bin
 LOG_DIR		= logs
 
-SRCS        = $(shell find $(SRC_DIR) -name "*.cpp" -type f)
+SRCS        = $(shell (find $(SRC_DIR) -name "*.cpp" -type f | sort -z ))
 BINS        = $(SRCS:$(SRC_DIR)/%.cpp=$(BIN_DIR)/%)
 
 CXX          = clang++
@@ -36,19 +36,24 @@ FLAGS_INC   = -I$(INC_DIR)
 FLAGS_DEBUG = -g -fsanitize=address -DDEBUG
 FLAGS_OPT   = -O3
 
-CXXFLAGS    = $(FLAGS_WARN) $(FLAGS_INC) $(FLAGS_OPT) -std=c++98
+CXXFLAGS    = $(FLAGS_WARN) $(FLAGS_INC) $(FLAGS_OPT) -std=c++98 -g
 
 # Building
 $(BIN_DIR)/%:    $(SRC_DIR)/%.cpp
 	$(eval FNAME=$(shell basename $@))
 	@mkdir -p $(dir $@)
-	@$(CXX) $(CXXFLAGS) $< -o $@_ft
-	@$(CXX) $(CXXFLAGS) -DUSE_STL $< -o $@_std
 	@mkdir -p $(LOG_DIR)
-	@./$@_ft > $(BIN_DIR)/$(FNAME)_ft.log
-	@./$@_std > $(BIN_DIR)/$(FNAME)_std.log
-	@echo
-	@diff $(BIN_DIR)/$(FNAME)_ft.log $(BIN_DIR)/$(FNAME)_std.log && printf "${BWHITE}${FNAME}${RESET}\t${BGREEN}OK${RESET}\n" || printf "${BWHITE}${FNAME}${RESET}\t${BRED}FAIL${RESET}\n" 
+	@($(CXX) $(CXXFLAGS) $< -o $@_ft   2> /dev/null  && \
+		$(CXX) $(CXXFLAGS) -DUSE_STL $< -o $@_std  2> /dev/null ) && \
+		((./$@_ft > $(LOG_DIR)/$(FNAME)_ft.log && \
+		 ./$@_std > $(LOG_DIR)/$(FNAME)_std.log) && \
+		(diff $(LOG_DIR)/$(FNAME)_ft.log $(LOG_DIR)/$(FNAME)_std.log && \
+			printf "${BWHITE}${FNAME}${RESET}\t${BGREEN}OK${RESET}\n" || \
+			printf "${BWHITE}${FNAME}${RESET}\t${BRED}FAIL${RESET}\n") || \
+		printf "$(BWHITE)$(FNAME)$(RESET) ${BRED}runtime error${RESET}\n") || \
+		printf "$(BWHITE)$(FNAME)$(RESET) ${BRED}compilation error${RESET}\n"
+
+
 
 $(NAME): $(BINS)
 
@@ -63,5 +68,7 @@ fclean: clean
 
 # Rebuild
 re: fclean all
+
+FORCE:
 
 .PHONY:     all clean fclean re
