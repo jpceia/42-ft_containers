@@ -517,23 +517,15 @@ namespace ft
         template <typename InputIterator>
         void assign(InputIterator first, InputIterator last)
         {
-            size_type n = last - first;
-            (void)n;
-            //this->clear();
-            //_alloc.deallocate(_begin, _end_of_storage - _begin);
-            //_begin = _end = _end_of_storage = _alloc.allocate(n);
-            //std::uninitialized_copy(first, last, _begin);
+            this->clear();
+            this->resize(std::distance(first, last));
+            std::uninitialized_copy(first, last, _begin);
         }
 
-        // assign - fill
         void assign(size_type n, const value_type& val)
         {
-            (void)n;
-            (void)val;
-            _alloc.destroy(_begin, _end);
-            _end = _begin;
-            //_reallocate(n);
-            //std::uninitialized_fill(_begin, _end, val);
+            this->clear();
+            this->resize(n, val);
         }
 
         /**
