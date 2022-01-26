@@ -153,18 +153,44 @@ namespace ft
         // Iterators
         // ---------------------------------------------------------------------
 
-        // begin
+        /**
+         * @brief   Returns an iterator pointing to the first element in the
+         *          vector.
+         * 
+         * Notice that, unlike member vector::front, which returns a reference
+         * to the first element, this function returns a random access iterator
+         * pointing to it.
+         * 
+         * If the container is empty, the returned iterator value shall not be
+         * dereferenced.
+         * 
+         * @return iterator 
+         */
         iterator begin()
         {
             return _begin;
         }
-        
+
         const_iterator begin() const
         {
             return _begin;
         }
 
-        // end
+        /**
+         * @brief   Returns an iterator referring to the past-the-end element
+         *          in the vector container.
+         * 
+         * The past-the-end element is the theoretical element that would follow
+         * the last element in the vector. It does not point to any element, and
+         * thus shall not be dereferenced.
+         * 
+         * Because the ranges used by functions of the standard library do not
+         * include the element pointed by their closing iterator, this function
+         * is often used in combination with vector::begin to specify a range
+         * including all the elements in the container.
+         * 
+         * @return iterator 
+         */
         iterator end()
         {
             return _end;
@@ -175,7 +201,22 @@ namespace ft
             return _end;
         }
 
-        // rbegin
+        /**
+         * @brief   Returns a reverse iterator pointing to the last element in
+         *          the vector (i.e., its reverse beginning).
+         * 
+         * Reverse iterators iterate backwards: increasing them moves them
+         * towards the beginning of the container.
+         * 
+         * rbegin points to the element right before the one that would be
+         * pointed to by member end.
+         * 
+         * Notice that unlike member vector::back, which returns a reference to
+         * this same element, this function returns a reverse random access
+         * iterator.
+         * 
+         * @return reverse_iterator 
+         */
         reverse_iterator rbegin()
         {
             return reverse_iterator(_end);
@@ -186,7 +227,18 @@ namespace ft
             return const_reverse_iterator(_end);
         }
 
-        // rend
+        /**
+         * @brief   Return reverse iterator to reverse end
+         * 
+         * Returns a reverse iterator pointing to the theoretical element
+         * preceding the first element in the vector (which is considered its
+         * reverse end).
+         * 
+         * The range between vector::rbegin and vector::rend contains all the
+         * elements of the vector (in reverse order).
+         * 
+         * @return reverse_iterator 
+         */
         reverse_iterator rend()
         {
             return reverse_iterator(_begin);
@@ -201,19 +253,55 @@ namespace ft
         // Capacity
         // ---------------------------------------------------------------------
 
-        // size
+        /**
+         * @brief   Returns the number of elements in the vector.
+         * 
+         * This is the number of actual objects held in the vector, which is not
+         * necessarily equal to its storage capacity.
+         * 
+         * @return size_type 
+         */
         size_type size() const
         {
             return _end - _begin;
         }
 
-        // max_size
+        /**
+         * @brief   Returns the maximum number of elements that the vector can
+         *          hold.
+         * 
+         * This is the maximum potential size the container can reach due to
+         * known system or library implementation limitations, but the container
+         * is by no means guaranteed to be able to reach that size: it can still
+         * fail to allocate storage at any point before that size is reached.
+         * @return size_type 
+         */
         size_type max_size() const 
         {
             return _alloc.max_size();
         }
-        
-        // resize
+
+        /**
+         * @brief   Resizes the container so that it contains n elements.
+         * 
+         * @param n
+         * @param val
+         * 
+         * If n is smaller than the current container size, the content is
+         * reduced to its first n elements, removing those beyond (and
+         * destroying them).
+         * 
+         * If n is greater than the current container size, the content is
+         * expanded by inserting at the end as many elements as needed to reach
+         * a size of n. If val is specified, the new elements are initialized as
+         * copies of val, otherwise, they are value-initialized.
+         * 
+         * If n is also greater than the current container capacity, an
+         * automatic reallocation of the allocated storage space takes place.
+         * 
+         * Notice that this function changes the actual content of the container
+         * by inserting or erasing elements from it.
+         */
         void resize(size_type n, value_type val = value_type())
         {
             if (n < this->size())
@@ -229,20 +317,63 @@ namespace ft
                 std::uninitialized_fill(_end, _begin + n, val);
             }
         }
-
-        // capacity
+    
+        /**
+         * @brief   Returns the size of the storage space currently allocated
+         *          for the vector, expressed in terms of elements.
+         * 
+         * This capacity is not necessarily equal to the vector size.
+         * It can be equal or greater, with the extra space allowing to
+         * accommodate for growth without the need to reallocate on each
+         * insertion.
+         * 
+         * Notice that this capacity does not suppose a limit on the size of
+         * the vector. When this capacity is exhausted and more is needed, it is
+         * automatically expanded by the container (reallocating it storage
+         * space). The theoretical limit on the size of a vector is given by
+         * member max_size.
+         * 
+         * The capacity of a vector can be explicitly altered by calling member
+         * vector::reserve.
+         * 
+         * @return size_type 
+         */
         size_type capacity() const
         {
             return _end_of_storage - _begin;
         }           
         
-        // empty
+        /**
+         * @brief   Returns whether the vector is empty
+         *          (i.e. whether its size is 0).
+         * 
+         * This function does not modify the container in any way. To clear the
+         * content of a vector, see vector::clear.
+         * 
+         * @return true 
+         * @return false 
+         */
         bool empty() const
         {
             return _begin == _end;
         }
 
-        // reserve
+        /**
+         * @brief   Requests that the vector capacity be at least enough to
+         *          contain n elements.
+         * 
+         * @param n
+         * 
+         * If n is greater than the current vector capacity, the function causes
+         * the container to reallocate its storage increasing its capacity to n
+         * (or greater).
+         * 
+         * In all other cases, the function call does not cause a reallocation
+         * and the vector capacity is not affected.
+         * 
+         * This function has no effect on the vector size and cannot alter its
+         * elements.
+         */
         void reserve(size_type n)
         {
             if (n > capacity())
@@ -253,7 +384,23 @@ namespace ft
         // Element access
         // ---------------------------------------------------------------------
 
-        // operator[]
+        /**
+         * @brief   Access element
+         * 
+         * Returns a reference to the element at position n in the vector
+         * container.
+         * 
+         * A similar member function, vector::at, has the same behavior as this
+         * operator function, except that vector::at is bound-checked and
+         * signals if the requested position is out of range by throwing an
+         * out_of_range exception.
+         * 
+         * Portable programs should never call this function with an argument n
+         * that is out of range, since this causes undefined behavior.
+         * 
+         * @param n 
+         * @return reference 
+         */
         reference operator[](size_type n)
         {
             return *(_begin + n);
@@ -264,7 +411,20 @@ namespace ft
             return *(_begin + n);
         }
         
-        // at
+        /**
+         * @brief   Access element
+         * 
+         * Returns a reference to the element at position n in the vector.
+         * 
+         * The function automatically checks whether n is within the bounds of
+         * valid elements in the vector, throwing an out_of_range exception if
+         * it is not (i.e., if n is greater than, or equal to, its size). This
+         * is in contrast with member operator[], that does not check against
+         * bounds.
+         * 
+         * @param n 
+         * @return reference 
+         */
         reference at(size_type n)
         {
             if (n >= this->size())
@@ -279,7 +439,19 @@ namespace ft
             return *(_begin + n);
         }
 
-        // front
+        /**
+         * @brief   Access first element
+         * 
+         * Returns a reference to the first element in the vector.
+         * 
+         * Unlike member vector::begin, which returns an iterator to this same
+         * element, this function returns a direct reference.
+         * 
+         * Calling this function on an empty container causes undefined
+         * behavior.
+         * 
+         * @return reference 
+         */
         reference front()
         {
             return *_begin;
@@ -290,7 +462,19 @@ namespace ft
             return *_begin;
         }
 
-        // back
+        /**
+         * @brief   Access last element
+         * 
+         * Returns a reference to the last element in the vector.
+         * 
+         * Unlike member vector::end, which returns an iterator just past this
+         * element, this function returns a direct reference.
+         * 
+         * Calling this function on an empty container causes undefined
+         * behavior.
+         * 
+         * @return reference 
+         */
         reference back()
         {
             return *(_end - 1);
@@ -305,8 +489,27 @@ namespace ft
         // Modifiers
         // ---------------------------------------------------------------------
 
+        
 
-        // assign - range
+
+        /**
+         * @brief   Assign vector content
+         * 
+         * Assigns new contents to the vector, replacing its current contents,
+         * and modifying its size accordingly.
+         * 
+         * Any elements held in the container before the call are destroyed and
+         * replaced by newly constructed elements (no assignments of elements
+         * take place).
+         * 
+         * This causes an automatic reallocation of the allocated storage space
+         * if -and only if- the new vector size surpasses the current vector
+         * capacity.
+         * 
+         * @tparam InputIterator 
+         * @param first 
+         * @param last 
+         */
         template <typename InputIterator>
         void assign(InputIterator first, InputIterator last)
         {
@@ -329,16 +532,32 @@ namespace ft
             //std::uninitialized_fill(_begin, _end, val);
         }
 
-        // push_back
-        void push_back(const value_type& value)
+        /**
+         * @brief   Adds a new element at the end of the vector, after its
+         *          current last element. The content of val is copied (or
+         *          moved) to the new element.
+         * 
+         * @param val
+         * 
+         * This effectively increases the container size by one, which causes an
+         * automatic reallocation of the allocated storage space if
+         * -and only if- the new vector size surpasses the current vector
+         * capacity.
+         */
+        void push_back(const value_type& val)
         {
             if (_end == _end_of_storage)
                 _reallocate();
             _alloc.construct(_end, value);
             ++_end;
         }
-        
-        // pop_back
+
+        /**
+         * @brief   Removes the last element in the vector, effectively reducing
+         * the container size by one.
+         * 
+         * This destroys the removed element.
+         */
         void pop_back()
         {
             if (_end != _begin)
@@ -347,8 +566,29 @@ namespace ft
                 _alloc.destroy(_end);
             }
         }
-        
-        // insert - single element
+
+        /**
+         * @brief   Insert single element
+         * 
+         * The vector is extended by inserting new elements before the element
+         * at the specified position, effectively increasing the container size
+         * by the number of elements inserted.
+         * 
+         * This causes an automatic reallocation of the allocated storage space
+         * if -and only if- the new vector size surpasses the current vector
+         * capacity.
+         * 
+         * Because vectors use an array as their underlying storage, inserting
+         * elements in positions other than the vector end causes the container
+         * to relocate all the elements that were after position to their new
+         * positions. This is generally an inefficient operation compared to the
+         * one performed for the same operation by other kinds of sequence
+         * containers (such as list or forward_list).
+         * 
+         * @param position 
+         * @param val 
+         * @return iterator 
+         */
         iterator insert(iterator position, const value_type& val)
         {
             (void)position;
@@ -360,8 +600,14 @@ namespace ft
             
             return _end - 1;
         }
-        
-        // insert - fill
+
+        /**
+         * @brief   Insert multiple elements with the same value (fill)
+         * 
+         * @param position 
+         * @param n 
+         * @param val 
+         */
         void insert(iterator position, size_type n, const value_type& val)
         {
             (void)position;
@@ -386,7 +632,25 @@ namespace ft
             _end += (last - first);
         }
        
-        // erase - single element
+        /**
+         * @brief   Erase elements
+         * 
+         * Removes from the vector a single element (position).
+         * 
+         * This effectively reduces the container size by one, which is
+         * destroyed.
+         * 
+         * Because vectors use an array as their underlying storage, erasing
+         * elements in positions other than the vector end causes the container
+         * to relocate all the elements after the segment erased to their new
+         * positions.
+         * This is generally an inefficient operation compared to the one
+         * performed for the same operation by other kinds of sequence
+         * containers (such as list or forward_list).
+         * 
+         * @param position 
+         * @return iterator 
+         */
         iterator erase(iterator position)
         {
             std::copy(position + 1, _end, position);
@@ -394,9 +658,20 @@ namespace ft
             --_end;
             return position;
         }
-        
-        // erase - range
-        iterator erase(iterator first, iterator last) 
+
+        /**
+         * @brief   Erase elements
+         * 
+         * Removes from the vector a range of elements [first, last).
+         * 
+         * This effectively reduces the container size by the number of elements
+         * removed, which are destroyed.
+         * 
+         * @param first 
+         * @param last 
+         * @return iterator 
+         */
+        iterator erase(iterator first, iterator last)
         {
             std::copy(last, _end, first);
             _alloc.destroy(_end - (last - first));
@@ -404,14 +679,38 @@ namespace ft
             return first;
         }
         
-        // swap
+        /**
+         * @brief   Swap content
+         * 
+         * Exchanges the content of the container by the content of x, which is
+         * another vector object of the same type. Sizes may differ.
+         * 
+         * After the call to this member function, the elements in this
+         * container are those which were in x before the call, and the elements
+         * of x are those which were in this. All iterators, references and
+         * pointers remain valid for the swapped objects.
+         * 
+         * Notice that a non-member function exists with the same name, swap,
+         * overloading that algorithm with an optimization that behaves like
+         * this member function.
+         * 
+         * @param x 
+         */
         void swap(vector& x)
         {
+            // We just swap the pointers, no need to reallocate
             std::swap(_begin, x._begin);
             std::swap(_end, x._end);
             std::swap(_end_of_storage, x._end_of_storage);
         }
-        
+
+        /**
+         * @brief   Removes all elements from the vector (which are destroyed),
+         *          leaving the container with a size of 0.
+         * 
+         * A reallocation is not guaranteed to happen, and the vector capacity
+         * is not guaranteed to change due to calling this function.
+         */
         void clear()
         {
             _alloc.destroy(_begin);
