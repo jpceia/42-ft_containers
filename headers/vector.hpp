@@ -6,7 +6,7 @@
 /*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/26 16:53:33 by jceia            ###   ########.fr       */
+/*   Updated: 2022/01/26 17:58:31 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -768,6 +768,23 @@ namespace ft
         return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
     }
 
+    template <typename T, typename Alloc>
+    bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+    {
+        return !(rhs < lhs);
+    }
+
+    template <typename T, typename Alloc>
+    bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+    {
+        return rhs < lhs;
+    }
+
+    template <typename T, typename Alloc>
+    bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+    {
+        return !(lhs < rhs);
+    }
 }
 
 #endif
