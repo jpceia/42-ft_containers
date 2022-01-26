@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
+/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/26 14:37:00 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/26 16:53:33 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # include "type_traits/enable_if.hpp"
 # include "type_traits/is_convertible.hpp"
+# include "type_traits/is_integral.hpp"
 # include "iterator/lexicographical_compare.hpp"
 # include "iterator/iterator_traits.hpp"
 # include "iterator/reverse_iterator.hpp"
@@ -98,11 +99,9 @@ namespace ft
             std::uninitialized_fill(_begin, _end, val);
         }
 
-        // TODO: Range constructor
-        /*
         template <typename InputIterator>
         vector(InputIterator first,
-               ft::enable_if_t<ft::is_input_iterator<InputIterator>::value last,
+               typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last,
                const allocator_type& alloc = allocator_type()) :
             _alloc(alloc)
         {
@@ -111,7 +110,6 @@ namespace ft
             _end = _end_of_storage = _begin + n;
             std::uninitialized_copy(first, last, _begin);
         }
-        */
 
         // Copy constructor
         vector(const vector& v) :
@@ -493,9 +491,6 @@ namespace ft
         // Modifiers
         // ---------------------------------------------------------------------
 
-        
-
-
         /**
          * @brief   Assign vector content
          * 
@@ -515,10 +510,12 @@ namespace ft
          * @param last 
          */
         template <typename InputIterator>
-        void assign(InputIterator first, InputIterator last)
+        void assign(
+            InputIterator first,
+            typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last)
         {
             this->clear();
-            this->resize(std::distance(first, last));
+            this->resize(last - first);
             std::uninitialized_copy(first, last, _begin);
         }
 
@@ -589,7 +586,8 @@ namespace ft
         {
             if (_end == _end_of_storage)    // allocate more space if needed
                 this->_reallocate();
-            std::copy(position, _end, position + 1);
+            // move elements after position one position to the right
+            std::copy(position, _end, _end + 1);
             _alloc.construct(position, val);
             ++_end;
             return position;
@@ -606,30 +604,27 @@ namespace ft
         {
             while (this->size() + n > this->capacity())
                 this->_reallocate();
-            std::copy(position, _end, position + n);
+            std::copy(position, _end, _end + n);
             for (size_type i = 0; i < n; ++i)
                 _alloc.construct(position + i, val);
             _end += n;
         }
 
-        // TODO: insert function with iterator range
-        /*
         template <typename InputIterator>
         void insert(
             iterator position,
-            InputIterator first, // ft::enable_if()
-            InputIterator last
+            InputIterator first,
+            typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last
         )
         {
             difference_type n = last - first;
             while (_end_of_storage - _end < n)
                 this->_reallocate();
-            std::copy(position, _end, position + n);
+            std::copy(position, _end, _end + n);
             for (difference_type i = 0; i < n; ++i)
                 _alloc.construct(position + i, *(first + i));
             _end += n;
         }
-        */
 
         /**
          * @brief   Erase elements
