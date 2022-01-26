@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/26 11:14:40 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/26 14:30:49 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdexcept>
 # include <iostream>
 
+# include "type_traits/enable_if.hpp"
+# include "type_traits/is_convertible.hpp"
 # include "iterator/lexicographical_compare.hpp"
 # include "iterator/iterator_traits.hpp"
 # include "iterator/reverse_iterator.hpp"
