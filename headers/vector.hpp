@@ -673,12 +673,17 @@ namespace ft
          */
         iterator erase(iterator first, iterator last)
         {
+            iterator it = first;
+            while (it != last)
+            {
+                _alloc.destroy(it);
+                ++it;
+            }
             std::copy(last, _end, first);
-            _alloc.destroy(_end - (last - first));
             _end -= (last - first);
             return first;
         }
-        
+
         /**
          * @brief   Swap content
          * 
