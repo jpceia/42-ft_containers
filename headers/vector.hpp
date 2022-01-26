@@ -313,8 +313,12 @@ namespace ft
             }
             else if (n > this->size())
             {
-                _reallocate(n);
-                std::uninitialized_fill(_end, _begin + n, val);
+                if (n > this->capacity())
+                    this->_reallocate();
+                iterator it = _end;
+                for (; it != _begin + n; ++it)
+                    _alloc.construct(it, val);
+                _end = it;
             }
         }
     
