@@ -79,26 +79,18 @@ namespace ft
         // ---------------------------------------------------------------------
 
         // Default constructor
-        explicit vector() :
-            _alloc(allocator_type())
-        {
-            _begin = _end = _alloc.allocate(1);
-            _end_of_storage = _begin + 1;
-        }
-
-        explicit vector(const allocator_type& alloc) :
+        explicit vector(const allocator_type& alloc = allocator_type()) :
             _alloc(alloc)
         {
             _begin = _end = _alloc.allocate(1);
-            _end_of_storage = _begin + 1;
+            _end_of_storage = _begin;
         }
         
         // Fill constructor
         explicit vector(
             size_type n,
             const value_type& val = value_type(),
-            const allocator_type& alloc = allocator_type()
-        ) :
+            const allocator_type& alloc = allocator_type()) :
             _alloc(alloc)
         {
             _begin = _alloc.allocate(n);
@@ -106,8 +98,8 @@ namespace ft
             std::uninitialized_fill(_begin, _end, val);
         }
 
+        // TODO: Range constructor
         /*
-        // Range constructor
         template <typename InputIterator>
         vector(InputIterator first,
                ft::enable_if_t<ft::is_input_iterator<InputIterator>::value last,
@@ -137,17 +129,12 @@ namespace ft
                 _alloc.destroy(it);
             _alloc.deallocate(_begin, _end_of_storage - _begin);
         }
-        
+
         // Assignment operator overload
         vector& operator=(const vector& rhs)
         {
             if (this != &rhs)
-            {
-                // _alloc.deallocate(_begin, _end_of_storage - _begin);
-                _begin = _alloc.allocate(rhs.size(), _begin);
-                std::uninitialized_copy(rhs.begin(), rhs.end(), _begin);
-                _end = _end_of_storage = _begin + rhs.size();
-            }
+                this->assign(rhs.begin(), rhs.end());
             return *this;
         }
 
