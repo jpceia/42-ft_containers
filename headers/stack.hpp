@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:39:54 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/27 07:25:04 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/27 09:58:12 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,68 +63,45 @@ namespace ft
             _c.pop_back();
         }
 
-        template <typename _T, typename _Container>
-        friend bool operator== (const stack<_T, _Container>& lhs, const stack<_T, _Container>& rhs);
+        // ---------------------------------------------------------------------
+        //                          Relational operators
+        // ---------------------------------------------------------------------
 
-        template <typename _T, typename _Container>
-        friend bool operator!= (const stack<_T, _Container>& lhs, const stack<_T, _Container>& rhs);
-
-        template <typename _T, typename _Container>
-        friend bool operator<  (const stack<_T, _Container>& lhs, const stack<_T, _Container>& rhs);
-
-        template <typename _T, typename _Container>
-        friend bool operator<= (const stack<_T, _Container>& lhs, const stack<_T, _Container>& rhs);
-
-        template <typename _T, typename _Container>
-        friend bool operator>  (const stack<_T, _Container>& lhs, const stack<_T, _Container>& rhs);
-
-        template <typename _T, typename _Container>
-        friend bool operator>= (const stack<_T, _Container>& lhs, const stack<_T, _Container>& rhs);
+        friend bool operator== (const stack& lhs, const stack& rhs)
+        {
+            return lhs._c == rhs._c;
+        }
         
-    private:
+        friend bool operator!= (const stack& lhs, const stack& rhs)
+        {
+            return !(lhs == rhs);
+        }
+        
+        friend bool operator<  (const stack& lhs, const stack& rhs)
+        {
+            return lhs._c < rhs._c;
+        }
+        
+        friend bool operator<= (const stack& lhs, const stack& rhs)
+        {
+            return lhs._c <= rhs._c;
+        }
+        
+        friend bool operator>  (const stack& lhs, const stack& rhs)
+        {
+            return lhs._c > rhs._c;
+        }
+        
+        friend bool operator>= (const stack& lhs, const stack& rhs)
+        {
+            return lhs._c >= rhs._c;
+        }
+        
+    protected:
 
         // Member variables
-        Container _c;
+        container_type _c;
     };
-
-    // ---------------------------------------------------------------------
-    //                          Relational operators
-    // ---------------------------------------------------------------------
-    template <typename T, typename Container>
-    bool operator== (const stack<T, Container>& lhs, const stack<T, Container>& rhs)
-    {
-        return lhs._c == rhs._c;
-    }
-
-    template <typename T, typename Container>
-    bool operator!= (const stack<T, Container>& lhs, const stack<T, Container>& rhs)
-    {
-        return !(lhs == rhs);
-    }
-
-    template <typename T, typename Container>
-    bool operator< (const stack<T, Container>& lhs, const stack<T, Container>& rhs)
-    {
-        return lhs._c < rhs._c;
-    }
-
-    template <typename T, typename Container>
-    bool operator<= (const stack<T, Container>& lhs, const stack<T, Container>& rhs)
-    {
-        return lhs._c <= rhs._c;
-    }
-
-    template <typename T, typename Container>
-    bool operator> (const stack<T, Container>& lhs, const stack<T, Container>& rhs)
-    {
-        return lhs._c > rhs._c;
-    }
-
-    template <typename T, typename Container>
-    bool operator>= (const stack<T, Container>& lhs, const stack<T, Container>& rhs)
-    {
-        return lhs._c >= rhs._c;
-    }
 
     // ---------------------------------------------------------------------
 } // namespace ft
