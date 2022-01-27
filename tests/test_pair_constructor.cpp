@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:23:13 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/26 10:35:25 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/27 07:51:18 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include <iostream>     // std::cout
 
 #if USE_STL
-    #include <utility>      // std::pair, std::make_pair
+    # include <utility>      // std::pair, std::make_pair
     namespace ft = std;
 #else
-    #include "pair.hpp"
+    # include "pair.hpp"
 #endif
 
 int main () {

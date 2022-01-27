@@ -6,14 +6,14 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 21:16:57 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/27 06:59:35 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/27 07:50:44 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>     // std::cout, std::boolalpha
 
 #if USE_STL
-    #include <type_traits>    // std::lexicographical_compare
+    # include <type_traits>    // std::lexicographical_compare
     namespace ft = std;
 #else
     # include "type_traits/enable_if.hpp"

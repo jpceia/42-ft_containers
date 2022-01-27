@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:29:40 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/26 10:35:03 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/27 07:49:12 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
     #include <algorithm>    // std::lexicographical_compare
     namespace ft = std;
 #else
-    # include "iterator/lexicographical_compare.hpp"
+    #include "iterator/lexicographical_compare.hpp"
 #endif
 
 // a case-insensitive comparison function:

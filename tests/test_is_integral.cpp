@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 21:16:57 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/26 21:23:44 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/27 07:49:08 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
     #include <type_traits>    // std::lexicographical_compare
     namespace ft = std;
 #else
-    # include "type_traits/is_integral.hpp"
+    #include "type_traits/is_integral.hpp"
 #endif
 
 int main() {

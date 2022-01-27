@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:29:40 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/27 07:47:16 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/27 07:51:41 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 #include <cctype>       // std::tolower
 
 #if USE_STL
-    #include <algorithm>    // std::lexicographical_compare
-    #include <vector>
+    # include <algorithm>    // std::lexicographical_compare
+    # include <vector>
     namespace ft = std;
 #else
-    #include "iterator/equal.hpp"
-    #include "vector.hpp"
+    # include "iterator/equal.hpp"
+    # include "vector.hpp"
 #endif
 
 bool mypredicate (int i, int j) {
