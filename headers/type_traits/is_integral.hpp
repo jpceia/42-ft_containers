@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 17:37:53 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/08 20:09:01 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/27 07:40:45 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,6 @@ namespace ft
     template <>
     struct is_integral<char> : true_type {};
 
-    template <>
-    struct is_integral<char16_t> : true_type {};
-
-    template <>
-    struct is_integral<char32_t> : true_type {};
 
     template <>
     struct is_integral<wchar_t> : true_type {};
@@ -50,8 +45,6 @@ namespace ft
     template <>
     struct is_integral<long int> : true_type {};
 
-    template <>
-    struct is_integral<long long int> : true_type {};
 
     template <>
     struct is_integral<unsigned char> : true_type {};
@@ -65,8 +58,21 @@ namespace ft
     template <>
     struct is_integral<unsigned long int> : true_type {};
 
+# if __cplusplus >= 201103L
+
+    template <>
+    struct is_integral<char16_t> : true_type {};
+
+    template <>
+    struct is_integral<char32_t> : true_type {};
+
+    template <>
+    struct is_integral<long long int> : true_type {};
+    
     template <>
     struct is_integral<unsigned long long int> : true_type {};
+
+# endif
 }
 
 #endif
