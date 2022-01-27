@@ -105,13 +105,12 @@ namespace ft
             const allocator_type& alloc = allocator_type()) :
             _alloc(alloc)
         {
-            size_type n = last - first;//::std::distance(first, last);
+            size_type n = last - first;
             _begin = _alloc.allocate(n);
             _end = _end_of_storage = _begin + n;
             std::uninitialized_copy(first, last, _begin);
         }
 
-        // Copy constructor
         vector(const vector& v) :
             _alloc(allocator_type())
         {
@@ -583,10 +582,12 @@ namespace ft
          */
         iterator insert(iterator position, const value_type& val)
         {
+            size_type idx = position - _begin;
             if (_end == _end_of_storage)    // allocate more space if needed
                 this->_reallocate();
             // move elements after position one position to the right
-            std::copy(position, _end, _end);
+            position = _begin + idx;
+            std::copy(position, _end, _begin + 1);
             _alloc.construct(position, val);
             ++_end;
             return position;
@@ -601,9 +602,11 @@ namespace ft
          */
         void insert(iterator position, size_type n, const value_type& val)
         {
+            size_type idx = position - _begin;
             while (this->size() + n > this->capacity())
                 this->_reallocate();
-            std::copy(position, _end, _end);
+            position = _begin + idx;
+            std::copy(position, _end, _begin + n);
             for (size_type i = 0; i < n; ++i)
                 _alloc.construct(position + i, val);
             _end += n;
@@ -616,10 +619,12 @@ namespace ft
             InputIterator first,
             InputIterator last)
         {
+            size_type idx = position - _begin;
             difference_type n = last - first;
             while (_end_of_storage - _end < n)
                 this->_reallocate();
-            std::copy(position, _end, _end);
+            position = _begin + idx;
+            std::copy(position, _end, position + n);
             for (difference_type i = 0; i < n; ++i)
                 _alloc.construct(position + i, *(first + i));
             _end += n;
