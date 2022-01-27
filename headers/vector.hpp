@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/26 17:58:31 by jceia            ###   ########.fr       */
+/*   Updated: 2022/01/27 07:01:05 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -510,9 +510,10 @@ namespace ft
          * @param last 
          */
         template <typename InputIterator>
-        void assign(
+        typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
+        assign(
             InputIterator first,
-            typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last)
+            InputIterator last)
         {
             this->clear();
             this->resize(last - first);
@@ -611,10 +612,11 @@ namespace ft
         }
 
         template <typename InputIterator>
-        void insert(
+        typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type 
+        insert(
             iterator position,
             InputIterator first,
-            typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last
+            InputIterator last
         )
         {
             difference_type n = last - first;
