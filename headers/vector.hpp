@@ -123,8 +123,7 @@ namespace ft
         // Destructor
         virtual ~vector()
         {
-            for (iterator it = _begin; it != _end; ++it)
-                _alloc.destroy(it);
+            this->clear();
             _alloc.deallocate(_begin, _end_of_storage - _begin);
         }
 
@@ -367,14 +366,13 @@ namespace ft
          */
         void reserve(size_type n)
         {
-            if (n > capacity())
+            if (n > this->capacity())
             {   
                 iterator new_begin = _alloc.allocate(n);
-                iterator new_end = new_begin + size();
+                iterator new_end = new_begin + this->size();
                 iterator new_end_of_storage = new_begin + n;
                 std::uninitialized_copy(_begin, _end, new_begin);
-                for (iterator it = _begin; it != _end; ++it)
-                    _alloc.destroy(it);
+                this->clear();
                 _alloc.deallocate(_begin, _end_of_storage - _begin);
                 _begin = new_begin;
                 _end = new_end;
@@ -669,12 +667,8 @@ namespace ft
          */
         iterator erase(iterator first, iterator last)
         {
-            iterator it = first;
-            while (it != last)
-            {
+            for (iterator it = first; it != last; ++it)
                 _alloc.destroy(it);
-                ++it;
-            }
             std::copy(last, _end, first);
             _end -= (last - first);
             return first;
