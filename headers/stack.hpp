@@ -6,14 +6,13 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:39:54 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/08 17:26:28 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/27 07:25:04 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STACK_HPP
 # define STACK_HPP
 
-// #include <vector>
 # include "vector.hpp"
 
 namespace ft
@@ -22,11 +21,13 @@ namespace ft
     class stack
     {
     public:
-        typedef T                               value_type;
-        typedef Container                       container_type;
-        typedef typename Container::size_type   size_type;
+        typedef T                                   value_type;
+        typedef Container                           container_type;
+        typedef typename Container::reference       reference;
+        typedef typename Container::const_reference const_reference;
+        typedef typename Container::size_type       size_type;
 
-        stack(const container_type& c = container_type())
+        explicit stack(const container_type& c = container_type())
             : _c(c)
         {}
 
@@ -42,12 +43,12 @@ namespace ft
             return _c.size();
         }
 
-        value_type& top()
+        reference top()
         {
             return _c.back();
         }
 
-        const value_type& top() const
+        const_reference top() const
         {
             return _c.back();
         }
