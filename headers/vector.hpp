@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/27 08:56:36 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/27 09:03:16 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "type_traits/is_convertible.hpp"
 # include "type_traits/is_integral.hpp"
 # include "iterator/lexicographical_compare.hpp"
+# include "iterator/equal.hpp"
 # include "iterator/iterator_traits.hpp"
 # include "iterator/reverse_iterator.hpp"
 
@@ -55,7 +56,7 @@
 
 namespace ft
 {
-    template <typename T, typename Alloc = ::std::allocator<T> >
+    template <typename T, typename Alloc = std::allocator<T> >
     class vector
     {
     public:
@@ -79,7 +80,6 @@ namespace ft
         // Constructors
         // ---------------------------------------------------------------------
 
-        // Default constructor
         explicit vector(const allocator_type& alloc = allocator_type()) :
             _alloc(alloc)
         {
@@ -87,7 +87,6 @@ namespace ft
             _end_of_storage = _begin;
         }
         
-        // Fill constructor
         explicit vector(
             size_type n,
             const value_type& val = value_type(),
@@ -100,9 +99,10 @@ namespace ft
         }
 
         template <typename InputIterator>
-        vector(InputIterator first,
-               typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last,
-               const allocator_type& alloc = allocator_type()) :
+        vector(
+            InputIterator first,
+            typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last,
+            const allocator_type& alloc = allocator_type()) :
             _alloc(alloc)
         {
             size_type n = last - first;//::std::distance(first, last);
@@ -299,7 +299,7 @@ namespace ft
             }
             else if (n > this->size())
             {
-                if (n > this->capacity())
+                while (n > this->capacity())
                     this->_reallocate();
                 iterator it = _end;
                 for (; it != _begin + n; ++it)
@@ -586,7 +586,7 @@ namespace ft
             if (_end == _end_of_storage)    // allocate more space if needed
                 this->_reallocate();
             // move elements after position one position to the right
-            std::copy(position, _end, _end + 1);
+            std::copy(position, _end, _end);
             _alloc.construct(position, val);
             ++_end;
             return position;
@@ -603,7 +603,7 @@ namespace ft
         {
             while (this->size() + n > this->capacity())
                 this->_reallocate();
-            std::copy(position, _end, _end + n);
+            std::copy(position, _end, _end);
             for (size_type i = 0; i < n; ++i)
                 _alloc.construct(position + i, val);
             _end += n;
@@ -614,13 +614,12 @@ namespace ft
         insert(
             iterator position,
             InputIterator first,
-            InputIterator last
-        )
+            InputIterator last)
         {
             difference_type n = last - first;
             while (_end_of_storage - _end < n)
                 this->_reallocate();
-            std::copy(position, _end, _end + n);
+            std::copy(position, _end, _end);
             for (difference_type i = 0; i < n; ++i)
                 _alloc.construct(position + i, *(first + i));
             _end += n;
