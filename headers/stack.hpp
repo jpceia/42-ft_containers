@@ -61,9 +61,26 @@ namespace ft
         {
             _c.pop_back();
         }
+
+        template <typename _T, typename _Container>
+        friend bool operator== (const stack<_T, _Container>& lhs, const stack<_T, _Container>& rhs);
+
+        template <typename _T, typename _Container>
+        friend bool operator!= (const stack<_T, _Container>& lhs, const stack<_T, _Container>& rhs);
+
+        template <typename _T, typename _Container>
+        friend bool operator<  (const stack<_T, _Container>& lhs, const stack<_T, _Container>& rhs);
+
+        template <typename _T, typename _Container>
+        friend bool operator<= (const stack<_T, _Container>& lhs, const stack<_T, _Container>& rhs);
+
+        template <typename _T, typename _Container>
+        friend bool operator>  (const stack<_T, _Container>& lhs, const stack<_T, _Container>& rhs);
+
+        template <typename _T, typename _Container>
+        friend bool operator>= (const stack<_T, _Container>& lhs, const stack<_T, _Container>& rhs);
         
     private:
-        // TODO: Add friend operators
 
         // Member variables
         Container _c;
@@ -102,7 +119,6 @@ namespace ft
         return lhs._c > rhs._c;
     }
 
-    // TODO: check this
     template <typename T, typename Container>
     bool operator>= (const stack<T, Container>& lhs, const stack<T, Container>& rhs)
     {
