@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/27 09:03:16 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/28 04:59:40 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -778,6 +778,15 @@ namespace ft
     {
         return !(lhs < rhs);
     }
+
+    // Swap function
+    template <typename T, typename Alloc>
+    void swap(vector<T, Alloc>& lhs, vector<T, Alloc>& rhs)
+    {
+        lhs.swap(rhs);
+    }
+
+    // -------------------------------------------------------------------------
 }
 
 #endif

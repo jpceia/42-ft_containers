@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:39:54 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/27 09:58:12 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/28 04:59:34 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,14 @@ namespace ft
         container_type _c;
     };
 
-    // ---------------------------------------------------------------------
+    // Swap function
+    template <typename T, typename Container>
+    void swap(stack<T, Container>& lhs, stack<T, Container>& rhs)
+    {
+        lhs.swap(rhs);
+    }
+
+    // -------------------------------------------------------------------------
 } // namespace ft
 
 #endif
