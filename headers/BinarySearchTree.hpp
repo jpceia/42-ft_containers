@@ -349,6 +349,42 @@ namespace ft
         {
             _erase(_root, val);
         }
+
+        void erase(const node_pointer& node)
+        {
+            if (!node->left && !node->right) // case 1: leaf node
+            {
+                if (node->parent->left == node) // node is left child
+                    node->parent->left = NULL;
+                else                            // node is right child
+                    node->parent->right = NULL;
+                _free(node);
+            }
+            else if (node->right) // case 2: right child only
+            {
+                if (node->parent->left == node) // node is left child
+                    node->parent->left = node->right;
+                else                            // node is right child
+                    node->parent->right = node->right;
+                node->right->parent = node->parent;
+                _free(node);
+            }
+            else if (node->left) // case 3: left child only
+            {
+                if (node->parent->left == node)
+                    node->parent->left = node->left;
+                else
+                    node->parent->right = node->left;
+                node->left->parent = node->parent;
+                _free(node);
+            }
+            else // case 4: two children
+            {
+                node_pointer successor = node->successor();
+                node->data = successor->data;
+                _erase(successor, successor->data);
+            }
+        }
         
     protected:
 
@@ -440,40 +476,7 @@ namespace ft
                 _erase(node->right, val);
             // there is an equality and we are going to erase this node
             else
-            {
-                if (!node->left && !node->right) // case 1: leaf node
-                {
-                    if (node->parent->left == node) // node is left child
-                        node->parent->left = NULL;
-                    else                            // node is right child
-                        node->parent->right = NULL;
-                    _free(node);
-                }
-                else if (node->right) // case 2: right child only
-                {
-                    if (node->parent->left == node) // node is left child
-                        node->parent->left = node->right;
-                    else                            // node is right child
-                        node->parent->right = node->right;
-                    node->right->parent = node->parent;
-                    _free(node);
-                }
-                else if (node->left) // case 3: left child only
-                {
-                    if (node->parent->left == node)
-                        node->parent->left = node->left;
-                    else
-                        node->parent->right = node->left;
-                    node->left->parent = node->parent;
-                    _free(node);
-                }
-                else // case 4: two children
-                {
-                    node_pointer successor = node->successor();
-                    node->data = successor->data;
-                    _erase(successor, successor->data);
-                }
-            }
+                erase(node);
         }
 
         allocator_type _alloc;
