@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BinarySearchTree.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/28 17:24:32 by jceia            ###   ########.fr       */
+/*   Updated: 2022/01/30 12:12:31 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define BINARYSEARCHTREE_HPP
 
 #include <memory>
+#include "..iterator/reverse_iterator.hpp"
 
 namespace ft
 {
@@ -71,6 +72,15 @@ namespace ft
                 node = node->left;
             return node;
         }
+    
+        const BSTNode* minimum() const
+        {
+            const BSTNode* node = this;
+
+            while (node->left)
+                node = node->left;
+            return node;
+        }
 
         BSTNode* maximum()
         {
@@ -78,15 +88,6 @@ namespace ft
 
             while (node->right)
                 node = node->right;
-            return node;
-        }
-
-        const BSTNode* minimum() const
-        {
-            const BSTNode* node = this;
-
-            while (node->left)
-                node = node->left;
             return node;
         }
 
@@ -103,16 +104,28 @@ namespace ft
         {
             if (this->right)
                 return this->right->minimum();
-
             BSTNode* node = this;
-            BSTNode* parent = node->parent;
-            
-            while (parent && node == parent->right)
-            {
-                node = parent;
-                parent = node->parent;
-            }
-            return parent;
+            // checks if the node is the maximum
+            if (!node->parent || node != node->parent->right)
+                return NULL;
+            // goes up until the node is the left child of its parent
+            while (node->parent && node == node->parent->right)
+                node = parent->parent;
+            return node->parent;
+        }
+
+        const BSTNode* successor() const
+        {
+            if (this->right)
+                return this->right->minimum();
+            BSTNode* node = this;
+            // checks if the node is the maximum
+            if (!node->parent || node != node->parent->right)
+                return NULL;
+            // goes up until the node is the left child of its parent
+            while (node->parent && node == node->parent->right)
+                node = parent->parent;
+            return node->parent;
         }
 
         BSTNode* predecessor()
@@ -121,22 +134,39 @@ namespace ft
                 return this->left->maximum();
 
             BSTNode* node = this;
-            BSTNode* parent = node->parent;
-            while (parent && node == parent->left)
-            {
-                node = parent;
-                parent = node->parent;
-            }
-            return parent;
+            // checks if the node is the minimum
+            if (!node->parent || node != node->parent->left)
+                return NULL;
+            // goes up until the node is the right child of its parent
+            while (node->parent && node == node->parent->left)
+                node = node->parent;
+            return node->parent;
+        }
+
+        const BSTNode* predecessor() const
+        {
+            if (this->left)
+                return this->left->maximum();
+
+            BSTNode* node = this;
+            // checks if the node is the minimum
+            if (!node->parent || node != node->parent->left)
+                return NULL;
+            // goes up until the node is the right child of its parent
+            while (node->parent && node == node->parent->left)
+                node = node->parent;
+            return node->parent;
         }
     };
 
-    template <typename T>
+    template <typename T, bool is_const>
     class BSTIterator : public std::iterator<std::bidirectional_iterator_tag, T>
     {
     public:
+        typedef BSTNode<T>* node_pointer;
+        
         BSTIterator() {}
-        BSTIterator(BSTNode<T>* root, BSTNode<T>* node) :
+        BSTIterator(const node_pointer& root, const node_pointer& node) :
             _root(root),
             _node(node)
         {}
@@ -174,25 +204,34 @@ namespace ft
 
         BSTIterator operator++(int)
         {
-            BSTIterator tmp(*this);
+            BSTIterator it(*this);
             ++(*this);
-            return tmp;
+            return it;
         }
 
         BSTIterator operator--()
         {
-            if (_node)
-                _node = _node->predecessor();
-            else
-                _node = _root->maximum();
+            // predecessor of NULL is the maximum
+            _node = _node ? _node->predecessor() : _root->maximum();
             return *this;
         }
 
         BSTIterator operator--(int)
         {
-            BSTIterator tmp(*this);
+            BSTIterator it(*this);
             --(*this);
-            return tmp;
+            return it;
+        }
+
+        // getters
+        node_pointer getRoot() const
+        {
+            return _root;
+        }
+
+        node_pointer getNode() const
+        {
+            return _node;
         }
 
         friend bool operator==(const BSTIterator& lhs, const BSTIterator& rhs)
@@ -206,8 +245,8 @@ namespace ft
         }
 
     protected:
-        BSTNode<T>* _node;
-        BSTNode<T>* _root;
+        node_pointer _node;
+        node_pointer _root;
     };
 
     template <
@@ -227,6 +266,8 @@ namespace ft
         typedef Compare                                     value_compare;
         typedef BSTIterator<T>                              iterator;
         typedef const iterator                              const_iterator;
+        typedef ft::reverse_iterator<iterator>              reverse_iterator;
+        typedef ft::reverse_iterator<const_iterator>        const_reverse_iterator;
         typedef typename iterator::difference_type          difference_type;
         typedef typename allocator_type::size_type          size_type;
         typedef BSTNode<T>                                  node_type;
@@ -266,37 +307,37 @@ namespace ft
 
         iterator begin()
         {
-            return iterator(_root ? _root->minimum() : NULL);
+            return _iterator(_root ? _root->minimum() : NULL);
         }
 
         const_iterator begin() const
         {
-            return const_iterator(_root ? _root->minimum() : NULL);
+            return _iterator(_root ? _root->minimum() : NULL);
         }
 
         iterator end()
         {
-            return iterator(NULL);
+            return _iterator(NULL);
         }
 
         const_iterator end() const
         {
-            return const_iterator(NULL);
+            return _iterator(NULL);
         }
 
-        pointer find(const value_type& val)
+        iterator find(const value_type& val)
         {
             return _find(_root, val);
         }
 
-        const_pointer find(const value_type& val) const
+        const_iterator find(const value_type& val) const
         {
             return _find(_root, val);
         }
 
-        void insert(const value_type& val)
+        iterator insert(const value_type& val)
         {
-            _insert(_root, NULL, val);
+            return _insert(_root, NULL, val);
         }
 
         void clear()
@@ -311,15 +352,36 @@ namespace ft
         
     protected:
 
+        iterator _iterator(node_pointer node)
+        {
+            return iterator(node, _root);
+        }
+
+        const_iterator _iterator(node_pointer node) const
+        {
+            return const_iterator(node, _root);
+        }
+
         iterator _find(node_pointer node, const value_type& val)
         {
             if (!node)
-                return NULL;
+                return _iterator(NULL);
             if (_cmp(node->data, val))
                 return _find(node->left, val);
             if (_cmp(val, node->data))
                 return _find(node->right, val);
-            return iterator(node);
+            return _iterator(node);
+        }
+
+        const_iterator _find(const_node_pointer node, const value_type& val) const
+        {
+            if (!node)
+                return _iterator(NULL);
+            if (_cmp(val, node->data))
+                return _find(node->left, val);
+            if (_cmp(node->data, val))
+                return _find(node->right, val);
+            return _iterator(node);
         }
 
         node_pointer _copy(node_pointer node)
@@ -333,17 +395,6 @@ namespace ft
             return new_node;
         }
 
-        const_iterator _find(const_node_pointer node, const value_type& val) const
-        {
-            if (!node)
-                return NULL;
-            if (_cmp(val, node->data))
-                return _find(node->left, val);
-            if (_cmp(node->data, val))
-                return _find(node->right, val);
-            return const_iterator(node);
-        }
-        
         node_pointer _create_node(const value_type& val)
         {
             node_pointer node = _alloc.allocate(1);
@@ -351,17 +402,17 @@ namespace ft
             return node;
         }
 
-        void _insert(node_pointer& node, node_pointer parent, const value_type& val)
+        node_pointer _insert(node_pointer& node, node_pointer parent, const value_type& val)
         {
             if (!node)
             {
                 node = _create_node(val);
                 node->parent = parent;
+                return _iterator(node);
             }
-            else if (_cmp(val, node->data))
-                _insert(node->left, node, val);
-            else
-                _insert(node->right, node, val);
+            if (_cmp(val, node->data))
+                return _insert(node->left, node, val);
+            return _insert(node->right, node, val);
         }
 
         void _free(node_pointer node)

@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/27 09:49:53 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/30 12:08:35 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MAP_HPP
 
 #include <memory>
+#include "BinarySearchTree.hpp"
 #include "pair.hpp"
 
 namespace ft
@@ -26,58 +27,78 @@ namespace ft
     >
     class map
     {
+    private:
+        typedef ft::BinarySearchTree<ft::pair<const Key, T>, Compare, Alloc> tree_type;
+        
     public:
-        typedef Key                                             key_type;
-        typedef T                                               mapped_type;
-        typedef Compare                                         key_compare;
-        typedef Alloc                                           allocator_type;
-        typedef pair<const key_type, mapped_type>               value_type;
-        typedef typename allocator_type::size_type              size_type;
-        typedef typename allocator_type::difference_type        difference_type;
-        typedef typename allocator_type::reference              reference;
-        typedef typename allocator_type::const_reference        const_reference;
-        typedef typename allocator_type::pointer                pointer;
-        typedef typename allocator_type::const_pointer          const_pointer;
-        typedef typename allocator_type::pointer                iterator;
-        typedef typename allocator_type::const_pointer          const_iterator;
-        typedef ft::reverse_iterator<iterator>                  reverse_iterator;
-        typedef ft::reverse_iterator<const_iterator>            const_reverse_iterator;
+        class value_compare
+        {
+        protected:
+            Compare _cmp;
+            value_compare(Compare cmp) : _cmp(cmp) {}
+        public:
+            bool operator()(const value_type& lhs, const value_type& rhs) const
+            {
+                return _cmp(lhs.first, rhs.first);
+            }
+        };
+
+        typedef Key                                                 key_type;
+        typedef T                                                   mapped_type;
+        typedef Compare                                             key_compare;
+        typedef Alloc                                               allocator_type;
+        typedef pair<const key_type, mapped_type>                   value_type;
+        typedef typename allocator_type::size_type                  size_type;
+        typedef typename allocator_type::difference_type            difference_type;
+        typedef typename allocator_type::reference                  reference;
+        typedef typename allocator_type::const_reference            const_reference;
+        typedef typename allocator_type::pointer                    pointer;
+        typedef typename allocator_type::const_pointer              const_pointer;
+        typedef typename tree_type::iterator                        iterator;
+        typedef typename tree_type::iterator                        const_iterator;
+        typedef typename ft::reverse_iterator<iterator>             reverse_iterator;
+        typedef typename ft::reverse_iterator<const_iterator>       const_reverse_iterator;
 
         // Constructors
-        explicit map(const key_compare& comp = key_compare(),
+        explicit map(const key_compare& cmp = key_compare(),
             const allocator_type& alloc = allocator_type()) :
-            _comp(comp),
-            _alloc(alloc)
+            _cmp(cmp),
+            _alloc(alloc),
+            _bst(alloc, value_compare(cmp))
         {
         }
 
         map(InputIterator first,
             typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last,
-            const key_compare& comp = key_compare(),
+            const key_compare& cmp = key_compare(),
             const allocator_type& alloc = allocator_type()) :
-            _comp(comp),
-            _alloc(alloc)
+            _cmp(cmp),
+            _alloc(alloc),
+            _bst(alloc, value_compare(cmp))
         {
+            for (; first != last; ++first)
+                insert(*first);
         }
 
         map(const map& rhs) :
-            _comp(rhs._comp),
-            _alloc(rhs._alloc)
+            _cmp(rhs._cmp),
+            _alloc(rhs._alloc),
+            _bst(rhs._bst)
         {
         }
 
         // Assignment Operators
         map& operator=(const map& rhs)
         {
-            _comp = rhs._comp;
+            _cmp = rhs._cmp;
             _alloc = rhs._alloc;
+            _bst = rhs._bst;
             return *this;
         }
 
         // Destructor
         ~map(void)
         {
-            
         }
 
         // ---------------------------------------------------------------------
@@ -97,8 +118,15 @@ namespace ft
          * 
          * @return iterator 
          */
-        iterator begin();
-        const_iterator begin() const;
+        iterator begin()
+        {
+            return _bst.begin();    
+        }
+
+        const_iterator begin() const
+        {
+            return _bst.begin();
+        }
         
         /**
          * @brief   Returns an iterator referring to the past-the-end element in
@@ -117,8 +145,15 @@ namespace ft
          * 
          * @return iterator 
          */
-        iterator end();
-        const_iterator end() const;
+        iterator end()
+        {
+            return _bst.end();
+        }
+
+        const_iterator end() const
+        {
+            return _bst.end();
+        }
 
         /**
          * @brief   Returns a reverse iterator pointing to the last element in
@@ -132,7 +167,11 @@ namespace ft
          * 
          * @return reverse_iterator 
          */
-        reverse_iterator rbegin();
+        reverse_iterator rbegin()
+        {
+            return reverse_iterator(end());
+        }
+
         const_reverse_iterator rbegin() const;
 
         /**
@@ -163,7 +202,10 @@ namespace ft
          * @return true 
          * @return false 
          */
-        bool empty() const;
+        bool empty() const
+        {
+            return _bst.empty();
+        }
         
         /**
          * @brief   Return container size
@@ -171,7 +213,10 @@ namespace ft
          * Returns the number of elements in the map container.
          * @return  size_type
          */
-        size_type size() const;
+        size_type size() const
+        {
+            return _bst.size();
+        }
 
         /**
          * @brief   Return maximum size
@@ -185,7 +230,10 @@ namespace ft
          * fail to allocate storage at any point before that size is reached.
          * @return size_type 
          */
-        size_type max_size() const;
+        size_type max_size() const
+        {
+            return _alloc.max_size();
+        }
 
         // ---------------------------------------------------------------------
         // Element Access
@@ -208,11 +256,13 @@ namespace ft
          */
         mapped_type& operator[](const key_type& key)
         {
+            // TODO: Implement
             (*((this->insert(make_pair(k,mapped_type()))).first)).second;
         }
         
         const mapped_type& operator[](const key_type& key) const
         {
+            // TODO: Implement
             (*((this->insert(make_pair(k,mapped_type()))).first)).second
         }
 
@@ -243,7 +293,22 @@ namespace ft
          * @param value 
          * @return ft::pair<iterator, bool> 
          */
-        ft::pair<iterator, bool> insert(const value_type& value);
+        ft::pair<iterator, bool> insert(const value_type& value)
+        {
+            ft::pair<iterator, bool> result;
+            tree_type::node_pointer node = _bst.find(value);
+            if (ptr)
+            {
+                result.first = iterator(node);
+                result.second = false;
+            }
+            else
+            {
+                result.first = _bst.insert(value);
+                result.second = true;
+            }
+            return result;
+        }
 
         /**
          * @brief Insert with hint
@@ -252,8 +317,13 @@ namespace ft
          * @param value 
          * @return iterator 
          */
-        iterator insert(const_iterator hint, const value_type& value);
+        iterator insert(iterator hint, const value_type& value)
+        {
+            tree_type::node_pointer hint_node = hint.getNode();
 
+            
+        }
+        
         /**
          * @brief Insert range
          * 
@@ -266,7 +336,14 @@ namespace ft
         insert(
             InputIterator first,
             InputIterator last
-        );
+        )
+        {
+            InputIterator it = first;
+            this->insert(*first);
+            ++first;
+            for (; first != last; ++first, ++it)
+                this->insert(it, *first);
+        }
 
         /**
          * @brief   Erase element
@@ -378,8 +455,9 @@ namespace ft
     
     private:
         // Data Members
-        key_compare _comp;
         allocator_type _alloc;
+        key_compare _cmp;
+        tree_type _bst;
     };
 } // namespace ft
 
