@@ -405,7 +405,10 @@ namespace ft
          * Removes all elements from the map container (which are destroyed),
          * leaving the container with a size of 0.
          */
-        void clear();
+        void clear()
+        {
+            _bst.clear();
+        }
 
         // ---------------------------------------------------------------------
         // Observers
