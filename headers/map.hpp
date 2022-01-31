@@ -466,6 +466,42 @@ namespace ft
             return result;
         }
         
+        iterator lower_bound(const key_type& key)
+        {
+            return this->find(key);
+        }
+        
+        const_iterator lower_bound(const key_type& key) const
+        {
+            return this->find(key);
+        }
+        
+        iterator upper_bound(const key_type& key)
+        {
+            value_type value(key, mapped_type());
+            iterator it = _bst.find(value);
+            for(; it != this->end() && _cmp(it->first, key); ++it);
+            return it;
+        }
+        
+        const_iterator upper_bound(const key_type& key) const
+        {
+            value_type value(key, mapped_type());
+            iterator it = _bst.find(value);
+            for(; it != this->end() && _cmp(it->first, key); ++it);
+            return it;
+        }
+        
+        pair<iterator, iterator> equal_range(const key_type& key)
+        {
+            return make_pair(this->lower_bound(key), this->upper_bound(key));
+        }
+        
+        pair<const_iterator, const_iterator> equal_range(const key_type& key) const
+        {
+            return make_pair(this->lower_bound(key), this->upper_bound(key));
+        }
+        
         // ---------------------------------------------------------------------
         // Allocator
         // ---------------------------------------------------------------------
