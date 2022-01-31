@@ -302,10 +302,10 @@ namespace ft
         ft::pair<iterator, bool> insert(const value_type& value)
         {
             ft::pair<iterator, bool> result;
-            tree_type::node_pointer node = _bst.find(value);
-            if (ptr)
+            iterator it = _bst.find(value);
+            if (it != this->end())
             {
-                result.first = iterator(node);
+                result.first = it;
                 result.second = false;
             }
             else
@@ -323,11 +323,22 @@ namespace ft
          * @param value 
          * @return iterator 
          */
-        iterator insert(iterator hint, const value_type& value)
+        iterator insert(iterator position, const value_type& value)
         {
-            tree_type::node_pointer hint_node = hint.getNode();
-
+            typename tree_type::node_pointer hint = position.getNode();
             
+            // check if the hint is valid
+            if (hint && _cmp(hint->data, value))
+            {
+                typename tree_type::node_pointer node = hint->maximum();
+                // check if the value can be inserted under the hint_node subtree
+                if (_cmp(value, node->data))
+                    return _bst._insert(hint->right, hint, value);
+                while (position.getNode() != node)
+                    ++position;
+                return this->insert(++position, value);
+            }
+            return this->insert(value)->second;
         }
         
         /**
@@ -341,14 +352,10 @@ namespace ft
         typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
         insert(
             InputIterator first,
-            InputIterator last
-        )
+            InputIterator last)
         {
-            InputIterator it = first;
-            this->insert(*first);
-            ++first;
-            for (; first != last; ++first, ++it)
-                this->insert(it, *first);
+            for (; first != last; ++first)
+                this->insert(*first);
         }
 
         /**
