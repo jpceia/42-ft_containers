@@ -436,10 +436,13 @@ namespace ft
          */
         key_compare key_comp() const
         {
-            return _comp;
+            return _cmp;
         }
         
-        value_compare value_comp() const;
+        value_compare value_comp() const
+        {
+            return value_compare(_cmp);
+        }
 
         // ---------------------------------------------------------------------
         // Operations
