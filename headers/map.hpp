@@ -15,6 +15,8 @@
 
 #include <memory>
 #include "BinarySearchTree.hpp"
+#include "type_traits/enable_if.hpp"
+#include "type_traits/is_integral.hpp"
 #include "pair.hpp"
 
 namespace ft
@@ -23,26 +25,11 @@ namespace ft
         typename Key,                                              // map::key_type
         typename T,                                                // map::mapped_type
         typename Compare = std::less<Key>,                         // map::key_compare
-        typename Alloc = std::allocator<ft::pair<const Key, T>>    // map::allocator_type
+        typename Alloc = std::allocator<ft::pair<const Key, T> >   // map::allocator_type
     >
     class map
-    {
-    private:
-        typedef ft::BinarySearchTree<ft::pair<const Key, T>, Compare, Alloc> tree_type;
-        
+    { 
     public:
-        class value_compare
-        {
-        protected:
-            Compare _cmp;
-            value_compare(Compare cmp) : _cmp(cmp) {}
-        public:
-            bool operator()(const value_type& lhs, const value_type& rhs) const
-            {
-                return _cmp(lhs.first, rhs.first);
-            }
-        };
-
         typedef Key                                                 key_type;
         typedef T                                                   mapped_type;
         typedef Compare                                             key_compare;
@@ -54,6 +41,24 @@ namespace ft
         typedef typename allocator_type::const_reference            const_reference;
         typedef typename allocator_type::pointer                    pointer;
         typedef typename allocator_type::const_pointer              const_pointer;
+
+        class value_compare
+        {
+        protected:
+            Compare _cmp;
+        public:
+            value_compare(Compare cmp) : _cmp(cmp) {}
+            bool operator()(const value_type& lhs, const value_type& rhs) const
+            {
+                return _cmp(lhs.first, rhs.first);
+            }
+        };
+
+    private:
+        typedef ft::BinarySearchTree<value_type, value_compare, allocator_type> tree_type;
+
+    public:
+
         typedef typename tree_type::iterator                        iterator;
         typedef typename tree_type::iterator                        const_iterator;
         typedef typename ft::reverse_iterator<iterator>             reverse_iterator;
