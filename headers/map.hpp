@@ -505,7 +505,10 @@ namespace ft
         // ---------------------------------------------------------------------
         // Allocator
         // ---------------------------------------------------------------------
-        allocator_type get_allocator() const;
+        allocator_type get_allocator() const
+        {
+            return _alloc;
+        }
     
     private:
         // Data Members
