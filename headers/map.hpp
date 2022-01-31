@@ -360,7 +360,11 @@ namespace ft
          * removed, which are destroyed.
          * @param key 
          */
-        void erase(const key_type& key);
+        void erase(const key_type& key)
+        {
+            value_type value(key, mapped_type());
+            _bst.erase(value);
+        }
 
         /**
          * @brief   Erase element
@@ -368,7 +372,10 @@ namespace ft
          * @param position 
          * @return size_type 
          */
-        size_type erase(const_iterator position);
+        size_type erase(const_iterator position)
+        {
+            return _bst.erase(position.getNode());
+        }
 
         /**
          * @brief   Erase elements
@@ -378,7 +385,11 @@ namespace ft
          * @param first 
          * @param last 
          */
-        void erase(const_iterator first, const_iterator last);
+        void erase(const_iterator first, const_iterator last)
+        {
+            for (; first != last; ++first)
+                this->erase(first.getNode());
+        }
 
         /**
          * @brief   Swap content
