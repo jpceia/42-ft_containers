@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/30 12:08:35 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/30 15:46:31 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,19 @@ namespace ft
         // Constructors
         explicit map(const key_compare& cmp = key_compare(),
             const allocator_type& alloc = allocator_type()) :
-            _cmp(cmp),
             _alloc(alloc),
+            _cmp(cmp),
             _bst(alloc, value_compare(cmp))
         {
         }
 
+        template <typename InputIterator>
         map(InputIterator first,
             typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last,
             const key_compare& cmp = key_compare(),
             const allocator_type& alloc = allocator_type()) :
-            _cmp(cmp),
             _alloc(alloc),
+            _cmp(cmp),
             _bst(alloc, value_compare(cmp))
         {
             for (; first != last; ++first)
@@ -86,8 +87,8 @@ namespace ft
         }
 
         map(const map& rhs) :
-            _cmp(rhs._cmp),
             _alloc(rhs._alloc),
+            _cmp(rhs._cmp),
             _bst(rhs._bst)
         {
         }
@@ -95,8 +96,8 @@ namespace ft
         // Assignment Operators
         map& operator=(const map& rhs)
         {
-            _cmp = rhs._cmp;
             _alloc = rhs._alloc;
+            _cmp = rhs._cmp;
             _bst = rhs._bst;
             return *this;
         }
