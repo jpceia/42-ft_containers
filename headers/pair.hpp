@@ -33,7 +33,8 @@ namespace ft
         {}
 
         // Copy constructor
-        pair(const pair& p)
+        template<typename U, typename V>
+        pair(const pair<U, V>& p)
             : first(p.first), second(p.second)
         {}
 
