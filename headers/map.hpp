@@ -397,7 +397,12 @@ namespace ft
          * 
          * @param other 
          */
-        void swap(map& other);
+        void swap(map& rhs)
+        {
+            std::swap(_bst, rhs._bst);
+            std::swap(_cmp, rhs._cmp);
+            std::swap(_alloc, rhs._alloc);
+        }
 
         /**
          * @brief   Clear content
