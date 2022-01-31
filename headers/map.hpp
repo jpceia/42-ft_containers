@@ -263,13 +263,15 @@ namespace ft
         mapped_type& operator[](const key_type& key)
         {
             // TODO: Implement
-            (*((this->insert(make_pair(k,mapped_type()))).first)).second;
+            value_type value(key, mapped_type());
+            return (*((this->insert(value)).first)).second;
         }
         
         const mapped_type& operator[](const key_type& key) const
         {
             // TODO: Implement
-            (*((this->insert(make_pair(k,mapped_type()))).first)).second
+            value_type value(key, mapped_type());
+            return (*((this->insert(value)).first)).second;
         }
 
         // ---------------------------------------------------------------------
