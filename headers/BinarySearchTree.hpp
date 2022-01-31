@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/30 12:12:31 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/30 15:46:59 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define BINARYSEARCHTREE_HPP
 
 #include <memory>
-#include "..iterator/reverse_iterator.hpp"
+#include "iterator/reverse_iterator.hpp"
 
 namespace ft
 {
@@ -63,15 +63,6 @@ namespace ft
 
         virtual ~BSTNode()
         {}
-
-        BSTNode* minimum()
-        {
-            BSTNode* node = this;
-
-            while (node->left)
-                node = node->left;
-            return node;
-        }
     
         const BSTNode* minimum() const
         {
@@ -82,13 +73,9 @@ namespace ft
             return node;
         }
 
-        BSTNode* maximum()
+        BSTNode* minimum()
         {
-            BSTNode* node = this;
-
-            while (node->right)
-                node = node->right;
-            return node;
+            return const_cast<BSTNode*>(this->minimum());
         }
 
         const BSTNode* maximum() const
@@ -100,18 +87,9 @@ namespace ft
             return node;
         }
 
-        BSTNode* successor()
+        BSTNode* maximum()
         {
-            if (this->right)
-                return this->right->minimum();
-            BSTNode* node = this;
-            // checks if the node is the maximum
-            if (!node->parent || node != node->parent->right)
-                return NULL;
-            // goes up until the node is the left child of its parent
-            while (node->parent && node == node->parent->right)
-                node = parent->parent;
-            return node->parent;
+            return const_cast<BSTNode*>(this->maximum());
         }
 
         const BSTNode* successor() const
@@ -128,19 +106,9 @@ namespace ft
             return node->parent;
         }
 
-        BSTNode* predecessor()
+        BSTNode* successor()
         {
-            if (this->left)
-                return this->left->maximum();
-
-            BSTNode* node = this;
-            // checks if the node is the minimum
-            if (!node->parent || node != node->parent->left)
-                return NULL;
-            // goes up until the node is the right child of its parent
-            while (node->parent && node == node->parent->left)
-                node = node->parent;
-            return node->parent;
+            return const_cast<BSTNode*>(this->successor());
         }
 
         const BSTNode* predecessor() const
@@ -156,6 +124,11 @@ namespace ft
             while (node->parent && node == node->parent->left)
                 node = node->parent;
             return node->parent;
+        }
+
+        BSTNode* predecessor()
+        {
+            return const_cast<BSTNode*>(this->predecessor());
         }
     };
 
