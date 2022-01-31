@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 20:48:03 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/30 15:04:18 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/31 14:03:54 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 // map::lower_bound/upper_bound
 
-int main ()
+int main()
 {
     ft::map<char,int> mymap;
     ft::map<char,int>::iterator itlow,itup;
@@ -35,7 +35,7 @@ int main ()
     itlow=mymap.lower_bound ('b');  // itlow points to b
     itup=mymap.upper_bound ('d');   // itup points to e (not d!)
 
-    mymap.erase(itlow,itup);        // erases [itlow,itup)
+    mymap.erase(itlow, itup);        // erases [itlow,itup)
 
     // print content:
     for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)

@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 12:55:11 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/30 14:45:29 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/31 13:12:51 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 int main ()
 {
-    ft::map<char,int> foo,bar;
+    ft::map<char,int> foo, bar;
 
     foo['x']=100;
     foo['y']=200;

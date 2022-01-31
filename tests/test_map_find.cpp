@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 20:48:03 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/30 14:57:16 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/31 14:03:22 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int main ()
 
     it = mymap.find('b');
     if (it != mymap.end())
-    mymap.erase (it);
+        mymap.erase (it);
 
     // print content:
     std::cout << "elements in mymap:" << '\n';

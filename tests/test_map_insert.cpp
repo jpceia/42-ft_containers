@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 20:48:03 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/30 13:19:54 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/31 14:05:11 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int main ()
 
     // second insert function version (with hint position):
     ft::map<char,int>::iterator it = mymap.begin();
-    mymap.insert (it, ft::pair<char,int>('b',300));  // max efficiency inserting
-    mymap.insert (it, ft::pair<char,int>('c',400));  // no max efficiency inserting
+    mymap.insert(it, ft::pair<char,int>('b',300));  // max efficiency inserting
+    mymap.insert(it, ft::pair<char,int>('c',400));  // no max efficiency inserting
 
     // third insert function version (range insertion):
     ft::map<char,int> anothermap;
