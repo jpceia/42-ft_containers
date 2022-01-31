@@ -65,8 +65,7 @@ namespace ft
         // Dereference operator
         reference operator*() const
         {
-            iterator_type tmp = current;
-            return *--tmp;
+            return *_it;
         }
 
         // Addition operator
