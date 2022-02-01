@@ -115,7 +115,9 @@ namespace ft
     class BSTIterator : public std::iterator<std::bidirectional_iterator_tag, T>
     {
     public:
-        typedef BSTNode<T>* node_pointer;
+        typedef BSTNode<T>                          node_type;
+        typedef node_type*                          node_pointer;
+        typedef const node_type*                    const_node_pointer;
         
         BSTIterator() {}
         BSTIterator(const node_pointer& root, const node_pointer& node) :
@@ -245,27 +247,28 @@ namespace ft
     template <
         typename T,
         typename Compare = std::less<T>,
-        typename Alloc = std::allocator<BSTNode<T> >
+        typename Alloc = std::allocator<T>
     >
     class BinarySearchTree
     {
     public:
-        typedef T                                           value_type;
-        typedef Alloc                                       allocator_type;
-        typedef value_type&                                 reference;
-        typedef const value_type&                           const_reference;
-        typedef value_type*                                 pointer;
-        typedef const value_type*                           const_pointer;
-        typedef Compare                                     value_compare;
-        typedef ft::BSTIterator<T>                          iterator;
-        typedef const iterator                              const_iterator;
-        typedef ft::reverse_iterator<iterator>              reverse_iterator;
-        typedef ft::reverse_iterator<const_iterator>        const_reverse_iterator;
-        typedef typename iterator::difference_type          difference_type;
-        typedef typename allocator_type::size_type          size_type;
-        typedef BSTNode<T>                                  node_type;
-        typedef node_type*                                  node_pointer;
-        typedef const node_type*                            const_node_pointer;
+        typedef T                                                       value_type;
+        // use rebind to change the T allocator to BSTNode<T> allocator
+        typedef typename Alloc::template rebind<BSTNode<T> >::other     allocator_type;
+        typedef value_type&                                             reference;
+        typedef const value_type&                                       const_reference;
+        typedef value_type*                                             pointer;
+        typedef const value_type*                                       const_pointer;
+        typedef Compare                                                 value_compare;
+        typedef ft::BSTIterator<T>                                      iterator;
+        typedef ft::BSTIterator<const T>                                const_iterator;
+        typedef ft::reverse_iterator<iterator>                          reverse_iterator;
+        typedef ft::reverse_iterator<const_iterator>                    const_reverse_iterator;
+        typedef typename iterator::difference_type                      difference_type;
+        typedef typename allocator_type::size_type                      size_type;
+        typedef BSTNode<T>                                              node_type;
+        typedef node_type*                                              node_pointer;
+        typedef const node_type*                                        const_node_pointer;
 
         BinarySearchTree(
             const allocator_type& alloc = allocator_type(),
