@@ -175,10 +175,13 @@ namespace ft
          */
         reverse_iterator rbegin()
         {
-            return reverse_iterator(end());
+            return _bst.rbegin();
         }
 
-        const_reverse_iterator rbegin() const;
+        const_reverse_iterator rbegin() const
+        {
+            return _bst.rbegin();
+        }
 
         /**
          * @brief   Returns a reverse iterator pointing to the theoretical
@@ -190,8 +193,15 @@ namespace ft
          * 
          * @return reverse_iterator 
          */
-        reverse_iterator rend();
-        const_reverse_iterator rend() const;
+        reverse_iterator rend()
+        {
+            return _bst.rend();
+        }
+        
+        const_reverse_iterator rend() const
+        {
+            return _bst.rbegin();
+        }
 
         // ---------------------------------------------------------------------
         // Capacity
