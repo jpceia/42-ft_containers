@@ -61,7 +61,7 @@ namespace ft
             return *this;
         }
 
-        // Conversion operator to const iterator
+        // Conversion operator to const node
         operator BSTNode<const T>() const
         {
             BSTNode<const T> node(data, parent);
@@ -134,12 +134,21 @@ namespace ft
 
         virtual BSTIterator& operator=(const BSTIterator& rhs)
         {
-            _root = rhs._root;
-            _node = rhs._node;
+            if (this != &rhs)
+            {
+                _root = rhs._root;
+                _node = rhs._node;
+            }
             return *this;
         }
 
         virtual ~BSTIterator() {}
+
+        // Conversion operator to const iterator
+        operator BSTIterator<const T>() const
+        {
+            return BSTIterator<const T>(BSTNode<const T>(_root), BSTNode<const T>(_node));
+        }
 
         T& operator*() const
         {
