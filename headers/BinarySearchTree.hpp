@@ -73,30 +73,32 @@ namespace ft
         virtual ~BSTNode()
         {}
     
-        const BSTNode* minimum() const
+
+        BSTNode* minimum()
         {
-            const BSTNode* node = this;
+
+            BSTNode* node = this;
 
             while (node->left)
                 node = node->left;
             return node;
         }
 
-        BSTNode* minimum()
+        const BSTNode* minimum() const
         {
             return const_cast<BSTNode*>(this->minimum());
         }
 
-        const BSTNode* maximum() const
+        BSTNode* maximum()
         {
-            const BSTNode* node = this;
+            BSTNode* node = this;
 
             while (node->right)
                 node = node->right;
             return node;
         }
 
-        BSTNode* maximum()
+        const BSTNode* maximum() const
         {
             return const_cast<BSTNode*>(this->maximum());
         }
