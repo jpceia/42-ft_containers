@@ -417,8 +417,16 @@ namespace ft
             }
             else // case 4: two children
             {
-                node_pointer successor = node->successor();
-                node->data = successor->data;
+                node_pointer successor = (++_iterator(node)).getNode();
+                node_pointer new_node = _copy(successor);
+                new_node->left = node->left;
+                new_node->right = node->right;
+                new_node->parent = node->parent;
+                if (node->parent->left == node)
+                    node->parent->left = new_node;
+                else
+                    node->parent->right = new_node;
+                _free(node);
                 _erase(successor, successor->data);
             }
         }
