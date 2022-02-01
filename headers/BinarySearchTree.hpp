@@ -101,43 +101,13 @@ namespace ft
             return const_cast<BSTNode*>(this->maximum());
         }
 
-        const BSTNode* successor() const
-        {
-            if (this->right)
-                return this->right->minimum();
-            BSTNode* node = this;
-            // checks if the node is the maximum
-            if (!node->parent || node != node->parent->right)
-                return NULL;
-            // goes up until the node is the left child of its parent
-            while (node->parent && node == node->parent->right)
-                node = parent->parent;
-            return node->parent;
-        }
-
-        BSTNode* successor()
-        {
-            return const_cast<BSTNode*>(this->successor());
-        }
-
-        const BSTNode* predecessor() const
-        {
+        int size() const {
+            int size = 1;
             if (this->left)
-                return this->left->maximum();
-
-            BSTNode* node = this;
-            // checks if the node is the minimum
-            if (!node->parent || node != node->parent->left)
-                return NULL;
-            // goes up until the node is the right child of its parent
-            while (node->parent && node == node->parent->left)
-                node = node->parent;
-            return node->parent;
-        }
-
-        BSTNode* predecessor()
-        {
-            return const_cast<BSTNode*>(this->predecessor());
+                size += this->left->size();
+            if (this->right)
+                size += this->right->size();
+            return size;
         }
     };
 
@@ -179,8 +149,7 @@ namespace ft
 
         BSTIterator& operator++()
         {
-            // successor
-            _node = _node->successor();
+            _node = _successor(_node);
             return *this;
         }
 
@@ -193,8 +162,7 @@ namespace ft
 
         BSTIterator operator--()
         {
-            // predecessor of NULL is the maximum
-            _node = _node ? _node->predecessor() : _root->maximum();
+            _node = _predecessor(_node);
             return *this;
         }
 
@@ -226,9 +194,52 @@ namespace ft
             return lhs._node != rhs._node;
         }
 
+    private:
+
+        node_pointer _successor(node_pointer node)
+        {
+            if (node == NULL)
+                return _root->minimum();
+            if (node->right)
+                return node->right->minimum();
+            // checks if the node is the maximum
+            if (node == _root->maximum())
+                return NULL;
+            // goes up until the node is the left child of its parent
+            while (node->parent && node == node->parent->right)
+                node = node->parent;
+            return node->parent;
+        }
+        
+        const_node_pointer _successor(const_node_pointer node) const
+        {
+            return const_cast<node_pointer>(_successor(node));
+        }
+
+        node_pointer _predecessor(node_pointer node)
+        {
+            if (node == NULL)
+                return _root->maximum();
+            if (node->left)
+                return node->left->maximum();
+            // checks if the node is the minimum
+            if (node == _root->minimum())
+                return NULL;
+            // goes up until the node is the right child of its parent
+            while (node->parent && node == node->parent->left)
+                node = node->parent;
+            return node->parent;
+        }
+
+        const_node_pointer _predecessor(const_node_pointer node) const
+        {
+            return const_cast<node_pointer>(_predecessor(node));
+        }
+
     protected:
         node_pointer _root;
         node_pointer _node;
+
     };
 
     template <
