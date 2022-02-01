@@ -375,24 +375,18 @@ namespace ft
         {
             if (!node)
                 return _iterator(NULL);
-            if (_cmp(node->data, val))
-                return _find(node->left, val);
             if (_cmp(val, node->data))
+                return _find(node->left, val);
+            if (_cmp(node->data, val))
                 return _find(node->right, val);
             return _iterator(node);
         }
 
         const_iterator _find(const_node_pointer node, const value_type& val) const
         {
-            if (!node)
-                return _iterator(NULL);
-            if (_cmp(val, node->data))
-                return _find(node->left, val);
-            if (_cmp(node->data, val))
-                return _find(node->right, val);
-            return _iterator(node);
+            return const_cast<iterator>(_find(node, val));
         }
-
+        
         node_pointer _copy(node_pointer node)
         {
             if (!node)
