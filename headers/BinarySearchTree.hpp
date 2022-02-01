@@ -61,6 +61,15 @@ namespace ft
             return *this;
         }
 
+        // Conversion operator to const iterator
+        operator BSTNode<const T>() const
+        {
+            BSTNode<const T> node(data, parent);
+            node->left = left;
+            node->right = right;
+            return node;
+        }
+
         virtual ~BSTNode()
         {}
     
