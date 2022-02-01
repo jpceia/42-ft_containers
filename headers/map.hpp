@@ -69,7 +69,7 @@ namespace ft
             const allocator_type& alloc = allocator_type()) :
             _alloc(alloc),
             _cmp(cmp),
-            _bst(alloc, value_compare(cmp))
+            _bst(value_compare(cmp), alloc)
         {
         }
 
@@ -80,10 +80,10 @@ namespace ft
             const allocator_type& alloc = allocator_type()) :
             _alloc(alloc),
             _cmp(cmp),
-            _bst(alloc, value_compare(cmp))
+            _bst(value_compare(cmp), alloc)
         {
             for (; first != last; ++first)
-                insert(*first);
+                this->insert(*first);
         }
 
         map(const map& rhs) :
@@ -96,9 +96,12 @@ namespace ft
         // Assignment Operators
         map& operator=(const map& rhs)
         {
-            _alloc = rhs._alloc;
-            _cmp = rhs._cmp;
-            _bst = rhs._bst;
+            if (this != &rhs)
+            {
+                _alloc = rhs._alloc;
+                _cmp = rhs._cmp;
+                _bst = rhs._bst;
+            }
             return *this;
         }
 
