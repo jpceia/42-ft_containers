@@ -343,7 +343,7 @@ namespace ft
             typename tree_type::node_pointer hint = position.getNode();
             
             // check if the hint is valid
-            if (hint && _cmp(hint->data, value))
+            if (hint && _cmp(hint->data.first, value.first))
             {
                 typename tree_type::node_pointer node = hint->maximum();
                 // check if the value can be inserted under the hint_node subtree
