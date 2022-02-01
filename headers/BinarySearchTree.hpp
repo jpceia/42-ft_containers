@@ -358,6 +358,16 @@ namespace ft
             _clear(_root);
         }
 
+        int size() const
+        {
+            return _root ? _root->size() : 0;
+        }
+
+        bool empty() const
+        {
+            return !_root;
+        }
+
         void erase(const value_type& val)
         {
             _erase(_root, val);
