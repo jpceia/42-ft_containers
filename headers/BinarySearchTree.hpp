@@ -318,6 +318,26 @@ namespace ft
             return _iterator(NULL);
         }
 
+        reverse_iterator rbegin()
+        {
+            return _iterator(_root ? _root->maximum() : NULL);
+        }
+
+        const_reverse_iterator rbegin() const
+        {
+            return _iterator(_root ? _root->maximum() : NULL);
+        }
+
+        reverse_iterator rend()
+        {
+            return _iterator(NULL);
+        }
+
+        const_reverse_iterator rend() const
+        {
+            return _iterator(NULL);
+        }
+
         iterator find(const value_type& val)
         {
             return _find(_root, val);
