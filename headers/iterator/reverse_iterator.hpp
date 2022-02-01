@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 16:05:51 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/08 17:19:32 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/01 10:47:33 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,19 @@ namespace ft
         // ---------------------------------------------------------------------
 
         // Default constructor
-        reverse_iterator()
-        : current()
+        reverse_iterator() :
+            _it()
         {}
         
         // Initialization constructor
-        reverse_iterator(iterator_type it)
-        : current(it)
+        reverse_iterator(iterator_type it) :
+            _it(it)
         {}
 
         // Copy constructor
         template <typename Iter>
-        reverse_iterator(const reverse_iterator<Iter>& it)
-        : current(it.base())
+        reverse_iterator(const reverse_iterator<Iter>& it) :
+            _it(it.base())
         {}
 
         // ---------------------------------------------------------------------
@@ -56,7 +56,7 @@ namespace ft
         // base
         iterator_type base() const
         {
-            return current;
+            return _it;
         }
 
         // ---------------------------------------------------------------------
@@ -65,19 +65,20 @@ namespace ft
         // Dereference operator
         reference operator*() const
         {
-            return *_it;
+            iterator_type tmp = _it;
+            return *--tmp;
         }
 
         // Addition operator
         reverse_iterator operator+ (difference_type n) const
         {
-            return reverse_iterator(current - n);
+            return reverse_iterator(_it - n);
         }
 
         // Increment operator - prefix
         reverse_iterator& operator++()
         {
-            --current;
+            --_it;
             return *this;
         }
 
@@ -85,27 +86,27 @@ namespace ft
         reverse_iterator operator++(int)
         {
             reverse_iterator tmp = *this;
-            --current;
+            --_it;
             return tmp;
         }
 
         // Advance operator
         reverse_iterator operator+= (difference_type n)
         {
-            current -= n;
+            _it -= n;
             return *this;
         }
 
         // Subtraction operator
         reverse_iterator operator- (difference_type n) const
         {
-            return reverse_iterator(current + n);
+            return reverse_iterator(_it + n);
         }
 
         // Decrement operator - prefix
         reverse_iterator& operator--()
         {
-            ++current;
+            ++_it;
             return *this;
         }
 
@@ -113,7 +114,7 @@ namespace ft
         reverse_iterator operator-- (int)
         {
             reverse_iterator tmp = *this;
-            ++current;
+            ++_it;
             return tmp;
         }
 
@@ -134,7 +135,7 @@ namespace ft
         // Member variables
         // ---------------------------------------------------------------------
 
-        iterator_type current;
+        iterator_type _it;
     };
 
     // -------------------------------------------------------------------------
