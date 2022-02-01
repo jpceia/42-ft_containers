@@ -367,23 +367,33 @@ namespace ft
          * 
          * This effectively reduces the container size by the number of elements
          * removed, which are destroyed.
-         * @param key 
+         * 
+         * @param position 
+         * @return size_type 
          */
-        void erase(const key_type& key)
+        void erase(const_iterator position)
         {
-            value_type value(key, mapped_type());
-            _bst.erase(value);
+            typename tree_type::node_pointer node = position.getNode();
+            return _bst.erase(node);
         }
 
         /**
          * @brief   Erase element
          * 
-         * @param position 
-         * @return size_type 
+         * @param key 
          */
-        size_type erase(const_iterator position)
+        size_type erase(const key_type& key)
         {
-            return _bst.erase(position.getNode());
+            ft::pair<const_iterator, const_iterator> range = this->equal_range(key);
+            const_iterator it = range.first;
+            size_type result = 0;
+
+            for (; it != range.second; ++it)
+            {
+                this->erase(it);
+                ++result;
+            }
+            return result;
         }
 
         /**
@@ -397,7 +407,7 @@ namespace ft
         void erase(const_iterator first, const_iterator last)
         {
             for (; first != last; ++first)
-                this->erase(first.getNode());
+                this->erase(first);
         }
 
         /**
