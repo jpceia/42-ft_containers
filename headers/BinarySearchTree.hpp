@@ -297,7 +297,7 @@ namespace ft
             _root = _copy(rhs._root);
         }
 
-        BinarySearchTree& operator=(const BinarySearchTree& rhs)
+        virtual BinarySearchTree& operator=(const BinarySearchTree& rhs)
         {
             if (this != &rhs)
             {
@@ -477,7 +477,7 @@ namespace ft
             return node;
         }
 
-        node_pointer _insert(node_pointer& node, node_pointer parent, const value_type& val)
+        virtual iterator _insert(node_pointer& node, node_pointer parent, const value_type& val)
         {
             if (!node)
             {
@@ -505,7 +505,7 @@ namespace ft
             _free(node);
         }
 
-        void _erase(node_pointer node, const value_type& val)
+        virtual void _erase(node_pointer node, const value_type& val)
         {
             if (!node)
                 return ;
@@ -515,7 +515,7 @@ namespace ft
                 _erase(node->right, val);
             // there is an equality and we are going to erase this node
             else
-                erase(node);
+                this->erase(node);
         }
 
         allocator_type _alloc;
