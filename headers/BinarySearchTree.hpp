@@ -282,8 +282,8 @@ namespace ft
         typedef const node_type*                                        const_node_pointer;
 
         BinarySearchTree(
-            const allocator_type& alloc = allocator_type(),
-            const value_compare& cmp = value_compare()) :
+            const value_compare& cmp = value_compare(),
+            const allocator_type& alloc = allocator_type()) :
             _alloc(alloc),
             _cmp(cmp),
             _root(NULL)
