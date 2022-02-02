@@ -6,7 +6,7 @@
 /*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 15:58:31 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/02 18:50:33 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,16 @@ namespace ft
             return this->begin();
         }
 
-        iterator find(const value_type& val)
+        iterator find(const value_type& val) const
         {
             return _find(this->_root, val);
         }
 
-        iterator insert(const value_type& val)
+        virtual iterator insert(const value_type& val)
         {
+            return insert(this->_root, NULL, val);
+        }
+
         virtual iterator insert(node_pointer& node, node_pointer parent, const value_type& val)
         {
             if (!node)
@@ -148,11 +151,6 @@ namespace ft
         void erase(const value_type& val)
         {
             _erase(this->_root, val);
-        }
-
-        void erase(iterator it)
-        {
-            _erase(this->_root, it);
         }
 
         void erase(node_pointer& node)
@@ -205,12 +203,12 @@ namespace ft
         
     protected:
 
-        iterator _iterator(node_pointer node)
+        iterator _iterator(node_pointer node) const
         {
             return iterator(this->_root, node);
         }
 
-        iterator _find(node_pointer node, const value_type& val)
+        iterator _find(node_pointer node, const value_type& val) const
         {
             if (!node)
                 return _iterator(NULL);
