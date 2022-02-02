@@ -6,7 +6,7 @@
 /*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:07:20 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 15:55:41 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/02 19:40:31 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@
 namespace ft
 {
     template <typename T>
-    class BSTIterator //: public std::iterator<std::bidirectional_iterator_tag, T>
+    class BSTIterator
     {
     public:
         typedef typename ft::remove_const<T>::type  value_type;
         typedef ptrdiff_t                           difference_type;
-        typedef T*                         pointer; // T*
-        //typedef const value_type*                   const_pointer; // const T*
-        typedef T&                         reference; // T&
-        //typedef const value_type&                   const_reference; // const T&
+        typedef T*                                  pointer;
+        typedef T&                                  reference;
         typedef std::bidirectional_iterator_tag     iterator_category;
         typedef ft::BSTNode<value_type>             node_type;
         typedef node_type*                          node_pointer;
