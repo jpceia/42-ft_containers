@@ -397,12 +397,13 @@ namespace ft
          */
         size_type erase(const key_type& key)
         {
-            ft::pair<const_iterator, const_iterator> range = this->equal_range(key);
-            const_iterator it = range.first;
             size_type result = 0;
 
-            for (; it != range.second; ++it)
+            for (;;)
             {
+                iterator it = this->find(key);
+                if (it == this->end())
+                    break;
                 this->erase(it);
                 ++result;
             }
