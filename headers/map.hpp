@@ -500,14 +500,12 @@ namespace ft
         // ---------------------------------------------------------------------
         iterator find(const key_type& key)
         {
-            value_type value(key, mapped_type());
-            return iterator(_bst.find(value));
+            return iterator(_bst.find(value_type(key, mapped_type())));
         }
 
         const_iterator find(const key_type& key) const
         {
-            value_type value(key, mapped_type());
-            return const_iterator(_bst.find(value));
+            return const_iterator(_bst.find(value_type(key, mapped_type())));
         }
 
         size_type count(const key_type& key) const
