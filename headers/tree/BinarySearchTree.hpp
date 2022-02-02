@@ -6,7 +6,7 @@
 /*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 18:50:33 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/02 19:53:29 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ namespace ft
             else // case 4: two children
             {
                 node_pointer successor = this->successor(node);
-                node_pointer new_node = _copy(successor);
+                node_pointer new_node = _create_node(successor->data);
                 new_node->left = node->left;
                 new_node->right = node->right;
                 new_node->parent = node->parent;
