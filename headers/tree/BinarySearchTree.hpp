@@ -6,7 +6,7 @@
 /*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 19:53:29 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/02 20:01:07 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,10 +230,15 @@ namespace ft
             return new_node;
         }
 
-        node_pointer _create_node(const value_type& val)
+        node_pointer _create_node(
+            const value_type& val = value_type(),
+            const node_pointer& parent = NULL,
+            const node_pointer& left = NULL,
+            const node_pointer& right = NULL
+        )
         {
             node_pointer node = _alloc.allocate(1);
-            _alloc.construct(node, val);
+            _alloc.construct(node, node_type(val, parent, left, right));
             return node;
         }
 
