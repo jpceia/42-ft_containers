@@ -532,18 +532,16 @@ namespace ft
         
         iterator upper_bound(const key_type& key)
         {
-            value_type value(key, mapped_type());
-            iterator it = _bst.find(value);
+            iterator it = this->lower_bound(key);
             for(; it != this->end() && _cmp(it->first, key); ++it);
-            return it;
+            return ++it;
         }
         
         const_iterator upper_bound(const key_type& key) const
         {
-            value_type value(key, mapped_type());
-            iterator it = _bst.find(value);
+            iterator it = this->lower_bound(key);
             for(; it != this->end() && _cmp(it->first, key); ++it);
-            return it;
+            return ++it;
         }
         
         pair<iterator, iterator> equal_range(const key_type& key)
