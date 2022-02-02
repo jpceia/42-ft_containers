@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BSTNode.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
+/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:59:47 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 12:20:11 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 17:58:29 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,17 @@ namespace ft
             if (this->right)
                 size += this->right->size();
             return size;
+        }
+
+        void set_parent_child(BSTNode* node)
+        {
+            if (node->parent)
+            {
+                if (this->parent->left == this)
+                    this->parent->left = node;
+                else
+                    this->parent->right = node;
+            }
         }
     };
 }
