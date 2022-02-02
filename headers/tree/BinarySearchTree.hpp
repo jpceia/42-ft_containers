@@ -149,6 +149,7 @@ namespace ft
         {
             if (!node->left && !node->right) // case 1: leaf node
             {
+                // update parent's child pointer
                 if (node->parent)
                 {
                     if (node->parent->left == node) // node is left child
@@ -156,10 +157,14 @@ namespace ft
                     else                            // node is right child
                         node->parent->right = NULL;   
                 }
+                // update root pointer
+                if (node == this->_root)
+                    this->_root = NULL;
                 _free(node);
             }
             else if (node->right) // case 2: right child only
             {
+                // update parent's child pointer
                 if (node->parent)
                 {
                     if (node->parent->left == node) // node is left child
@@ -168,10 +173,14 @@ namespace ft
                         node->parent->right = node->right;                    
                 }
                 node->right->parent = node->parent;
+                // update root pointer
+                if (this->_root == node)
+                    this->_root = node->right;
                 _free(node);
             }
             else if (node->left) // case 3: left child only
             {
+                // update parent's child pointer
                 if (node->parent)
                 {
                     if (node->parent->left == node)
@@ -180,6 +189,9 @@ namespace ft
                         node->parent->right = node->left;   
                 }
                 node->left->parent = node->parent;
+                // update root pointer
+                if (this->_root == node)
+                    this->_root = node->left;
                 _free(node);
             }
             else // case 4: two children
@@ -189,6 +201,7 @@ namespace ft
                 new_node->left = node->left;
                 new_node->right = node->right;
                 new_node->parent = node->parent;
+                // update parent's child pointer
                 if (node->parent)
                 {
                     if (node->parent->left == node)
@@ -197,6 +210,9 @@ namespace ft
                         node->parent->right = new_node;                    
                 }
                 _free(node);
+                // update root pointer
+                if (this->_root == node)
+                    this->_root = new_node;
                 _erase(successor, successor->data);
             }
         }
