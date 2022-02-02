@@ -6,7 +6,7 @@
 /*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 20:01:07 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/02 20:10:53 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,48 +157,35 @@ namespace ft
         {
             if (!node->left && !node->right) // case 1: leaf node
             {
-                // update parent's child pointer
                 node->set_parent_child(NULL);
-                // update root pointer
                 if (node == this->_root)
                     this->_root = NULL;
-                _free(node);
             }
             else if (node->right) // case 2: right child only
             {
-                // update parent's child pointer
                 node->set_parent_child(node->right);
                 node->right->parent = node->parent;
-                // update root pointer
                 if (this->_root == node)
                     this->_root = node->right;
-                _free(node);
             }
             else if (node->left) // case 3: left child only
             {
-                // update parent's child pointer
                 node->set_parent_child(node->left);
                 node->left->parent = node->parent;
-                // update root pointer
                 if (this->_root == node)
                     this->_root = node->left;
-                _free(node);
             }
             else // case 4: two children
             {
                 node_pointer successor = this->successor(node);
-                node_pointer new_node = _create_node(successor->data);
-                new_node->left = node->left;
-                new_node->right = node->right;
-                new_node->parent = node->parent;
-                // update parent's child pointer
+                node_pointer new_node = _create_node(successor->data,
+                    node->parent, node->left, node->right);
                 node->set_parent_child(new_node);
-                _free(node);
-                // update root pointer
                 if (this->_root == node)
                     this->_root = new_node;
-                _erase(successor, successor->data);
+                erase(successor);
             }
+            _free(node);
         }
         
     protected:
