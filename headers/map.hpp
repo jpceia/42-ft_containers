@@ -347,13 +347,13 @@ namespace ft
             {
                 typename tree_type::node_pointer node = hint->maximum();
                 // check if the value can be inserted under the hint_node subtree
-                if (_cmp(value, node->data))
-                    return _bst._insert(hint->right, hint, value);
+                if (_cmp(value.first, node->data.first))
+                    return _bst.insert(hint->right, hint, value);
                 while (position.getNode() != node)
                     ++position;
                 return this->insert(++position, value);
             }
-            return this->insert(value)->second;
+            return this->insert(value).first;
         }
         
         /**
