@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BinaryTree.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
+/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:58:49 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 12:43:34 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 15:45:17 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,17 @@ namespace ft
             return _root ? _root->size() : 0;
         }
         
-        node_pointer minimum()
+        node_pointer minimum() const
         {
             return _root ? _root->minimum() : NULL;
         }
 
-        node_pointer maximum()
+        node_pointer maximum() const
         {
             return _root ? _root->maximum() : NULL;
         }
 
-        node_pointer successor(node_pointer node)
+        node_pointer successor(node_pointer node) const
         {
             if (!_root)
                 return NULL;
@@ -82,7 +82,7 @@ namespace ft
             return node->parent;
         }
 
-        node_pointer predecessor(node_pointer node)
+        node_pointer predecessor(node_pointer node) const
         {
             if (!_root)
                 return NULL;

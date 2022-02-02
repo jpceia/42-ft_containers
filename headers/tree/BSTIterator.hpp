@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BSTIterator.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
+/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:07:20 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 12:59:32 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 15:55:41 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ namespace ft
             return BSTIterator<const value_type>(_tree, _node);
         }
 
-        reference operator*()
+        reference operator*() const
         {
             return _node->data;
         }
 
-        pointer operator->()
+        pointer operator->() const
         {
             return &_node->data;
         }
@@ -108,6 +108,11 @@ namespace ft
         friend bool operator!=(const BSTIterator& lhs, const BSTIterator& rhs)
         {
             return lhs._node != rhs._node;
+        }
+
+        node_pointer getNode() const
+        {
+            return _node;
         }
 
     protected:

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BinarySearchTree.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
+/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 12:44:19 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 15:58:31 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,31 +145,40 @@ namespace ft
             _erase(this->_root, it);
         }
 
-        void erase(const node_pointer& node)
+        void erase(node_pointer& node)
         {
             if (!node->left && !node->right) // case 1: leaf node
             {
-                if (node->parent->left == node) // node is left child
-                    node->parent->left = NULL;
-                else                            // node is right child
-                    node->parent->right = NULL;
+                if (node->parent)
+                {
+                    if (node->parent->left == node) // node is left child
+                        node->parent->left = NULL;
+                    else                            // node is right child
+                        node->parent->right = NULL;   
+                }
                 _free(node);
             }
             else if (node->right) // case 2: right child only
             {
-                if (node->parent->left == node) // node is left child
-                    node->parent->left = node->right;
-                else                            // node is right child
-                    node->parent->right = node->right;
+                if (node->parent)
+                {
+                    if (node->parent->left == node) // node is left child
+                        node->parent->left = node->right;
+                    else                            // node is right child
+                        node->parent->right = node->right;                    
+                }
                 node->right->parent = node->parent;
                 _free(node);
             }
             else if (node->left) // case 3: left child only
             {
-                if (node->parent->left == node)
-                    node->parent->left = node->left;
-                else
-                    node->parent->right = node->left;
+                if (node->parent)
+                {
+                    if (node->parent->left == node)
+                        node->parent->left = node->left;
+                    else
+                        node->parent->right = node->left;   
+                }
                 node->left->parent = node->parent;
                 _free(node);
             }
@@ -180,10 +189,13 @@ namespace ft
                 new_node->left = node->left;
                 new_node->right = node->right;
                 new_node->parent = node->parent;
-                if (node->parent->left == node)
-                    node->parent->left = new_node;
-                else
-                    node->parent->right = new_node;
+                if (node->parent)
+                {
+                    if (node->parent->left == node)
+                        node->parent->left = new_node;
+                    else
+                        node->parent->right = new_node;                    
+                }
                 _free(node);
                 _erase(successor, successor->data);
             }
@@ -238,13 +250,14 @@ namespace ft
             return _insert(node->right, node, val);
         }
 
-        void _free(node_pointer node)
+        void _free(node_pointer& node)
         {
             _alloc.destroy(node);
             _alloc.deallocate(node, 1);
+            node = NULL;
         }
 
-        void _clear(node_pointer node)
+        void _clear(node_pointer& node)
         {
             if (!node)
                 return ;
