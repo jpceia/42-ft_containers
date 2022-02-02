@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 19:49:57 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/02 21:53:46 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -556,15 +556,11 @@ namespace ft
         size_type _erase(const_iterator first, const_iterator last)
         {
             size_type count = 0;
-            const_iterator tmp;
 
             while (first != last)
             {
-                tmp = first;
-                ++tmp;
+                this->erase(first++);
                 ++count;
-                this->erase(first);
-                first = tmp;
             }
             return count;
         }
