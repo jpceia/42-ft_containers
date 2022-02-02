@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 16:18:59 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/10 00:23:09 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/01/31 14:37:28 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ namespace ft
     public:
         // Member types
         typedef T                                       value_type;
-        typedef std::ptrdiff_t                               difference_type;
+        typedef std::ptrdiff_t                          difference_type;
         typedef T*                                      pointer;
         typedef T&                                      reference;
         typedef std::random_access_iterator_tag         iterator_category;
