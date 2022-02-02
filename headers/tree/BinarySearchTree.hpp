@@ -127,7 +127,17 @@ namespace ft
 
         iterator insert(const value_type& val)
         {
-            return _insert(this->_root, NULL, val);
+        virtual iterator insert(node_pointer& node, node_pointer parent, const value_type& val)
+        {
+            if (!node)
+            {
+                node = _create_node(val);
+                node->parent = parent;
+                return _iterator(node);
+            }
+            if (_cmp(val, node->data))
+                return insert(node->left, node, val);
+            return insert(node->right, node, val);
         }
 
         void clear()
@@ -227,19 +237,6 @@ namespace ft
             node_pointer node = _alloc.allocate(1);
             _alloc.construct(node, val);
             return node;
-        }
-
-        virtual iterator _insert(node_pointer& node, node_pointer parent, const value_type& val)
-        {
-            if (!node)
-            {
-                node = _create_node(val);
-                node->parent = parent;
-                return _iterator(node);
-            }
-            if (_cmp(val, node->data))
-                return _insert(node->left, node, val);
-            return _insert(node->right, node, val);
         }
 
         void _free(node_pointer& node)
