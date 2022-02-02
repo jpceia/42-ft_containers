@@ -14,7 +14,7 @@
 # define MAP_HPP
 
 #include <memory>
-#include "BinarySearchTree.hpp"
+#include "tree/BinarySearchTree.hpp"
 #include "type_traits/enable_if.hpp"
 #include "type_traits/is_integral.hpp"
 #include "pair.hpp"
