@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
+/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/30 15:46:31 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 19:49:57 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -347,13 +347,13 @@ namespace ft
             {
                 typename tree_type::node_pointer node = hint->maximum();
                 // check if the value can be inserted under the hint_node subtree
-                if (_cmp(value, node->data))
-                    return _bst._insert(hint->right, hint, value);
+                if (_cmp(value.first, node->data.first))
+                    return _bst.insert(hint->right, hint, value);
                 while (position.getNode() != node)
                     ++position;
                 return this->insert(++position, value);
             }
-            return this->insert(value)->second;
+            return this->insert(value).first;
         }
         
         /**
@@ -398,15 +398,7 @@ namespace ft
         size_type erase(const key_type& key)
         {
             ft::pair<const_iterator, const_iterator> range = this->equal_range(key);
-            const_iterator it = range.first;
-            size_type result = 0;
-
-            for (; it != range.second; ++it)
-            {
-                this->erase(it);
-                ++result;
-            }
-            return result;
+            return _erase(range.first, range.second);
         }
 
         /**
@@ -419,8 +411,7 @@ namespace ft
          */
         void erase(const_iterator first, const_iterator last)
         {
-            for (; first != last; ++first)
-                this->erase(first);
+            _erase(first, last);
         }
 
         /**
@@ -438,7 +429,7 @@ namespace ft
          * overloading that algorithm with an optimization that behaves like
          * this member function.
          * 
-         * @param other 
+         * @param rhs 
          */
         void swap(map& rhs)
         {
@@ -500,14 +491,12 @@ namespace ft
         // ---------------------------------------------------------------------
         iterator find(const key_type& key)
         {
-            value_type value(key, mapped_type());
-            return iterator(_bst.find(value));
+            return iterator(_bst.find(value_type(key, mapped_type())));
         }
 
         const_iterator find(const key_type& key) const
         {
-            value_type value(key, mapped_type());
-            return const_iterator(_bst.find(value));
+            return const_iterator(_bst.find(value_type(key, mapped_type())));
         }
 
         size_type count(const key_type& key) const
@@ -532,18 +521,16 @@ namespace ft
         
         iterator upper_bound(const key_type& key)
         {
-            value_type value(key, mapped_type());
-            iterator it = _bst.find(value);
+            iterator it = this->lower_bound(key);
             for(; it != this->end() && _cmp(it->first, key); ++it);
-            return it;
+            return ++it;
         }
         
         const_iterator upper_bound(const key_type& key) const
         {
-            value_type value(key, mapped_type());
-            iterator it = _bst.find(value);
+            iterator it = this->lower_bound(key);
             for(; it != this->end() && _cmp(it->first, key); ++it);
-            return it;
+            return ++it;
         }
         
         pair<iterator, iterator> equal_range(const key_type& key)
@@ -565,6 +552,23 @@ namespace ft
         }
     
     private:
+
+        size_type _erase(const_iterator first, const_iterator last)
+        {
+            size_type count = 0;
+            const_iterator tmp;
+
+            while (first != last)
+            {
+                tmp = first;
+                ++tmp;
+                ++count;
+                this->erase(first);
+                first = tmp;
+            }
+            return count;
+        }
+        
         // Data Members
         allocator_type _alloc;
         key_compare _cmp;

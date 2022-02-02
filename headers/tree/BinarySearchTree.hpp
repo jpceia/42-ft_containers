@@ -6,7 +6,7 @@
 /*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 15:58:31 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/02 20:10:53 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,27 @@ namespace ft
             return this->begin();
         }
 
-        iterator find(const value_type& val)
+        iterator find(const value_type& val) const
         {
             return _find(this->_root, val);
         }
 
-        iterator insert(const value_type& val)
+        virtual iterator insert(const value_type& val)
         {
-            return _insert(this->_root, NULL, val);
+            return insert(this->_root, NULL, val);
+        }
+
+        virtual iterator insert(node_pointer& node, node_pointer parent, const value_type& val)
+        {
+            if (!node)
+            {
+                node = _create_node(val);
+                node->parent = parent;
+                return _iterator(node);
+            }
+            if (_cmp(val, node->data))
+                return insert(node->left, node, val);
+            return insert(node->right, node, val);
         }
 
         void clear()
@@ -140,75 +153,49 @@ namespace ft
             _erase(this->_root, val);
         }
 
-        void erase(iterator it)
-        {
-            _erase(this->_root, it);
-        }
-
         void erase(node_pointer& node)
         {
             if (!node->left && !node->right) // case 1: leaf node
             {
-                if (node->parent)
-                {
-                    if (node->parent->left == node) // node is left child
-                        node->parent->left = NULL;
-                    else                            // node is right child
-                        node->parent->right = NULL;   
-                }
-                _free(node);
+                node->set_parent_child(NULL);
+                if (node == this->_root)
+                    this->_root = NULL;
             }
             else if (node->right) // case 2: right child only
             {
-                if (node->parent)
-                {
-                    if (node->parent->left == node) // node is left child
-                        node->parent->left = node->right;
-                    else                            // node is right child
-                        node->parent->right = node->right;                    
-                }
+                node->set_parent_child(node->right);
                 node->right->parent = node->parent;
-                _free(node);
+                if (this->_root == node)
+                    this->_root = node->right;
             }
             else if (node->left) // case 3: left child only
             {
-                if (node->parent)
-                {
-                    if (node->parent->left == node)
-                        node->parent->left = node->left;
-                    else
-                        node->parent->right = node->left;   
-                }
+                node->set_parent_child(node->left);
                 node->left->parent = node->parent;
-                _free(node);
+                if (this->_root == node)
+                    this->_root = node->left;
             }
             else // case 4: two children
             {
                 node_pointer successor = this->successor(node);
-                node_pointer new_node = _copy(successor);
-                new_node->left = node->left;
-                new_node->right = node->right;
-                new_node->parent = node->parent;
-                if (node->parent)
-                {
-                    if (node->parent->left == node)
-                        node->parent->left = new_node;
-                    else
-                        node->parent->right = new_node;                    
-                }
-                _free(node);
-                _erase(successor, successor->data);
+                node_pointer new_node = _create_node(successor->data,
+                    node->parent, node->left, node->right);
+                node->set_parent_child(new_node);
+                if (this->_root == node)
+                    this->_root = new_node;
+                erase(successor);
             }
+            _free(node);
         }
         
     protected:
 
-        iterator _iterator(node_pointer node)
+        iterator _iterator(node_pointer node) const
         {
             return iterator(this->_root, node);
         }
 
-        iterator _find(node_pointer node, const value_type& val)
+        iterator _find(node_pointer node, const value_type& val) const
         {
             if (!node)
                 return _iterator(NULL);
@@ -230,24 +217,16 @@ namespace ft
             return new_node;
         }
 
-        node_pointer _create_node(const value_type& val)
+        node_pointer _create_node(
+            const value_type& val = value_type(),
+            const node_pointer& parent = NULL,
+            const node_pointer& left = NULL,
+            const node_pointer& right = NULL
+        )
         {
             node_pointer node = _alloc.allocate(1);
-            _alloc.construct(node, val);
+            _alloc.construct(node, node_type(val, parent, left, right));
             return node;
-        }
-
-        virtual iterator _insert(node_pointer& node, node_pointer parent, const value_type& val)
-        {
-            if (!node)
-            {
-                node = _create_node(val);
-                node->parent = parent;
-                return _iterator(node);
-            }
-            if (_cmp(val, node->data))
-                return _insert(node->left, node, val);
-            return _insert(node->right, node, val);
         }
 
         void _free(node_pointer& node)
