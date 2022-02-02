@@ -6,7 +6,7 @@
 /*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 19:32:18 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/02 19:49:57 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,17 +397,8 @@ namespace ft
          */
         size_type erase(const key_type& key)
         {
-            size_type result = 0;
-
-            for (;;)
-            {
-                iterator it = this->find(key);
-                if (it == this->end())
-                    break;
-                this->erase(it);
-                ++result;
-            }
-            return result;
+            ft::pair<const_iterator, const_iterator> range = this->equal_range(key);
+            return _erase(range.first, range.second);
         }
 
         /**
@@ -420,14 +411,7 @@ namespace ft
          */
         void erase(const_iterator first, const_iterator last)
         {
-            const_iterator tmp;
-            while (first != last)
-            {
-                tmp = first;
-                ++tmp;
-                this->erase(first);
-                first = tmp;
-            }
+            _erase(first, last);
         }
 
         /**
@@ -568,6 +552,23 @@ namespace ft
         }
     
     private:
+
+        size_type _erase(const_iterator first, const_iterator last)
+        {
+            size_type count = 0;
+            const_iterator tmp;
+
+            while (first != last)
+            {
+                tmp = first;
+                ++tmp;
+                ++count;
+                this->erase(first);
+                first = tmp;
+            }
+            return count;
+        }
+        
         // Data Members
         allocator_type _alloc;
         key_compare _cmp;
