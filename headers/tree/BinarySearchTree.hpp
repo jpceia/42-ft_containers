@@ -150,13 +150,7 @@ namespace ft
             if (!node->left && !node->right) // case 1: leaf node
             {
                 // update parent's child pointer
-                if (node->parent)
-                {
-                    if (node->parent->left == node) // node is left child
-                        node->parent->left = NULL;
-                    else                            // node is right child
-                        node->parent->right = NULL;   
-                }
+                node->set_parent_child(NULL);
                 // update root pointer
                 if (node == this->_root)
                     this->_root = NULL;
@@ -165,13 +159,7 @@ namespace ft
             else if (node->right) // case 2: right child only
             {
                 // update parent's child pointer
-                if (node->parent)
-                {
-                    if (node->parent->left == node) // node is left child
-                        node->parent->left = node->right;
-                    else                            // node is right child
-                        node->parent->right = node->right;                    
-                }
+                node->set_parent_child(node->right);
                 node->right->parent = node->parent;
                 // update root pointer
                 if (this->_root == node)
@@ -181,13 +169,7 @@ namespace ft
             else if (node->left) // case 3: left child only
             {
                 // update parent's child pointer
-                if (node->parent)
-                {
-                    if (node->parent->left == node)
-                        node->parent->left = node->left;
-                    else
-                        node->parent->right = node->left;   
-                }
+                node->set_parent_child(node->left);
                 node->left->parent = node->parent;
                 // update root pointer
                 if (this->_root == node)
@@ -202,13 +184,7 @@ namespace ft
                 new_node->right = node->right;
                 new_node->parent = node->parent;
                 // update parent's child pointer
-                if (node->parent)
-                {
-                    if (node->parent->left == node)
-                        node->parent->left = new_node;
-                    else
-                        node->parent->right = new_node;                    
-                }
+                node->set_parent_child(new_node);
                 _free(node);
                 // update root pointer
                 if (this->_root == node)
