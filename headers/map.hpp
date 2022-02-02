@@ -438,7 +438,7 @@ namespace ft
          * overloading that algorithm with an optimization that behaves like
          * this member function.
          * 
-         * @param other 
+         * @param rhs 
          */
         void swap(map& rhs)
         {
