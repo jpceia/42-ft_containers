@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
+/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/30 15:46:31 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 19:32:18 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -420,8 +420,14 @@ namespace ft
          */
         void erase(const_iterator first, const_iterator last)
         {
-            for (; first != last; ++first)
+            const_iterator tmp;
+            while (first != last)
+            {
+                tmp = first;
+                ++tmp;
                 this->erase(first);
+                first = tmp;
+            }
         }
 
         /**
