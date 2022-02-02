@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:14:52 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/11 21:31:08 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 20:33:56 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int main()
     ft::vector<int> myvector;
 
     // set some values (from 1 to 10)
-    for (int i=1; i<=10; i++) myvector.push_back(i);
+    for (int i=1; i<=10; i++)
+        myvector.push_back(i);
 
     // erase the 6th element
     myvector.erase (myvector.begin()+5);

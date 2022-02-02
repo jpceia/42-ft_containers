@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:40:25 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/11 21:31:08 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 20:34:08 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int main()
     ft::vector<int> myvector;
     int sum (0);
 
-    for (int i=1;i<=10;i++) myvector.push_back(i);
+    for (int i=1;i<=10;i++)
+        myvector.push_back(i);
 
     while (!myvector.empty())
     {

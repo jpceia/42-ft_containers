@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:36:10 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/11 21:31:08 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 20:33:10 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int main()
     ft::vector<int> myvector;
 
     // set some initial content:
-    for (int i=1;i<10;i++) myvector.push_back(i);
+    for (int i=1;i<10;i++)
+        myvector.push_back(i);
 
     myvector.resize(5);
     myvector.resize(8, 100);

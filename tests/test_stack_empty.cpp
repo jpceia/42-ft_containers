@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 20:48:03 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/26 20:56:13 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 20:36:04 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int main ()
     ft::stack<int> mystack;
     int sum (0);
 
-    for (int i=1;i<=10;i++) mystack.push(i);
+    for (int i=1;i<=10;i++)
+        mystack.push(i);
 
     while (!mystack.empty())
     {

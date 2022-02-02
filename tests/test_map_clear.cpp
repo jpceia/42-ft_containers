@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 20:48:03 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/31 11:26:36 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 20:39:35 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int main ()
 
     std::cout << "mymap contains:\n";
     for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
+        std::cout << it->first << " => " << it->second << '\n';
 
     mymap.clear();
     mymap['a']=1101;
@@ -37,7 +37,7 @@ int main ()
 
     std::cout << "mymap contains:\n";
     for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
+        std::cout << it->first << " => " << it->second << '\n';
 
     return 0;
 }

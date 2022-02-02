@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:32:48 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/11 21:32:31 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 20:33:32 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int main()
     ft::vector<int> myvector;
 
     // set some content in the vector:
-    for (int i=0; i<100; i++) myvector.push_back(i);
+    for (int i=0; i<100; i++)
+        myvector.push_back(i);
 
     std::cout << "size: " << myvector.size() << "\n";
     std::cout << "capacity: " << myvector.capacity() << "\n";

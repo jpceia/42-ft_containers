@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 14:44:02 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/30 14:44:44 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 20:39:01 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main ()
 
     // show content:
     for (it=mymap.begin(); it!=mymap.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
+        std::cout << it->first << " => " << it->second << '\n';
 
     return 0;
 }

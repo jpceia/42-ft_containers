@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 20:48:03 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/31 12:17:55 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/01 10:17:09 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int main ()
     {
         std::cout << c;
         if (mymap.count(c)>0)
-        std::cout << " is an element of mymap.\n";
+            std::cout << " is an element of mymap.\n";
         else 
-        std::cout << " is not an element of mymap.\n";
+            std::cout << " is not an element of mymap.\n";
     }
 
     return 0;

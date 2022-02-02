@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:42:00 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/11 21:31:08 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 20:33:27 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int main()
     ft::vector<int>::size_type sz = myvector.size();
 
     // assign some values:
-    for (unsigned i=0; i<sz; i++) myvector[i]=i;
+    for (unsigned i=0; i<sz; i++)
+        myvector[i]=i;
 
     // reverse vector using operator[]:
     for (unsigned i=0; i<sz/2; i++)

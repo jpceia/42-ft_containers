@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:30:00 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/11 21:31:08 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 20:34:03 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int main()
 {
     std::cout << "TEST END" << std::endl;
     ft::vector<int> myvector;
-    for (int i=1; i<=5; i++) myvector.push_back(i);
+    for (int i=1; i<=5; i++)
+        myvector.push_back(i);
 
     std::cout << "myvector contains:";
     for (ft::vector<int>::iterator it = myvector.begin() ; it != myvector.end(); ++it)

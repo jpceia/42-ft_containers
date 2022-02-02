@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:30:37 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/01 10:43:11 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/01 10:44:31 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int main()
     int i=0;
 
     ft::vector<int>::reverse_iterator rit = myvector.rbegin();
-    for (; rit!= myvector.rend(); ++rit)
+    for (; rit != myvector.rend(); ++rit)
         *rit = ++i;
 
     std::cout << "myvector contains:";
