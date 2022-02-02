@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
+/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/28 04:59:40 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/02 19:42:56 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <iostream>
 
 # include "type_traits/enable_if.hpp"
-# include "type_traits/is_convertible.hpp"
 # include "type_traits/is_integral.hpp"
 # include "iterator/lexicographical_compare.hpp"
 # include "iterator/equal.hpp"
