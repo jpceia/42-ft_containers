@@ -68,7 +68,7 @@ namespace ft
             _cmp(rhs._cmp),
             _nil(new NodeBase())
         {
-            this->_root = _copy(rhs._root, _nil);
+            this->_root = _copy(rhs._root);
             this->_nil->left = this->_root;
         }
 
@@ -77,7 +77,7 @@ namespace ft
             if (this != &rhs)
             {
                 _clear(this->_root);
-                this->_root = _copy(rhs._root, _nil);
+                this->_root = _copy(rhs._root);
                 this->_nil->left = this->_root;
             }
             return *this;
@@ -261,19 +261,18 @@ namespace ft
             return node;
         }
         
-        node_pointer _copy(node_pointer node, node_pointer parent)
+        node_pointer _copy(node_pointer node, node_pointer parent = NULL)
         {
             if (!node) // empty tree
                 return NULL;
             if (!node->parent) // is nil node
                 return _nil;
-            node_value* new_node = _alloc.allocate(1);
-            value_type data = node_value::getData(node);
-            _alloc.construct(new_node, data);
-            new_node->parent = parent;
-            new_node->left = _copy(node->left, new_node);
-            new_node->right = _copy(node->right, new_node);
-            return new_node;
+            return _create_value_node(
+                node_value::getData(node),
+                parent,
+                _copy(node->left, node),
+                _copy(node->right, node)
+            );
         }
 
         node_pointer _create_value_node(
