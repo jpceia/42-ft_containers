@@ -68,7 +68,8 @@ namespace ft
             _cmp(rhs._cmp),
             _nil(new NodeBase())
         {
-            this->_root = _copy(rhs._root, NULL);
+            this->_root = _copy(rhs._root, _nil);
+            this->_nil->left = this->_root;
         }
 
         virtual BinarySearchTree& operator=(const BinarySearchTree& rhs)
@@ -76,8 +77,8 @@ namespace ft
             if (this != &rhs)
             {
                 _clear(this->_root);
-                if (!rhs.empty())
-                    this->_root = _copy(rhs._root, NULL);
+                this->_root = _copy(rhs._root, _nil);
+                this->_nil->left = this->_root;
             }
             return *this;
         }
