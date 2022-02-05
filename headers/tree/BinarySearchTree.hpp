@@ -194,21 +194,21 @@ namespace ft
             {
                 node->set_parent_child(_nil);
                 if (node == this->_root)
-                    this->_root = _nil;
+                    _updateRoot(NULL);
             }
             else if (!node_value::isNil(node->right)) // case 2: right child only
             {
                 node->set_parent_child(node->right);
                 node->right->parent = node->parent;
                 if (this->_root == node)
-                    this->_root = node->right;
+                    _updateRoot(node->right);
             }
             else if (!node_value::isNil(node->left)) // case 3: left child only
             {
                 node->set_parent_child(node->left);
                 node->left->parent = node->parent;
                 if (this->_root == node)
-                    this->_root = node->left;
+                    _updateRoot(node->left);
             }
             else // case 4: two children
             {
@@ -233,6 +233,12 @@ namespace ft
         }
         
     protected:
+
+        void _updateRoot(node_pointer node)
+        {
+            this->_root = node;
+            this->_nil->left = node;
+        }
 
         iterator _find(node_pointer node, const value_type& val) const
         {
