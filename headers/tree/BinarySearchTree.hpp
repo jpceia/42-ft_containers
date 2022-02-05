@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BinarySearchTree.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/04 17:56:30 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/05 14:30:49 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,15 @@ namespace ft
             _cmp(rhs._cmp),
             _nil(new NodeBase())
         {
-            this->_root = _copy(rhs._root);
-            this->_nil->left = this->_root;
+            _updateRoot(_copy(rhs._root));
         }
 
         virtual BinarySearchTree& operator=(const BinarySearchTree& rhs)
         {
             if (this != &rhs)
             {
-                _clear(this->_root);
-                this->_root = _copy(rhs._root);
-                this->_nil->left = this->_root;
+                this->clear();
+                _updateRoot(_copy(rhs._root));
             }
             return *this;
         }
