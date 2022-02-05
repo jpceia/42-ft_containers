@@ -76,15 +76,6 @@ namespace ft
             }
         }
 
-        NodeBase *getRoot()
-        {
-            NodeBase* node = this;
-
-            while (node->parent)
-                node = node->parent;
-            return node;
-        }
-
         NodeBase *successor()
         {
             NodeBase* node = this;
