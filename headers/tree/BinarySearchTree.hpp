@@ -239,6 +239,15 @@ namespace ft
             std::swap(this->_alloc, rhs._alloc);
         }
         
+        // ---------------------------------------------------------------------
+        // Allocator
+        // ---------------------------------------------------------------------
+
+        allocator_type get_allocator() const
+        {
+            return _alloc;
+        }
+
     protected:
 
         void _updateRoot(node_pointer node)
