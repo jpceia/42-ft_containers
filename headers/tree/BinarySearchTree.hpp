@@ -175,7 +175,7 @@ namespace ft
                 parent->left = node;
                 return node;
             }
-            if (node_base::isNil(node))
+            if (!node->parent) // nil node
             {
                 node = _create_value_node(val, parent);
                 return node;
@@ -197,20 +197,22 @@ namespace ft
 
         void erase(node_pointer& node)
         {
-            if (node_value::isNil(node->left) && node_value::isNil(node->right)) // case 1: leaf node
+            if (!node)
+                return ;
+            if (!node->left->parent && !node->right->parent) // case 1: leaf node
             {
                 node->set_parent_child(_nil);
                 if (node == this->_root)
                     _updateRoot(NULL);
             }
-            else if (!node_value::isNil(node->right)) // case 2: right child only
+            else if (!node->left->parent) // case 2: right child only
             {
                 node->set_parent_child(node->right);
                 node->right->parent = node->parent;
                 if (this->_root == node)
                     _updateRoot(node->right);
             }
-            else if (!node_value::isNil(node->left)) // case 3: left child only
+            else if (!node->right->parent) // case 3: left child only
             {
                 node->set_parent_child(node->left);
                 node->left->parent = node->parent;
@@ -249,7 +251,7 @@ namespace ft
 
         iterator _find(node_pointer node, const value_type& val) const
         {
-            if (node == NULL || node_base::isNil(node))
+            if (!node || !node->parent) // empty tree or nil node
                 return _nil;
             const value_type& data = node_value::getData(node);
             if (_cmp(val, data))
@@ -261,9 +263,9 @@ namespace ft
         
         node_pointer _copy(node_pointer node, node_pointer parent)
         {
-            if (node == NULL) // empty tree
+            if (!node) // empty tree
                 return NULL;
-            if (node_value::isNil(node)) // is nil node
+            if (!node->parent) // is nil node
                 return _nil;
             node_value* new_node = _alloc.allocate(1);
             value_type data = node_value::getData(node);
@@ -291,7 +293,7 @@ namespace ft
 
         void _free(node_pointer& node)
         {
-            if (node_base::isNil(node))
+            if (!node || !node->parent) // empty tree or nil node
                 return ;
             node_value* ptr = static_cast<ft::NodeValue<T>*>(node);
             _alloc.destroy(ptr);
@@ -301,7 +303,7 @@ namespace ft
 
         void _clear(node_pointer& node)
         {
-            if (node == NULL || node->parent == NULL)
+            if (!node || !node->parent) // empty tree or nil node
                 return ;
             _clear(node->left);
             _clear(node->right);
@@ -310,7 +312,7 @@ namespace ft
 
         virtual void _erase(node_pointer node, const value_type& val)
         {
-            if (node_value::isNil(node))
+            if (!node || !node->parent) // empty tree or nil node
                 return ;
             const value_type& data = node_value::getData(node);
             if (_cmp(val, data))
