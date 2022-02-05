@@ -476,7 +476,25 @@ namespace ft
         {
             return _cmp;
         }
-        
+
+        /**
+         * @brief Return value comparison object
+         * 
+         * Returns a comparison object that can be used to compare two elements
+         * to get whether the key of the first one goes before the second.
+         * 
+         * The arguments taken by this function object are of member type
+         * value_type (defined in map as an alias of pair<const key_type, mapped_type>),
+         * but the mapped_type part of the value is not taken into consideration
+         * in this comparison.
+         * 
+         * The comparison object returned is an object of the member type
+         * map::value_compare, which is a nested class that uses the internal
+         * comparison object to generate the appropriate comparison functional
+         * class.
+         * 
+         * @return value_compare 
+         */
         value_compare value_comp() const
         {
             return value_compare(_cmp);
@@ -485,6 +503,21 @@ namespace ft
         // ---------------------------------------------------------------------
         // Operations
         // ---------------------------------------------------------------------
+
+        /**
+         * @brief Get iterator to element
+         * 
+         * Searches the container for an element with a key equivalent to k and
+         * returns an iterator to it if found, otherwise it returns an iterator
+         * to map::end.
+         * 
+         * Two keys are considered equivalent if the container's comparison
+         * object returns false reflexively (i.e., no matter the order in which
+         * the elements are passed as arguments).
+         * 
+         * @param key 
+         * @return iterator 
+         */
         iterator find(const key_type& key)
         {
             return iterator(_bst.find(value_type(key, mapped_type())));
@@ -495,6 +528,22 @@ namespace ft
             return const_iterator(_bst.find(value_type(key, mapped_type())));
         }
 
+        /**
+         * @brief Count elements with a specific key
+         * 
+         * Searches the container for elements with a key equivalent to k and
+         * returns the number of matches.
+         * 
+         * Because all elements in a map container are unique, the function can
+         * only return 1 (if the element is found) or zero (otherwise).
+         * 
+         * Two keys are considered equivalent if the container's comparison
+         * object returns false reflexively (i.e., no matter the order in which
+         * the keys are passed as arguments).
+         * 
+         * @param key 
+         * @return size_type 
+         */
         size_type count(const key_type& key) const
         {
             value_type value(key, mapped_type());
@@ -504,7 +553,25 @@ namespace ft
                 ++result;
             return result;
         }
-        
+
+        /**
+         * @brief Return iterator to lower bound
+         * 
+         * Returns an iterator pointing to the first element in the container
+         * whose key is not considered to go before k (i.e., either it is
+         * equivalent or goes after).
+         * 
+         * The function uses its internal comparison object (key_comp) to
+         * determine this, returning an iterator to the first element for which
+         * key_comp(element_key,k) would return false.
+         * 
+         * If the map class is instantiated with the default comparison type
+         * (less), the function returns an iterator to the first element whose
+         * key is not less than k.
+         * 
+         * @param key 
+         * @return iterator 
+         */
         iterator lower_bound(const key_type& key)
         {
             return this->find(key);
@@ -515,6 +582,23 @@ namespace ft
             return this->find(key);
         }
         
+        /**
+         * @brief Return iterator to upper bound
+         * 
+         * Returns an iterator pointing to the first element in the container
+         * whose key is considered to go after k.
+         * 
+         * The function uses its internal comparison object (key_comp) to
+         * determine this, returning an iterator to the first element for which
+         * key_comp(k,element_key) would return true.
+         * 
+         * If the map class is instantiated with the default comparison type
+         * (less), the function returns an iterator to the first element whose
+         * key is greater than k.
+         * 
+         * @param key 
+         * @return iterator 
+         */
         iterator upper_bound(const key_type& key)
         {
             iterator it = this->lower_bound(key);
@@ -529,6 +613,27 @@ namespace ft
             return ++it;
         }
         
+        /**
+         * @brief Get range of equal elements
+         * 
+         * Returns the bounds of a range that includes all the elements in the
+         * container which have a key equivalent to k.
+         * 
+         * Because the elements in a map container have unique keys, the range
+         * returned will contain a single element at most.
+         * 
+         * If no matches are found, the range returned has a length of zero,
+         * with both iterators pointing to the first element that has a key
+         * considered to go after k according to the container's internal
+         * comparison object (key_comp).
+         * 
+         * Two keys are considered equivalent if the container's comparison
+         * object returns false reflexively (i.e., no matter the order in which
+         * the keys are passed as arguments).
+         * 
+         * @param key 
+         * @return pair<iterator, iterator> 
+         */
         pair<iterator, iterator> equal_range(const key_type& key)
         {
             return make_pair(this->lower_bound(key), this->upper_bound(key));
@@ -542,6 +647,14 @@ namespace ft
         // ---------------------------------------------------------------------
         // Allocator
         // ---------------------------------------------------------------------
+
+        /**
+         * @brief Get the allocator object
+         * 
+         * Returns a copy of the allocator object associated with the map.
+         * 
+         * @return allocator_type 
+         */
         allocator_type get_allocator() const
         {
             return _alloc;
