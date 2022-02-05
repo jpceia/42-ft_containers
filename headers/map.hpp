@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/05 10:45:17 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/05 13:50:46 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,16 +275,12 @@ namespace ft
          */
         mapped_type& operator[](const key_type& key)
         {
-            // TODO: Implement
-            value_type value(key, mapped_type());
-            return (*((this->insert(value)).first)).second;
+            return (*((this->insert(value_type(key, mapped_type()))).first)).second;
         }
         
         const mapped_type& operator[](const key_type& key) const
         {
-            // TODO: Implement
-            value_type value(key, mapped_type());
-            return (*((this->insert(value)).first)).second;
+            return (*((this->insert(value_type(key, mapped_type()))).first)).second;
         }
 
         // ---------------------------------------------------------------------
