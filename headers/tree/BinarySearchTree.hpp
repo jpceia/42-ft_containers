@@ -190,20 +190,20 @@ namespace ft
 
         void erase(node_pointer& node)
         {
-            if (node->left == _nil && node->right == _nil) // case 1: leaf node
+            if (node_value::isNil(node->left) && node_value::isNil(node->right)) // case 1: leaf node
             {
                 node->set_parent_child(_nil);
                 if (node == this->_root)
                     this->_root = _nil;
             }
-            else if (node->right != _nil) // case 2: right child only
+            else if (!node_value::isNil(node->right)) // case 2: right child only
             {
                 node->set_parent_child(node->right);
                 node->right->parent = node->parent;
                 if (this->_root == node)
                     this->_root = node->right;
             }
-            else if (node->left != _nil) // case 3: left child only
+            else if (!node_value::isNil(node->left)) // case 3: left child only
             {
                 node->set_parent_child(node->left);
                 node->left->parent = node->parent;
@@ -236,7 +236,7 @@ namespace ft
 
         iterator _find(node_pointer node, const value_type& val) const
         {
-            if (node == _nil)
+            if (node == NULL || node_base::isNil(node))
                 return _nil;
             const value_type& data = node_value::getData(node);
             if (_cmp(val, data))
@@ -248,7 +248,7 @@ namespace ft
         
         node_pointer _copy(node_pointer node, node_pointer parent)
         {
-            if (node->parent == NULL && parent != NULL) // is nil node
+            if (node_value::isNil(node)) // is nil node
                 return _nil;
             node_value* new_node = _alloc.allocate(1);
             value_type data = node_value::getData(node);
@@ -276,7 +276,7 @@ namespace ft
 
         void _free(node_pointer& node)
         {
-            if (node == _nil)
+            if (node_base::isNil(node))
                 return ;
             node_value* ptr = static_cast<ft::NodeValue<T>*>(node);
             _alloc.destroy(ptr);
@@ -286,7 +286,7 @@ namespace ft
 
         void _clear(node_pointer& node)
         {
-            if (node == _nil)
+            if (node == NULL || node->parent == NULL)
                 return ;
             _clear(node->left);
             _clear(node->right);
@@ -295,7 +295,7 @@ namespace ft
 
         virtual void _erase(node_pointer node, const value_type& val)
         {
-            if (node == _nil)
+            if (node_value::isNil(node))
                 return ;
             const value_type& data = node_value::getData(node);
             if (_cmp(val, data))
