@@ -57,15 +57,16 @@ namespace ft
             const value_compare& cmp = value_compare(),
             const allocator_type& alloc = allocator_type()) :
             _alloc(alloc),
-            _cmp(cmp)
+            _cmp(cmp),
+            _root(NULL),
+            _nil(new NodeBase())
         { 
-            _root = new NodeBase();
-            _nil = _root;
         }
 
         BinarySearchTree(const BinarySearchTree& rhs) :
             _alloc(rhs._alloc),
-            _cmp(rhs._cmp)
+            _cmp(rhs._cmp),
+            _nil(new NodeBase())
         {
             this->_root = _copy(rhs._root, NULL);
         }
@@ -137,22 +138,22 @@ namespace ft
 
         bool empty() const
         {
-            return _root == _nil;
+            return !_root;
         }
 
         size_t size() const
         {
-            return _root == _nil ? 0 : _root->size();
+            return _root ? _root->size() : 0;
         }
         
         node_pointer minimum() const
         {
-            return _root == _nil ? NULL : _root->minimum();
+            return _root ? _root->minimum() : NULL;
         }
 
         node_pointer maximum() const
         {
-            return _root == _nil ? NULL : _root->maximum();
+            return _root ? _root->maximum() : NULL;
         }
 
         iterator find(const value_type& val) const
@@ -162,15 +163,20 @@ namespace ft
 
         virtual iterator insert(const value_type& val)
         {
-            return insert(this->_root, NULL, val);
+            return insert(this->_root, _nil, val);
         }
 
         virtual iterator insert(node_pointer& node, node_pointer parent, const value_type& val)
         {
-            if (node == _nil)
+            if (node == NULL) // empty tree
             {
-                node = _create_value_node(val);
-                node->parent = parent;
+                node = _create_value_node(val, parent);
+                parent->left = node;
+                return node;
+            }
+            if (node_base::isNil(node))
+            {
+                node = _create_value_node(val, parent);
                 return node;
             }
             if (_cmp(val, node_value::getData(node)))
@@ -254,6 +260,8 @@ namespace ft
         
         node_pointer _copy(node_pointer node, node_pointer parent)
         {
+            if (node == NULL) // empty tree
+                return NULL;
             if (node_value::isNil(node)) // is nil node
                 return _nil;
             node_value* new_node = _alloc.allocate(1);
@@ -274,7 +282,7 @@ namespace ft
         {
             node_value *node = _alloc.allocate(1);
             _alloc.construct(node, val);
-            node->parent = parent;
+            node->parent = parent ? parent : _nil;
             node->left = left ? left : _nil;
             node->right = right ? right : _nil;
             return node;
@@ -313,10 +321,10 @@ namespace ft
                 this->erase(node);
         }
 
-        node_pointer _root;
-        node_pointer _nil;
         allocator_type _alloc;
         value_compare _cmp;
+        node_pointer _root;
+        node_pointer _nil;
     };
 
     // swap method
