@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 21:53:46 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/05 10:45:17 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,22 +334,22 @@ namespace ft
         /**
          * @brief Insert with hint
          * 
-         * @param hint 
+         * @param position
          * @param value 
          * @return iterator 
          */
         iterator insert(iterator position, const value_type& value)
         {
-            typename tree_type::node_pointer hint = position.getNode();
+            typename tree_type::node_pointer node = position.getNode();
             
             // check if the hint is valid
-            if (hint && _cmp(hint->data.first, value.first))
+            if (position != this->end() && _cmp(position->first, value.first))
             {
-                typename tree_type::node_pointer node = hint->maximum();
+                iterator it = node->maximum();
                 // check if the value can be inserted under the hint_node subtree
-                if (_cmp(value.first, node->data.first))
-                    return _bst.insert(hint->right, hint, value);
-                while (position.getNode() != node)
+                if (_cmp(value.first, it->first))
+                    return _bst.insert(node->right, node, value);
+                while (position != it)
                     ++position;
                 return this->insert(++position, value);
             }
@@ -433,7 +433,7 @@ namespace ft
          */
         void swap(map& rhs)
         {
-            std::swap(_bst, rhs._bst);
+            ft::swap(_bst, rhs._bst);
             std::swap(_cmp, rhs._cmp);
             std::swap(_alloc, rhs._alloc);
         }
