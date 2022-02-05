@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   NodeBase.hpp                                        :+:      :+:    :+:   */
+/*   Node.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -83,7 +83,7 @@ namespace ft
             if (node->right->parent)
                 return node->right->minimum();
             // goes up until the node is the left child of its parent
-            while (node->parent && node == node->parent->right)
+            while (node->parent->parent && node == node->parent->right)
                 node = node->parent;
             return node->parent;
         }
@@ -95,7 +95,7 @@ namespace ft
             if (node->left->parent)
                 return node->left->maximum();
             // goes up until the node is the right child of its parent
-            while (node->parent && node == node->parent->left)
+            while (node->parent->parent && node == node->parent->left)
                 node = node->parent;
             return node->parent;
         }
