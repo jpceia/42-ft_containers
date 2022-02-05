@@ -99,6 +99,11 @@ namespace ft
                 node = node->parent;
             return node->parent;
         }
+
+        static bool isNil(NodeBase* node)
+        {
+            return node && node->parent == NULL;
+        }
     };
 
     template <typename T>
