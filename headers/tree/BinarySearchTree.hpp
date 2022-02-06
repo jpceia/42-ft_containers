@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/05 14:30:49 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 13:12:39 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,9 +140,95 @@ namespace ft
             return !_root;
         }
 
-        size_t size() const
+        size_type size() const
         {
             return _root ? _root->size() : 0;
+        }
+
+        size_type max_size() const
+        {
+            return _alloc.max_size();
+        }
+
+        // ---------------------------------------------------------------------
+        // Modifiers
+        // ---------------------------------------------------------------------
+
+        virtual iterator insert(const value_type& val)
+        {
+            return _insert(this->_root, _nil, val);
+        }
+
+        void erase(const value_type& val)
+        {
+            _erase(this->_root, val);
+        }
+
+        void erase(const_iterator position)
+        {
+            _erase(position._node);
+        }
+
+        // swap method
+        void swap(BinarySearchTree& rhs)
+        {
+            std::swap(this->_root, rhs._root);
+            std::swap(this->_nil, rhs._nil);
+            std::swap(this->_cmp, rhs._cmp);
+            std::swap(this->_alloc, rhs._alloc);
+        }
+
+        void clear()
+        {
+            _clear(this->_root);
+        }
+
+        // ---------------------------------------------------------------------
+        // Observers
+        // ---------------------------------------------------------------------
+        
+        value_compare value_comp() const
+        {
+            return _cmp;
+        }
+
+        // ---------------------------------------------------------------------
+        // Operations
+        // ---------------------------------------------------------------------
+
+        iterator find(const value_type& val) const
+        {
+            return _find(this->_root, val);
+        }
+
+        iterator find(const_iterator hint, const value_type& val) const
+        {
+            if (hint != this->end() && _cmp(*hint, val)) // check if the hint is valid
+            {
+                iterator max = hint._node->maximum();
+                if (_cmp(val, *max)) // check if the value is under the hint._node subtree
+                    return _find(hint._node->right, val); // find in the right subtree
+                return this->find(++max, val); // find in the upper subtree
+            }
+            return this->find(val);
+        }
+
+        // ---------------------------------------------------------------------
+        // Allocator
+        // ---------------------------------------------------------------------
+
+        allocator_type get_allocator() const
+        {
+            return _alloc;
+        }
+
+        // ---------------------------------------------------------------------
+        // Tree operations
+        // ---------------------------------------------------------------------
+
+        size_type height() const
+        {
+            return _root ? _root->height() : 0;
         }
         
         node_pointer minimum() const
@@ -155,17 +241,19 @@ namespace ft
             return _root ? _root->maximum() : NULL;
         }
 
-        iterator find(const value_type& val) const
+    protected:
+
+        // ---------------------------------------------------------------------
+        // Protected methods
+        // ---------------------------------------------------------------------
+
+        void _updateRoot(node_pointer node)
         {
-            return _find(this->_root, val);
+            this->_root = node;
+            this->_nil->left = node;
         }
 
-        virtual iterator insert(const value_type& val)
-        {
-            return insert(this->_root, _nil, val);
-        }
-
-        virtual iterator insert(node_pointer& node, node_pointer parent, const value_type& val)
+        iterator _insert(node_pointer& node, node_pointer parent, const value_type& val)
         {
             if (node == NULL) // empty tree
             {
@@ -179,21 +267,11 @@ namespace ft
                 return node;
             }
             if (_cmp(val, node_value::getData(node)))
-                return insert(node->left, node, val);
-            return insert(node->right, node, val);
+                return _insert(node->left, node, val);
+            return _insert(node->right, node, val);
         }
 
-        void clear()
-        {
-            _clear(this->_root);
-        }
-
-        void erase(const value_type& val)
-        {
-            _erase(this->_root, val);
-        }
-
-        void erase(node_pointer& node)
+        void _erase(node_pointer& node)
         {
             if (!node)
                 return ;
@@ -225,35 +303,23 @@ namespace ft
                 node->set_parent_child(new_node);
                 if (this->_root == node)
                     this->_root = new_node;
-                erase(successor);
+                _erase(successor);
             }
             _free(node);
         }
 
-        // swap method
-        void swap(BinarySearchTree& rhs)
+        void _erase(node_pointer node, const value_type& val)
         {
-            std::swap(this->_root, rhs._root);
-            std::swap(this->_nil, rhs._nil);
-            std::swap(this->_cmp, rhs._cmp);
-            std::swap(this->_alloc, rhs._alloc);
-        }
-        
-        // ---------------------------------------------------------------------
-        // Allocator
-        // ---------------------------------------------------------------------
-
-        allocator_type get_allocator() const
-        {
-            return _alloc;
-        }
-
-    protected:
-
-        void _updateRoot(node_pointer node)
-        {
-            this->_root = node;
-            this->_nil->left = node;
+            if (!node || !node->parent) // empty tree or nil node
+                return ;
+            const value_type& data = node_value::getData(node);
+            if (_cmp(val, data))
+                _erase(node->left, val);
+            else if (_cmp(data, val))
+                _erase(node->right, val);
+            // there is an equality and we are going to erase this node
+            else
+                _erase(node);
         }
 
         iterator _find(node_pointer node, const value_type& val) const
@@ -297,6 +363,15 @@ namespace ft
             return node;
         }
 
+        void _clear(node_pointer& node)
+        {
+            if (!node || !node->parent) // empty tree or nil node
+                return ;
+            _clear(node->left);
+            _clear(node->right);
+            _free(node);
+        }
+
         void _free(node_pointer& node)
         {
             if (!node || !node->parent) // empty tree or nil node
@@ -307,28 +382,9 @@ namespace ft
             node = _nil;
         }
 
-        void _clear(node_pointer& node)
-        {
-            if (!node || !node->parent) // empty tree or nil node
-                return ;
-            _clear(node->left);
-            _clear(node->right);
-            _free(node);
-        }
-
-        virtual void _erase(node_pointer node, const value_type& val)
-        {
-            if (!node || !node->parent) // empty tree or nil node
-                return ;
-            const value_type& data = node_value::getData(node);
-            if (_cmp(val, data))
-                _erase(node->left, val);
-            else if (_cmp(data, val))
-                _erase(node->right, val);
-            // there is an equality and we are going to erase this node
-            else
-                this->erase(node);
-        }
+        // ---------------------------------------------------------------------
+        // Protected data members
+        // ---------------------------------------------------------------------
 
         allocator_type _alloc;
         value_compare _cmp;

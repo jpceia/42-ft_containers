@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BSTIterator.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:07:20 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/04 16:38:17 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/05 20:22:48 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ namespace ft
         typedef T*                                  pointer;
         typedef T&                                  reference;
         typedef std::bidirectional_iterator_tag     iterator_category;
-        typedef NodeBase             node_type;
+        typedef NodeBase                            node_type;
         typedef node_type*                          node_pointer;
         
         BSTIterator() {}
@@ -101,12 +101,6 @@ namespace ft
             return lhs._node != rhs._node;
         }
 
-        node_pointer getNode() const
-        {
-            return _node;
-        }
-
-    protected:
         node_pointer _node;
     };
 } // namespace ft
