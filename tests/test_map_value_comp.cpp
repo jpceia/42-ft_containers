@@ -6,35 +6,36 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 20:48:03 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/31 11:19:19 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 00:13:47 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
 #if USE_STL
-    # include <map>
-    namespace ft = std;
+# include <map>
+  namespace ft = std;
 #else
-    # include "map.hpp"
+# include "map.hpp"
 #endif
 
-int main ()
+int main()
 {
-    ft::map<char,int> mymap;
+    ft::map<char, int> mymap;
 
-    mymap['x']=1001;
-    mymap['y']=2002;
-    mymap['z']=3003;
+    mymap['x'] = 1001;
+    mymap['y'] = 2002;
+    mymap['z'] = 3003;
 
     std::cout << "mymap contains:\n";
 
-    ft::pair<char,int> highest = *mymap.rbegin();          // last element
+    ft::pair<char, int> highest = *mymap.rbegin(); // last element
 
-    ft::map<char,int>::iterator it = mymap.begin();
-    do {
+    ft::map<char, int>::iterator it = mymap.begin();
+    do
+    {
         std::cout << it->first << " => " << it->second << '\n';
-    } while ( mymap.value_comp()(*it++, highest) );
+    } while (mymap.value_comp()(*it++, highest));
 
     return 0;
 }

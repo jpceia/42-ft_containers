@@ -6,25 +6,25 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 20:48:03 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 20:36:04 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 00:17:05 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
 #if USE_STL
-    # include <stack>
-    namespace ft = std;
+# include <stack>
+  namespace ft = std;
 #else
-    # include "stack.hpp"
+# include "stack.hpp"
 #endif
 
-int main ()
+int main()
 {
     ft::stack<int> mystack;
-    int sum (0);
+    int sum(0);
 
-    for (int i=1;i<=10;i++)
+    for (int i = 1; i <= 10; i++)
         mystack.push(i);
 
     while (!mystack.empty())

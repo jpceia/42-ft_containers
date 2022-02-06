@@ -6,24 +6,24 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:30:37 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/01 10:44:31 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 01:06:26 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
 #if USE_STL
-    # include <vector>
-    namespace ft = std;
+# include <vector>
+  namespace ft = std;
 #else
-    # include "vector.hpp"
+# include "vector.hpp"
 #endif
 
 int main()
 {
-    ft::vector<int> myvector (5);  // 5 default-constructed ints
+    ft::vector<int> myvector(5); // 5 default-constructed ints
 
-    int i=0;
+    int i = 0;
 
     ft::vector<int>::reverse_iterator rit = myvector.rbegin();
     for (; rit != myvector.rend(); ++rit)

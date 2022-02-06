@@ -6,17 +6,17 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:36:48 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 20:35:33 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 00:41:11 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
 #if USE_STL
-    # include <vector>
-    namespace ft = std;
+# include <vector>
+  namespace ft = std;
 #else
-    # include "vector.hpp"
+# include "vector.hpp"
 #endif
 
 int main()
@@ -24,12 +24,12 @@ int main()
     ft::vector<int> myvector;
 
     // set some content in the vector:
-    for (int i=0; i<100; i++)
+    for (int i = 0; i < 100; i++)
         myvector.push_back(i);
 
-    std::cout << "size: " << (int) myvector.size() << '\n';
-    std::cout << "capacity: " << (int) myvector.capacity() << '\n';
-    std::cout << "max_size: " << (int) myvector.max_size() << '\n';
+    std::cout << "size: " << (int)myvector.size() << '\n';
+    std::cout << "capacity: " << (int)myvector.capacity() << '\n';
+    std::cout << "max_size: " << (int)myvector.max_size() << '\n';
 
     return 0;
 }

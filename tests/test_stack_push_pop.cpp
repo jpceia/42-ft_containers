@@ -6,24 +6,24 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 20:51:39 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 20:36:00 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 00:17:21 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
 #if USE_STL
-    # include <stack>
-    namespace ft = std;
+# include <stack>
+  namespace ft = std;
 #else
-    # include "stack.hpp"
+# include "stack.hpp"
 #endif
 
-int main ()
+int main()
 {
     ft::stack<int> mystack;
 
-    for (int i=0; i<5; ++i)
+    for (int i = 0; i < 5; ++i)
         mystack.push(i);
 
     std::cout << "Popping out elements...";

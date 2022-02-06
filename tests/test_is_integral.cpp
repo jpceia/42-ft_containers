@@ -6,20 +6,21 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 21:16:57 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/27 07:49:08 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 00:04:39 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>     // std::cout, std::boolalpha
+#include <iostream> // std::cout, std::boolalpha
 
 #if USE_STL
-    #include <type_traits>    // std::lexicographical_compare
-    namespace ft = std;
+# include <type_traits> // std::lexicographical_compare
+  namespace ft = std;
 #else
-    #include "type_traits/is_integral.hpp"
+# include "type_traits/is_integral.hpp"
 #endif
 
-int main() {
+int main()
+{
     std::cout << std::boolalpha;
     std::cout << "is_integral:" << std::endl;
     std::cout << "char: " << ft::is_integral<char>::value << std::endl;

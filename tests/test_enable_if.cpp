@@ -6,28 +6,31 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 21:16:57 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 20:39:50 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 00:57:44 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>     // std::cout, std::boolalpha
+#include <iostream> // std::cout, std::boolalpha
 
 #if USE_STL
-    # include <type_traits>    // std::lexicographical_compare
-    namespace ft = std;
+# include <type_traits> // std::lexicographical_compare
+  namespace ft = std;
 #else
-    # include "type_traits/enable_if.hpp"
-    # include "type_traits/is_integral.hpp"
+# include "type_traits/enable_if.hpp"
+# include "type_traits/is_integral.hpp"
 #endif
 
 // 1. the return type (bool) is only valid if T is an integral type:
 template <class T>
-typename ft::enable_if<ft::is_integral<T>::value,bool>::type
-    is_odd (T i) {return bool(i%2);}
+typename ft::enable_if<ft::is_integral<T>::value, bool>::type
+is_odd(T i)
+{
+    return bool(i % 2);
+}
 
 int main()
 {
-    short int i = 1;    // code does not compile if type of i is not integral
+    short int i = 1; // code does not compile if type of i is not integral
 
     std::cout << std::boolalpha;
     std::cout << "i is odd: " << is_odd(i) << std::endl;

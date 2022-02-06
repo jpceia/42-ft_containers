@@ -6,17 +6,17 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:45:23 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/11 21:31:08 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 01:03:32 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
 #if USE_STL
-    # include <vector>
-    namespace ft = std;
+# include <vector>
+  namespace ft = std;
 #else
-    # include "vector.hpp"
+# include "vector.hpp"
 #endif
 
 int main()
@@ -26,12 +26,10 @@ int main()
     myvector.push_back(10);
 
     while (myvector.back() != 0)
-    {
-        myvector.push_back ( myvector.back() -1 );
-    }
+        myvector.push_back(myvector.back() - 1);
 
     std::cout << "myvector contains:";
-    for (unsigned i=0; i<myvector.size() ; i++)
+    for (unsigned i = 0; i < myvector.size(); i++)
         std::cout << ' ' << myvector[i];
     std::cout << '\n';
 

@@ -6,34 +6,34 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 20:48:03 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/01 10:17:09 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 00:38:32 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
 #if USE_STL
-    # include <map>
-    namespace ft = std;
+# include <map>
+  namespace ft = std;
 #else
-    # include "map.hpp"
+# include "map.hpp"
 #endif
 
-int main ()
+int main()
 {
-    ft::map<char,int> mymap;
+    ft::map<char, int> mymap;
     char c;
 
-    mymap ['a']=101;
-    mymap ['c']=202;
-    mymap ['f']=303;
+    mymap['a'] = 101;
+    mymap['c'] = 202;
+    mymap['f'] = 303;
 
-    for (c='a'; c<'h'; c++)
+    for (c = 'a'; c < 'h'; c++)
     {
         std::cout << c;
-        if (mymap.count(c)>0)
+        if (mymap.count(c) > 0)
             std::cout << " is an element of mymap.\n";
-        else 
+        else
             std::cout << " is not an element of mymap.\n";
     }
 

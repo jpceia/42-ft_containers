@@ -6,26 +6,31 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 21:16:57 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/26 21:22:03 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 00:57:52 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>     // std::cout, std::boolalpha
+#include <iostream> // std::cout, std::boolalpha
 
 #if USE_STL
-    #include <type_traits>    // std::lexicographical_compare
-    namespace ft = std;
+# include <type_traits> // std::lexicographical_compare
+  namespace ft = std;
 #else
-    #include "type_traits/integral_constant.hpp"
+# include "type_traits/integral_constant.hpp"
 #endif
 
 template <unsigned n>
-struct factorial : ft::integral_constant<int,n * factorial<n-1>::value> {};
+struct factorial : ft::integral_constant<int, n * factorial<n - 1>::value>
+{
+};
 
 template <>
-struct factorial<0> : ft::integral_constant<int,1> {};
+struct factorial<0> : ft::integral_constant<int, 1>
+{
+};
 
-int main() {
-    std::cout << factorial<5>::value;  // constexpr (no calculations on runtime)
+int main()
+{
+    std::cout << factorial<5>::value; // constexpr (no calculations on runtime)
     return 0;
 }

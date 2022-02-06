@@ -6,32 +6,32 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 20:48:03 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/31 14:03:22 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 00:12:09 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
 #if USE_STL
-    # include <map>
-    namespace ft = std;
+# include <map>
+  namespace ft = std;
 #else
-    # include "map.hpp"
+# include "map.hpp"
 #endif
 
-int main ()
+int main()
 {
-    ft::map<char,int> mymap;
-    ft::map<char,int>::iterator it;
+    ft::map<char, int> mymap;
+    ft::map<char, int>::iterator it;
 
-    mymap['a']=50;
-    mymap['b']=100;
-    mymap['c']=150;
-    mymap['d']=200;
+    mymap['a'] = 50;
+    mymap['b'] = 100;
+    mymap['c'] = 150;
+    mymap['d'] = 200;
 
     it = mymap.find('b');
     if (it != mymap.end())
-        mymap.erase (it);
+        mymap.erase(it);
 
     // print content:
     std::cout << "elements in mymap:" << '\n';
