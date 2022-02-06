@@ -423,7 +423,7 @@ namespace ft
          */
         size_type erase(const key_type& key)
         {
-            ft::pair<const_iterator, const_iterator> range = this->equal_range(key);
+            ft::pair<iterator, iterator> range = this->equal_range(key); // only one element ?
             return _erase(range.first, range.second);
         }
 
@@ -435,7 +435,7 @@ namespace ft
          * @param first 
          * @param last 
          */
-        void erase(const_iterator first, const_iterator last)
+        void erase(iterator first, iterator last)
         {
             _erase(first, last);
         }
@@ -687,7 +687,7 @@ namespace ft
     
     private:
 
-        size_type _erase(const_iterator first, const_iterator last)
+        size_type _erase(iterator first, iterator last)
         {
             size_type count = 0;
 
