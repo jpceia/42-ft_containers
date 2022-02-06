@@ -42,14 +42,24 @@ namespace ft
 
         class value_compare
         {
-        public: //protected:
-            Compare _cmp;
         public:
-            value_compare(Compare cmp) : _cmp(cmp) {}
+            value_compare(Compare cmp) :
+                _cmp(cmp)
+            {
+            }
+
+            operator key_compare() const
+            {
+                return _cmp;
+            }
+            
             bool operator()(const value_type& lhs, const value_type& rhs) const
             {
                 return _cmp(lhs.first, rhs.first);
             }
+
+        private:
+            Compare _cmp;
         };
 
     private:
@@ -483,7 +493,8 @@ namespace ft
          */
         key_compare key_comp() const
         {
-            return _bst.value_comp()._cmp;
+            // uses cast operator from value_compare to key_compare
+            return _bst.value_comp();
         }
 
         /**
