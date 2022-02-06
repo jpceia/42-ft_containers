@@ -65,6 +65,16 @@ namespace ft
             return size;
         }
 
+        size_t height() const
+        {
+            size_t height = 0;
+            if (this->left->parent)
+                height = std::max(height, this->left->height());
+            if (this->right->parent)
+                height = std::max(height, this->right->height());
+            return height + 1;
+        }
+
         void set_parent_child(NodeBase *node)
         {
             if (this->parent)
