@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/06 13:12:39 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 13:53:00 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <memory>
 # include <functional>
 # include "iterator/reverse_iterator.hpp"
-# include "tree/BSTIterator.hpp"
+# include "tree/BTIterator.hpp"
 # include <map>
 
 namespace ft
@@ -31,23 +31,27 @@ namespace ft
     class BinarySearchTree
     {
     public:
-        typedef T                                                       value_type;
+        // ---------------------------------------------------------------------
+        // Member types
+        // ---------------------------------------------------------------------
+        
+        typedef T                                                           value_type;
         // use rebind to change the T allocator to NodeBase<T> allocator
-        typedef typename Alloc::template rebind<ft::NodeValue<T> >::other    allocator_type;
-        typedef value_type&                                             reference;
-        typedef const value_type&                                       const_reference;
-        typedef value_type*                                             pointer;
-        typedef const value_type*                                       const_pointer;
-        typedef Compare                                                 value_compare;
-        typedef ft::BSTIterator<T>                                      iterator;
-        typedef ft::BSTIterator<const T>                                const_iterator;
-        typedef ft::reverse_iterator<iterator>                          reverse_iterator;
-        typedef ft::reverse_iterator<const_iterator>                    const_reverse_iterator;
-        typedef typename iterator::difference_type                      difference_type;
-        typedef typename allocator_type::size_type                      size_type;
-        typedef ft::NodeBase                                            node_base;       
-        typedef ft::NodeValue<T>                                        node_value;                    
-        typedef node_base*                                              node_pointer;
+        typedef typename Alloc::template rebind<ft::NodeValue<T> >::other   allocator_type;
+        typedef value_type&                                                 reference;
+        typedef const value_type&                                           const_reference;
+        typedef value_type*                                                 pointer;
+        typedef const value_type*                                           const_pointer;
+        typedef Compare                                                     value_compare;
+        typedef ft::BTIterator<T>                                           iterator;
+        typedef ft::BTIterator<const T>                                     const_iterator;
+        typedef ft::reverse_iterator<iterator>                              reverse_iterator;
+        typedef ft::reverse_iterator<const_iterator>                        const_reverse_iterator;
+        typedef typename iterator::difference_type                          difference_type;
+        typedef typename allocator_type::size_type                          size_type;
+        typedef ft::NodeBase                                                node_base;       
+        typedef ft::NodeValue<T>                                            node_value;                    
+        typedef node_base*                                                  node_pointer;
 
         // ---------------------------------------------------------------------
         // Constructors
