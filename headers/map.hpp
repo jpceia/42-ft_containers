@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/05 13:50:46 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 01:33:00 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ namespace ft
         typedef Compare                                             key_compare;
         typedef Alloc                                               allocator_type;
         typedef pair<const key_type, mapped_type>                   value_type;
-        typedef typename allocator_type::size_type                  size_type;
-        typedef typename allocator_type::difference_type            difference_type;
         typedef typename allocator_type::reference                  reference;
         typedef typename allocator_type::const_reference            const_reference;
         typedef typename allocator_type::pointer                    pointer;
@@ -44,7 +42,7 @@ namespace ft
 
         class value_compare
         {
-        protected:
+        public: //protected:
             Compare _cmp;
         public:
             value_compare(Compare cmp) : _cmp(cmp) {}
@@ -63,13 +61,13 @@ namespace ft
         typedef typename tree_type::const_iterator                  const_iterator;
         typedef typename tree_type::reverse_iterator                reverse_iterator;
         typedef typename tree_type::const_reverse_iterator          const_reverse_iterator;
+        typedef typename tree_type::difference_type                 difference_type;
+        typedef typename tree_type::size_type                       size_type;
 
         // Constructors
         explicit map(const key_compare& cmp = key_compare(),
             const allocator_type& alloc = allocator_type()) :
-            _alloc(alloc),
-            _cmp(cmp),
-            _bst(value_compare(cmp), alloc)
+            _bst(cmp, alloc)
         {
         }
 
@@ -78,17 +76,12 @@ namespace ft
             typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last,
             const key_compare& cmp = key_compare(),
             const allocator_type& alloc = allocator_type()) :
-            _alloc(alloc),
-            _cmp(cmp),
             _bst(value_compare(cmp), alloc)
         {
-            for (; first != last; ++first)
-                this->insert(*first);
+            this->insert(first, last);
         }
 
         map(const map& rhs) :
-            _alloc(rhs._alloc),
-            _cmp(rhs._cmp),
             _bst(rhs._bst)
         {
         }
@@ -97,16 +90,12 @@ namespace ft
         map& operator=(const map& rhs)
         {
             if (this != &rhs)
-            {
-                _alloc = rhs._alloc;
-                _cmp = rhs._cmp;
                 _bst = rhs._bst;
-            }
             return *this;
         }
 
         // Destructor
-        ~map(void)
+        ~map()
         {
         }
 
@@ -251,7 +240,7 @@ namespace ft
          */
         size_type max_size() const
         {
-            return _alloc.max_size();
+            return _bst.max_size();
         }
 
         // ---------------------------------------------------------------------
@@ -330,26 +319,17 @@ namespace ft
         /**
          * @brief Insert with hint
          * 
-         * @param position
+         * @param hint
          * @param value 
          * @return iterator 
          */
-        iterator insert(iterator position, const value_type& value)
+        iterator insert(iterator hint, const value_type& value)
         {
-            typename tree_type::node_pointer node = position.getNode();
-            
-            // check if the hint is valid
-            if (position != this->end() && _cmp(position->first, value.first))
-            {
-                iterator it = node->maximum();
-                // check if the value can be inserted under the hint_node subtree
-                if (_cmp(value.first, it->first))
-                    return _bst.insert(node->right, node, value);
-                while (position != it)
-                    ++position;
-                return this->insert(++position, value);
-            }
-            return this->insert(value).first;
+            ft::pair<iterator, bool> result;
+            iterator it = _bst.find(hint, value);
+            if (it != this->end())
+                return it;
+            return _bst.insert(value);
         }
         
         /**
@@ -380,10 +360,9 @@ namespace ft
          * @param position 
          * @return size_type 
          */
-        void erase(const_iterator position)
+        void erase(iterator position)
         {
-            typename tree_type::node_pointer node = position.getNode();
-            return _bst.erase(node);
+            return _bst.erase(position);
         }
 
         /**
@@ -430,8 +409,6 @@ namespace ft
         void swap(map& rhs)
         {
             ft::swap(_bst, rhs._bst);
-            std::swap(_cmp, rhs._cmp);
-            std::swap(_alloc, rhs._alloc);
         }
 
         /**
@@ -474,7 +451,7 @@ namespace ft
          */
         key_compare key_comp() const
         {
-            return _cmp;
+            return _bst.value_comp()._cmp;
         }
 
         /**
@@ -497,7 +474,7 @@ namespace ft
          */
         value_compare value_comp() const
         {
-            return value_compare(_cmp);
+            return _bst.value_comp();
         }
 
         // ---------------------------------------------------------------------
@@ -601,16 +578,12 @@ namespace ft
          */
         iterator upper_bound(const key_type& key)
         {
-            iterator it = this->lower_bound(key);
-            for(; it != this->end() && _cmp(it->first, key); ++it);
-            return ++it;
+            return ++this->find(key);
         }
         
         const_iterator upper_bound(const key_type& key) const
         {
-            iterator it = this->lower_bound(key);
-            for(; it != this->end() && _cmp(it->first, key); ++it);
-            return ++it;
+            return ++this->find(key);
         }
         
         /**
@@ -657,7 +630,7 @@ namespace ft
          */
         allocator_type get_allocator() const
         {
-            return _alloc;
+            return _bst.get_allocator();
         }
     
     private:
@@ -675,8 +648,6 @@ namespace ft
         }
         
         // Data Members
-        allocator_type _alloc;
-        key_compare _cmp;
         tree_type _bst;
     };
 } // namespace ft
