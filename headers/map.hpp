@@ -57,20 +57,37 @@ namespace ft
 
     public:
 
-        typedef typename tree_type::iterator                        iterator;
-        typedef typename tree_type::const_iterator                  const_iterator;
-        typedef typename tree_type::reverse_iterator                reverse_iterator;
-        typedef typename tree_type::const_reverse_iterator          const_reverse_iterator;
-        typedef typename tree_type::difference_type                 difference_type;
-        typedef typename tree_type::size_type                       size_type;
-
+        // ---------------------------------------------------------------------
         // Constructors
+        // ---------------------------------------------------------------------
+
+        /**
+         * @brief Empty container constructor (default constructor)
+         * 
+         * Constructs an empty container, with no elements.
+         * 
+         * @param cmp 
+         * @param alloc 
+         */
         explicit map(const key_compare& cmp = key_compare(),
             const allocator_type& alloc = allocator_type()) :
             _bst(cmp, alloc)
         {
         }
 
+        /**
+         * @brief Range constructor
+         * 
+         * Constructs a container with as many elements as the range
+         * [first,last), with each element constructed from its corresponding
+         * element in that range.
+         * 
+         * @tparam InputIterator 
+         * @param first 
+         * @param last 
+         * @param cmp 
+         * @param alloc 
+         */
         template <typename InputIterator>
         map(InputIterator first,
             typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last,
@@ -81,12 +98,24 @@ namespace ft
             this->insert(first, last);
         }
 
+        /**
+         * @brief Copy constructor
+         * 
+         * Constructs a container with a copy of each of the elements in x.
+         * 
+         * @param rhs 
+         */
         map(const map& rhs) :
             _bst(rhs._bst)
         {
         }
 
-        // Assignment Operators
+        /**
+         * @brief Assignment operator overload (copy assignment)
+         * 
+         * @param rhs 
+         * @return map& 
+         */
         map& operator=(const map& rhs)
         {
             if (this != &rhs)
@@ -94,7 +123,10 @@ namespace ft
             return *this;
         }
 
-        // Destructor
+        /**
+         * @brief Destroy the map object
+         * 
+         */
         ~map()
         {
         }
