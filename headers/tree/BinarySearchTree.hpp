@@ -447,15 +447,12 @@ namespace ft
                 b->parent = y;
             y->parent = x;
             x->parent = parent;
-            if (parent->parent) // parent is not nil
-            {
-                if (parent->left == y)
-                    parent->left = x;
-                else
-                    parent->right = x;
-            }
-            else
+            if (!parent->parent) // parent is nil
                 _updateRoot(x);
+            else if (parent->left == y)
+                parent->left = x;
+            else
+                parent->right = x;
             return x;
         }
         
@@ -492,15 +489,12 @@ namespace ft
                 b->parent = x;
             x->parent = y;
             y->parent = parent;
-            if (parent->parent) // parent is not nil
-            {
-                if (parent->left == x)
-                    parent->left = y;
-                else
-                    parent->right = y;
-            }
-            else
+            if (!parent->parent) // parent is nil
                 _updateRoot(y);
+            else if (parent->left == x)
+                parent->left = y;
+            else
+                parent->right = y;
             return y;
         }
 
