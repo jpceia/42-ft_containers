@@ -429,11 +429,11 @@ namespace ft
 
             x->right = y;
             y->left = b;
-            if (b)
+            if (b->parent) // b is not nil
                 b->parent = y;
             y->parent = x;
             x->parent = parent;
-            if (parent)
+            if (parent->parent) // parent is not nil
             {
                 if (parent->left == y)
                     parent->left = x;
@@ -453,11 +453,11 @@ namespace ft
 
             y->left = x;
             x->right = b;
-            if (b)
+            if (b->parent) // b is not nil
                 b->parent = x;
             x->parent = y;
             y->parent = parent;
-            if (parent)
+            if (parent->parent) // parent is not nil
             {
                 if (parent->left == x)
                     parent->left = y;
