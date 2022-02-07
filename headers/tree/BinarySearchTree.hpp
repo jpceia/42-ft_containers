@@ -458,7 +458,28 @@ namespace ft
                 _updateRoot(x);
             return x;
         }
-
+        
+        /**
+         * @brief Left Rotate
+         * 
+         * Converts a tree with the format
+         *        x                    y
+         *       / \                  / \
+         *      A   y     into       x   C
+         *         / \              / \
+         *        B   C            A   B
+         * 
+         * The operations we need to perform are:
+         *  - x right child is B (instead of y)
+         *  - y left child is x (instead of A)
+         *  - change B parent to x (instead of y)
+         *  - swap x and y parents
+         * 
+         * updates root if necessary
+         * 
+         * @param x 
+         * @return node_pointer 
+         */
         node_pointer _left_rotate(node_pointer x)
         {
             node_pointer y = x->right;
