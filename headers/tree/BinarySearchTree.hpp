@@ -237,12 +237,12 @@ namespace ft
         
         node_pointer minimum() const
         {
-            return _root ? _root->minimum() : NULL;
+            return _root ? _root->minimum() : _nil;
         }
 
         node_pointer maximum() const
         {
-            return _root ? _root->maximum() : NULL;
+            return _root ? _root->maximum() : _nil;
         }
 
     protected:
