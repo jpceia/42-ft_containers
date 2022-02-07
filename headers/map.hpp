@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/06 01:33:00 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/06 19:04:42 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -423,8 +423,11 @@ namespace ft
          */
         size_type erase(const key_type& key)
         {
-            ft::pair<iterator, iterator> range = this->equal_range(key); // only one element ?
-            return _erase(range.first, range.second);
+            iterator position = this->find(key);
+            if (position == this->end())
+                return 0;
+            this->erase(position);
+            return 1;
         }
 
         /**
