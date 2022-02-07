@@ -331,18 +331,17 @@ namespace ft
 
         size_type erase(const value_type& val)
         {
-            iterator it = this->find(val);
-            if (it != this->end())
-            {
-                this->erase(it);
-                return 1;
-            }
-            return 0;
+            iterator position = this->find(val);
+            if (position == this->end())
+                return 0;
+            this->erase(position);
+            return 1;
         }
 
         void erase(iterator first, iterator last)
         {
-            _erase(first, last);
+            while (first != last && first != this->end())
+                this->erase(first++);
         }
 
         void swap(set& rhs)
@@ -533,20 +532,13 @@ namespace ft
         }
         
     private:
-        size_type _erase(iterator first, iterator last)
-        {
-            size_type count = 0;
 
-            while (first != last)
-            {
-                this->erase(first++);
-                ++count;
-            }
-            return count;
-        }
-
+        // ---------------------------------------------------------------------
         // Data Members
+        // ---------------------------------------------------------------------
+
         tree_type _bst;
+
     };
 } // namespace ft
 
