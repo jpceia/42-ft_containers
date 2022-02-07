@@ -400,6 +400,16 @@ namespace ft
             node = _nil;
         }
 
+        static bool _node_is_black(node_pointer node)
+        {
+            return !node || node->color == BLACK;
+        }
+
+        static bool _node_is_red(node_pointer node)
+        {
+            return node && node->color == RED;
+        }
+
         // ---------------------------------------------------------------------
         // Rotations
         // ---------------------------------------------------------------------
@@ -539,6 +549,86 @@ namespace ft
                 _insert_left_parent_fixup(node);
             else // parent is right child
                 _insert_right_parent_fixup(node);
+        }
+
+        void _erase_left_fixup(node_pointer& node)
+        {
+            node_pointer sibling = node->parent->right;
+            
+            if (sibling->color == RED) // case 1: sibling is red
+            {
+                sibling->color = BLACK;
+                node->parent->color = RED;
+                _left_rotate(node->parent);
+                sibling = node->parent->right;
+            }
+            if (_node_is_black(sibling->left) && _node_is_black(sibling->right)) // case 2: sibling is black and both children are black
+            {
+                sibling->color = RED;
+                node = node->parent;
+                _erase_fixup(node);
+            }
+            else // case 3: sibling is black and at least one child is red
+            {
+                if (_node_is_black(sibling->right)) // case 3.1: sibling is black and left child is red
+                {
+                    sibling->left->color = BLACK;
+                    sibling->color = RED;
+                    _right_rotate(sibling);
+                    sibling = node->parent->right;
+                }
+                sibling->color = node->parent->color;
+                node->parent->color = BLACK;
+                sibling->right->color = BLACK;
+                _left_rotate(node->parent);
+                node = this->_root;
+            }
+        }
+
+        void _erase_right_fixup(node_pointer& node)
+        {
+            node_pointer sibling = node->parent->left;
+
+            if (sibling->color == RED) // case 1: sibling is red
+            {
+                sibling->color = BLACK;
+                node->parent->color = RED;
+                _right_rotate(node->parent);
+                sibling = node->parent->left;
+            }
+            if (_node_is_black(sibling->right) && _node_is_black(sibling->left)) // case 2: sibling is black and both children are black
+            {
+                sibling->color = RED;
+                node = node->parent;
+                _erase_fixup(node);
+            }
+            else // case 3: sibling is black and at least one child is red
+            {
+                if (_node_is_black(sibling->left)) // case 3.1: sibling is black and right child is red
+                {
+                    sibling->right->color = BLACK;
+                    sibling->color = RED;
+                    _left_rotate(sibling);
+                    sibling = node->parent->left;
+                }
+                sibling->color = node->parent->color;
+                node->parent->color = BLACK;
+                sibling->left->color = BLACK;
+                _right_rotate(node->parent);
+                node = this->_root;
+            }
+        }
+
+        void _erase_fixup(node_pointer& node)
+        {
+            if (node != _root && node != _nil && node->color == BLACK)
+            {
+                if (node == node->parent->left)
+                    _erase_left_fixup(node);
+                else
+                    _erase_right_fixup(node);
+            }
+            node->color = BLACK;
         }
     
         // ---------------------------------------------------------------------
