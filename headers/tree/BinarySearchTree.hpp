@@ -389,6 +389,78 @@ namespace ft
         }
 
         // ---------------------------------------------------------------------
+        // Rotations
+        // ---------------------------------------------------------------------
+
+        /**
+         * @brief Right Rotate
+         * 
+         *
+         * Converts a tree with the format
+         *        y                    x
+         *       / \                  / \
+         *      x   C     into       A   y
+         *     / \                      / \
+         *    A   B                    B   C
+         * 
+         * The operations we need to perform are:
+         *  - x right child is y (instead of B)
+         *  - y left child is B (instead of x)
+         *  - change B parent to y (instead of x)
+         *  - swap x and y parents
+         * 
+         * updates root if necessary
+         *
+         * @param node 
+         */
+        node_pointer _right_rotate(node_pointer y)
+        {
+            node_pointer x = y->left;
+            node_pointer b = x->right;
+            node_pointer parent = y->parent;
+
+            x->right = y;
+            y->left = b;
+            if (b)
+                b->parent = y;
+            y->parent = x;
+            x->parent = parent;
+            if (parent)
+            {
+                if (parent->left == y)
+                    parent->left = x;
+                else
+                    parent->right = x;
+            }
+            else
+                _updateRoot(x);
+            return x;
+        }
+
+        node_pointer _left_rotate(node_pointer x)
+        {
+            node_pointer y = x->right;
+            node_pointer b = y->left;
+            node_pointer parent = x->parent;
+
+            y->left = x;
+            x->right = b;
+            if (b)
+                b->parent = x;
+            x->parent = y;
+            y->parent = parent;
+            if (parent)
+            {
+                if (parent->left == x)
+                    parent->left = y;
+                else
+                    parent->right = y;
+            }
+            else
+                _updateRoot(y);
+            return y;
+        }
+        // ---------------------------------------------------------------------
         // Protected data members
         // ---------------------------------------------------------------------
 
