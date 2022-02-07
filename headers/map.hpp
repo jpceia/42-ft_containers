@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/06 19:04:42 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/07 23:34:18 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -440,7 +440,8 @@ namespace ft
          */
         void erase(iterator first, iterator last)
         {
-            _erase(first, last);
+            while (first != last && first != this->end())
+                this->erase(first++);
         }
 
         /**
@@ -684,20 +685,11 @@ namespace ft
         }
     
     private:
-
-        size_type _erase(iterator first, iterator last)
-        {
-            size_type count = 0;
-
-            while (first != last)
-            {
-                this->erase(first++);
-                ++count;
-            }
-            return count;
-        }
-        
+    
+        // ---------------------------------------------------------------------
         // Data Members
+        // ---------------------------------------------------------------------
+    
         tree_type _bst;
     };
 } // namespace ft
