@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:39 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/07 23:34:31 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/07 23:41:40 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -517,7 +517,7 @@ namespace ft
             iterator start = this->find(val);
             iterator end = start;
             if (start != this->end())
-                end = ++start;
+                ++end;
             return ft::make_pair(start, end);
         }
 
