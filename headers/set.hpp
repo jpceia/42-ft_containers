@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:39 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/06 00:38:00 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/07 23:34:31 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -486,7 +486,9 @@ namespace ft
         iterator upper_bound(const value_type& val) const
         {
             iterator it = this->find(val);
-            return ++it;
+            if (it != this->end())
+                return ++it;
+            return it;
         }
 
         /**
@@ -512,7 +514,11 @@ namespace ft
          */
         ft::pair<iterator,iterator> equal_range(const value_type& val) const
         {
-            return ft::make_pair(this->lower_bound(val), this->upper_bound(val));
+            iterator start = this->find(val);
+            iterator end = start;
+            if (start != this->end())
+                end = ++start;
+            return ft::make_pair(start, end);
         }
 
         // ---------------------------------------------------------------------
