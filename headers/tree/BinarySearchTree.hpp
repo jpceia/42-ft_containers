@@ -285,14 +285,14 @@ namespace ft
                 if (node == this->_root)
                     _updateRoot(NULL);
             }
-            else if (!node->left->parent) // case 2: right child only
+            else if (node->right->parent) // case 2: right child only
             {
                 node->set_parent_child(node->right);
                 node->right->parent = node->parent;
                 if (this->_root == node)
                     _updateRoot(node->right);
             }
-            else if (!node->right->parent) // case 3: left child only
+            else if (node->left->parent) // case 3: left child only
             {
                 node->set_parent_child(node->left);
                 node->left->parent = node->parent;
@@ -302,9 +302,11 @@ namespace ft
             else // case 4: two children
             {
                 node_pointer successor = node->successor();
-                node_pointer new_node = _create_value_node(node_value::getData(node),
+                node_pointer new_node = _create_value_node(node_value::getData(successor),
                     node->parent, node->left, node->right);
                 node->set_parent_child(new_node);
+                node->left->parent = new_node;
+                node->right->parent = new_node;
                 if (this->_root == node)
                     this->_root = new_node;
                 _erase(successor);
