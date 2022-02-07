@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/06 13:53:00 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/07 18:12:23 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,9 @@ namespace ft
 
         virtual iterator insert(const value_type& val)
         {
-            return _insert(this->_root, _nil, val);
+            node_pointer node = _insert(this->_root, _nil, val);
+            _insert_fixup(node);
+            return node;
         }
 
         void erase(const value_type& val)
@@ -259,7 +261,7 @@ namespace ft
             this->_nil->left = node;
         }
 
-        iterator _insert(node_pointer& node, node_pointer parent, const value_type& val)
+        node_pointer _insert(node_pointer& node, node_pointer parent, const value_type& val)
         {
             if (node == NULL) // empty tree
             {
@@ -470,6 +472,75 @@ namespace ft
                 _updateRoot(y);
             return y;
         }
+
+        // ---------------------------------------------------------------------
+        // Fixups
+        // ---------------------------------------------------------------------
+
+        void _insert_left_parent_fixup(node_pointer node)
+        {
+            node_pointer uncle = node->parent->parent->right;
+            if (uncle->color == RED) // change the colors
+            {
+                node->parent->color = BLACK;
+                uncle->color = BLACK;
+                node->parent->parent->color = RED;
+                _insert_fixup(node->parent->parent); // apply the fixup to the grandparent
+            }
+            else // uncle is black
+            {
+                if (node == node->parent->right) // case 1: node is right child
+                {
+                    node = node->parent;
+                    _left_rotate(node);
+                }
+                _right_rotate(node->parent->parent);
+                node->parent->color = BLACK;
+                node->parent->right->color = RED; // old grandparent is now red
+            }
+        }
+
+        void _insert_right_parent_fixup(node_pointer node)
+        {
+            node_pointer uncle = node->parent->parent->left;
+            if (uncle->color == RED) // change the colors
+            {
+                node->parent->color = BLACK;
+                uncle->color = BLACK;
+                node->parent->parent->color = RED;
+                _insert_fixup(node->parent->parent); // apply the fixup to the grandparent
+            }
+            else // uncle is black
+            {
+                if (node == node->parent->left) // case 1: node is left child
+                {
+                    node = node->parent;
+                    _right_rotate(node);
+                }
+                _left_rotate(node->parent->parent);
+                node->parent->color = BLACK;
+                node->parent->left->color = RED; // old grandparent is now red
+            }
+        }
+
+        void _insert_fixup(node_pointer node)
+        {
+            if (!node->parent) // nil node
+                return ;
+            if (node == this->_root)
+            {
+                node->color = BLACK;
+                return ;
+            }
+            if (node->parent->color == BLACK)
+                return ;
+            // parent is red
+            if (node->parent->parent->left == node->parent) // parent is left child
+                _insert_left_parent_fixup(node);
+            else // parent is right child
+                _insert_right_parent_fixup(node);
+        }
+    
         // ---------------------------------------------------------------------
         // Protected data members
         // ---------------------------------------------------------------------
