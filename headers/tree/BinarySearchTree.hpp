@@ -237,12 +237,12 @@ namespace ft
         
         node_pointer minimum() const
         {
-            return _root ? _root->minimum() : NULL;
+            return _root ? _root->minimum() : _nil;
         }
 
         node_pointer maximum() const
         {
-            return _root ? _root->maximum() : NULL;
+            return _root ? _root->maximum() : _nil;
         }
 
     protected:
@@ -275,43 +275,51 @@ namespace ft
             return _insert(node->right, node, val);
         }
 
-        void _erase(node_pointer& node)
+        node_pointer _erase(node_pointer& node)
         {
-            if (!node)
-                return ;
-            if (!node->left->parent && !node->right->parent) // case 1: leaf node
+            node_pointer successor;
+
+            if (!node) // empty tree
+                return _nil;
+            else if (!node->left->parent && !node->right->parent) // case 1: leaf node
             {
+                successor = _nil;
                 node->set_parent_child(_nil);
                 if (node == this->_root)
                     _updateRoot(NULL);
             }
-            else if (node->right->parent) // case 2: right child only
+            else if (!node->left->parent) // case 2: right child only
             {
-                node->set_parent_child(node->right);
-                node->right->parent = node->parent;
+                successor = node->right;
+                node->set_parent_child(successor);
+                successor->parent = node->parent;
                 if (this->_root == node)
-                    _updateRoot(node->right);
+                    _updateRoot(successor);
             }
-            else if (node->left->parent) // case 3: left child only
+            else if (!node->right->parent) // case 3: left child only
             {
-                node->set_parent_child(node->left);
-                node->left->parent = node->parent;
+                successor = node->left;
+                node->set_parent_child(successor);
+                successor->parent = node->parent;
                 if (this->_root == node)
-                    _updateRoot(node->left);
+                    _updateRoot(successor);
             }
             else // case 4: two children
             {
-                node_pointer successor = node->successor();
+                successor = node->successor();
                 node_pointer new_node = _create_value_node(node_value::getData(successor),
                     node->parent, node->left, node->right);
                 node->set_parent_child(new_node);
                 node->left->parent = new_node;
                 node->right->parent = new_node;
-                if (this->_root == node)
-                    this->_root = new_node;
+
                 _erase(successor);
+                successor = new_node;
+                if (this->_root == node)
+                    _updateRoot(successor);
             }
             _free(node);
+            return successor;
         }
 
         void _erase(node_pointer node, const value_type& val)
