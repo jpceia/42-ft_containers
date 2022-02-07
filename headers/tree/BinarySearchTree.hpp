@@ -64,7 +64,8 @@ namespace ft
             _cmp(cmp),
             _root(NULL),
             _nil(new NodeBase())
-        { 
+        {
+            _nil->color = BLACK;
         }
 
         BinarySearchTree(const BinarySearchTree& rhs) :
@@ -72,6 +73,7 @@ namespace ft
             _cmp(rhs._cmp),
             _nil(new NodeBase())
         {
+            _nil->color = BLACK;
             _updateRoot(_copy(rhs._root));
         }
 

@@ -77,7 +77,7 @@ namespace ft
 
         void set_parent_child(NodeBase *node)
         {
-            if (this->parent)
+            if (this->parent->parent)
             {
                 if (this->parent->left == this)
                     this->parent->left = node;
