@@ -11,7 +11,10 @@
 /* ************************************************************************** */
 
 #ifndef NODE_HPP
-#define NODE_HPP
+# define NODE_HPP
+
+# define RED false
+# define BLACK true
 
 namespace ft
 {
@@ -20,6 +23,7 @@ namespace ft
         NodeBase *parent;
         NodeBase *left;
         NodeBase *right;
+        bool color;
 
         virtual ~NodeBase() {}
 
