@@ -47,12 +47,8 @@ namespace ft
         // ~pair() {}
         
         // Assignment operator overload
-        pair &operator=(const pair &rhs)
-        {
-            first = rhs.first;
-            second = rhs.second;
-            return *this;
-        }
+        // pair& operator=(const pair& p)
+        // implicitly declared:
 
         // ---------------------------------------------------------------------
         //                          Member variables
