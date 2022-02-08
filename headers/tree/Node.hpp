@@ -25,6 +25,10 @@ namespace ft
         NodeBase *right;
         bool color;
 
+        NodeBase()
+            : parent(NULL), left(NULL), right(NULL), color(RED)
+        {}
+
         virtual ~NodeBase() {}
 
         NodeBase *minimum()
@@ -144,6 +148,7 @@ namespace ft
             this->parent = parent;
             this->left = left;
             this->right = right;
+            this->color = RED;
         }
 
         NodeValue(const NodeValue<T> &rhs) :
