@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:39 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/07 23:41:40 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/08 00:18:33 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SET_HPP
 
 # include "pair.hpp"
-# include "tree/BinarySearchTree.hpp"
+# include "tree/RedBlackTree.hpp"
 # include "type_traits/enable_if.hpp"
 # include "type_traits/is_integral.hpp"
 
@@ -29,7 +29,7 @@ namespace ft
     class set
     {
     private:
-        typedef ft::BinarySearchTree<T, Compare, Alloc>     tree_type;
+        typedef ft::RedBlackTree<T, Compare, Alloc>         tree_type;
     public:
         // ---------------------------------------------------------------------
         // Member types

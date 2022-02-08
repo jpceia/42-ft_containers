@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/07 23:42:55 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/08 00:18:48 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MAP_HPP
 
 #include <memory>
-#include "tree/BinarySearchTree.hpp"
+#include "tree/RedBlackTree.hpp"
 #include "type_traits/enable_if.hpp"
 #include "type_traits/is_integral.hpp"
 #include "pair.hpp"
@@ -62,7 +62,7 @@ namespace ft
         };
 
     private:
-        typedef ft::BinarySearchTree<value_type, value_compare, allocator_type> tree_type;
+        typedef ft::RedBlackTree<value_type, value_compare, allocator_type> tree_type;
 
     public:
         typedef typename allocator_type::reference              reference;

@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BinarySearchTree.hpp                               :+:      :+:    :+:   */
+/*   BinarySeaTree.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:04:50 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/07 18:12:23 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/08 00:16:57 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
-#ifndef BINARYSEARCHTREE_HPP
-# define BINARYSEARCHTREE_HPP
+#ifndef REDBLACKTREE_HPP
+# define REDBLACKTREE_HPP
 
 # include <memory>
 # include <functional>
@@ -28,7 +28,7 @@ namespace ft
         typename Compare = std::less<T>,
         typename Alloc = std::allocator<T>
     >
-    class BinarySearchTree
+    class RedBlackTree
     {
     public:
         // ---------------------------------------------------------------------
@@ -57,7 +57,7 @@ namespace ft
         // Constructors
         // ---------------------------------------------------------------------
 
-        BinarySearchTree(
+        RedBlackTree(
             const value_compare& cmp = value_compare(),
             const allocator_type& alloc = allocator_type()) :
             _alloc(alloc),
@@ -68,7 +68,7 @@ namespace ft
             _nil->color = BLACK;
         }
 
-        BinarySearchTree(const BinarySearchTree& rhs) :
+        RedBlackTree(const RedBlackTree& rhs) :
             _alloc(rhs._alloc),
             _cmp(rhs._cmp),
             _nil(new NodeBase())
@@ -77,7 +77,7 @@ namespace ft
             _updateRoot(_copy(rhs._root));
         }
 
-        virtual BinarySearchTree& operator=(const BinarySearchTree& rhs)
+        virtual RedBlackTree& operator=(const RedBlackTree& rhs)
         {
             if (this != &rhs)
             {
@@ -87,7 +87,7 @@ namespace ft
             return *this;
         }
         
-        virtual ~BinarySearchTree()
+        virtual ~RedBlackTree()
         {
             this->clear();
             delete _nil;
@@ -178,7 +178,7 @@ namespace ft
         }
 
         // swap method
-        void swap(BinarySearchTree& rhs)
+        void swap(RedBlackTree& rhs)
         {
             std::swap(this->_root, rhs._root);
             std::swap(this->_nil, rhs._nil);
@@ -658,7 +658,7 @@ namespace ft
 
     // swap method
     template <typename T, typename Compare, typename Alloc>
-    void swap(BinarySearchTree<T, Compare, Alloc>& lhs, BinarySearchTree<T, Compare, Alloc>& rhs)
+    void swap(RedBlackTree<T, Compare, Alloc>& lhs, RedBlackTree<T, Compare, Alloc>& rhs)
     {
         lhs.swap(rhs);
     }
