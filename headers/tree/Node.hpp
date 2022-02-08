@@ -83,6 +83,16 @@ namespace ft
             return height + 1;
         }
 
+        size_t black_height() const
+        {
+            size_t bheight = this->color == BLACK ? 1 : 0;
+            if (!this->parent)
+                return 1;
+            bheight = std::max(bheight, this->left->black_height());
+            bheight = std::max(bheight, this->right->black_height());
+            return bheight;
+        }
+
         void set_parent_child(NodeBase *node)
         {
             if (this->parent->parent)

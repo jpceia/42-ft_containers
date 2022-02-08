@@ -238,6 +238,11 @@ namespace ft
         {
             return _root ? _root->height() : 0;
         }
+
+        size_type black_height() const
+        {
+            return _root ? _root->black_height() : 0;
+        }
         
         node_pointer minimum() const
         {
