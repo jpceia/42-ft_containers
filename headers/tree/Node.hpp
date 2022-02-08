@@ -75,19 +75,16 @@ namespace ft
 
         size_t height() const
         {
-            size_t height = 0;
-            if (this->left->parent)
-                height = std::max(height, this->left->height());
-            if (this->right->parent)
-                height = std::max(height, this->right->height());
-            return height + 1;
+            if (!this->parent)
+                return 1;
+            return std::max(this->left->height(), this->right->height()) + 1;
         }
 
         size_t black_height() const
         {
-            size_t bheight = this->color == BLACK ? 1 : 0;
             if (!this->parent)
                 return 1;
+            size_t bheight = this->color == BLACK ? 1 : 0;
             bheight = std::max(bheight, this->left->black_height());
             bheight = std::max(bheight, this->right->black_height());
             return bheight;
