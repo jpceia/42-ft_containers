@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:39:54 by jpceia            #+#    #+#             */
-/*   Updated: 2022/01/28 04:59:34 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/08 03:33:23 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,39 +28,39 @@ namespace ft
         typedef typename Container::size_type       size_type;
 
         explicit stack(const container_type& c = container_type())
-            : _c(c)
+            : c(c)
         {}
 
         ~stack() {}
 
         bool empty() const
         {
-            return _c.empty();
+            return c.empty();
         }
 
         size_type size() const
         {
-            return _c.size();
+            return c.size();
         }
 
         reference top()
         {
-            return _c.back();
+            return c.back();
         }
 
         const_reference top() const
         {
-            return _c.back();
+            return c.back();
         }
 
         void push(const value_type& val)
         {
-            _c.push_back(val);
+            c.push_back(val);
         }
 
         void pop()
         {
-            _c.pop_back();
+            c.pop_back();
         }
 
         // ---------------------------------------------------------------------
@@ -69,7 +69,7 @@ namespace ft
 
         friend bool operator== (const stack& lhs, const stack& rhs)
         {
-            return lhs._c == rhs._c;
+            return lhs.c == rhs.c;
         }
         
         friend bool operator!= (const stack& lhs, const stack& rhs)
@@ -79,28 +79,28 @@ namespace ft
         
         friend bool operator<  (const stack& lhs, const stack& rhs)
         {
-            return lhs._c < rhs._c;
+            return lhs.c < rhs.c;
         }
         
         friend bool operator<= (const stack& lhs, const stack& rhs)
         {
-            return lhs._c <= rhs._c;
+            return lhs.c <= rhs.c;
         }
         
         friend bool operator>  (const stack& lhs, const stack& rhs)
         {
-            return lhs._c > rhs._c;
+            return lhs.c > rhs.c;
         }
         
         friend bool operator>= (const stack& lhs, const stack& rhs)
         {
-            return lhs._c >= rhs._c;
+            return lhs.c >= rhs.c;
         }
         
     protected:
 
         // Member variables
-        container_type _c;
+        container_type c;
     };
 
     // Swap function
