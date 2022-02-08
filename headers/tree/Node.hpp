@@ -90,6 +90,21 @@ namespace ft
             }
         }
 
+
+        void update_left(NodeBase *node)
+        {
+            this->left = node;
+            if (node->parent)
+                node->parent = this;
+        }
+
+        void update_right(NodeBase *node)
+        {
+            this->right = node;
+            if (node->parent)
+                node->parent = this;
+        }
+
         NodeBase *successor()
         {
             NodeBase* node = this;
