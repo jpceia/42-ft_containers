@@ -254,6 +254,11 @@ namespace ft
             return _root ? _root->maximum() : _nil;
         }
 
+        node_pointer root() const
+        {
+            return _root;
+        }
+
     protected:
 
         // ---------------------------------------------------------------------
