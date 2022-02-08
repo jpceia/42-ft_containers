@@ -279,12 +279,12 @@ namespace ft
             return _insert(node->right, node, val);
         }
 
-        node_pointer _erase(node_pointer& node)
+        void _erase(node_pointer& node)
         {
             node_pointer successor;
 
             if (!node) // empty tree
-                return _nil;
+                return ;
             else if (!node->left->parent && !node->right->parent) // case 1: leaf node
             {
                 successor = _nil;
@@ -310,7 +310,7 @@ namespace ft
             }
             else // case 4: two children
             {
-                successor = node->successor();
+                successor = node->right->minimum();
                 node_pointer new_node = _create_value_node(node_value::getData(successor),
                     node->parent, node->left, node->right);
                 node->set_parent_child(new_node);
@@ -323,7 +323,6 @@ namespace ft
                     _updateRoot(successor);
             }
             _free(node);
-            return successor;
         }
 
         void _erase(node_pointer node, const value_type& val)
