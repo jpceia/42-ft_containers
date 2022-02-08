@@ -367,7 +367,10 @@ namespace ft
                 _erase(node);
                 return ;
             }
+            bool prev_color = node->color;
             _free(node);
+            if (prev_color == BLACK)
+                _erase_fixup(successor);
         }
 
         void _erase(node_pointer node, const value_type& val)
