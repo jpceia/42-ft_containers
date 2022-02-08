@@ -228,7 +228,10 @@ namespace ft
 
         iterator upper_bound(const value_type& val) const
         {
-            return _upper_bound(this->_root, val);
+            iterator it = _upper_bound(this->_root, val);
+            if (it != this->end())
+                return ++it;
+            return it;
         }
 
         // ---------------------------------------------------------------------
@@ -426,8 +429,8 @@ namespace ft
             const value_type& data = node_value::getData(node);
             if (_cmp(val, data))
                 return _lower_bound(node->left, val);
-            const value_type& max_min = node_value::getData(node->successor());
-            if (!node->right->parent || _cmp(val, max_min))
+            const value_type& min_max = node_value::getData(node->successor());
+            if (!node->right->parent || _cmp(val, min_max))
                 return node;
             return _lower_bound(node->right, val);
         }
@@ -439,8 +442,8 @@ namespace ft
             const value_type& data = node_value::getData(node);
             if (_cmp(data, val))
                 return _upper_bound(node->right, val);
-            const value_type& min_max = node_value::getData(node->predecessor());
-            if (!node->left->parent || _cmp(min_max, val))
+            const value_type& max_min = node_value::getData(node->predecessor());
+            if (!node->left->parent || _cmp(max_min, val))
                 return node;
             return _upper_bound(node->left, val);
         }
