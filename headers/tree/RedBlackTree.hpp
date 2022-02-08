@@ -221,6 +221,16 @@ namespace ft
             return this->find(val);
         }
 
+        iterator lower_bound(const value_type& val) const
+        {
+            return _lower_bound(this->_root, val);
+        }
+
+        iterator upper_bound(const value_type& val) const
+        {
+            return _upper_bound(this->_root, val);
+        }
+
         // ---------------------------------------------------------------------
         // Allocator
         // ---------------------------------------------------------------------
@@ -407,6 +417,32 @@ namespace ft
             if (_cmp(data, val))
                 return _find(node->right, val);
             return node;
+        }
+
+        iterator _lower_bound(node_pointer node, const value_type& val) const
+        {
+            if (!node || !node->parent) // empty tree or nil node
+                return _nil;
+            const value_type& data = node_value::getData(node);
+            if (_cmp(val, data))
+                return _lower_bound(node->left, val);
+            const value_type& max_min = node_value::getData(node->successor());
+            if (!node->right->parent || _cmp(val, max_min))
+                return node;
+            return _lower_bound(node->right, val);
+        }
+
+        iterator _upper_bound(node_pointer node, const value_type& val) const
+        {
+            if (!node || !node->parent) // empty tree or nil node
+                return _nil;
+            const value_type& data = node_value::getData(node);
+            if (_cmp(data, val))
+                return _upper_bound(node->right, val);
+            const value_type& min_max = node_value::getData(node->predecessor());
+            if (!node->left->parent || _cmp(min_max, val))
+                return node;
+            return _upper_bound(node->left, val);
         }
         
         node_pointer _copy(node_pointer node, node_pointer parent = NULL)
