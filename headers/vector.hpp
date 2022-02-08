@@ -6,7 +6,7 @@
 /*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/08 16:30:38 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/08 16:54:12 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ namespace ft
         {
             _begin = _alloc.allocate(n);
             _end = _end_of_storage = _begin + n;
-            std::uninitialized_fill(_begin, _end, val);
+            _uninitialized_fill(_begin, _end, val);
         }
 
         template <typename InputIterator>
@@ -108,7 +108,7 @@ namespace ft
             size_type n = last - first;
             _begin = _alloc.allocate(n);
             _end = _end_of_storage = _begin + n;
-            std::uninitialized_copy(first, last, _begin);
+            _uninitialized_copy(first, last, _begin);
         }
 
         vector(const vector& v) :
@@ -116,7 +116,7 @@ namespace ft
         {
             _begin = _alloc.allocate(v.size());
             _end = _end_of_storage = _begin + v.size();
-            std::uninitialized_copy(v.begin(), v.end(), _begin);
+            _uninitialized_copy(v.begin(), v.end(), _begin);
         }
         
         // Destructor
@@ -370,7 +370,7 @@ namespace ft
                 pointer new_begin = _alloc.allocate(n);
                 pointer new_end = new_begin + this->size();
                 pointer new_end_of_storage = new_begin + n;
-                std::uninitialized_copy(_begin, _end, new_begin);
+                _uninitialized_copy(_begin, _end, new_begin);
                 this->clear();
                 _alloc.deallocate(_begin, _end_of_storage - _begin);
                 _begin = new_begin;
@@ -514,7 +514,7 @@ namespace ft
         {
             this->clear();
             this->resize(last - first);
-            std::uninitialized_copy(first, last, _begin);
+            _uninitialized_copy(first, last, _begin);
         }
 
         void assign(size_type n, const value_type& val)
@@ -728,6 +728,19 @@ namespace ft
         }
         
     private:
+
+        template <typename InputIterator>
+        void _uninitialized_copy(InputIterator first, InputIterator last, iterator result)
+        {
+            for (; first != last; ++first, ++result)
+                _alloc.construct(result._ptr, *first);
+        }
+
+        void _uninitialized_fill(iterator first, iterator last, const value_type& val)
+        {
+            for (; first != last; ++first)
+                _alloc.construct(first._ptr, val);
+        }
 
         void _reallocate()
         {
