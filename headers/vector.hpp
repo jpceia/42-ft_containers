@@ -6,7 +6,7 @@
 /*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/02 19:42:56 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/08 16:30:38 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "iterator/equal.hpp"
 # include "iterator/iterator_traits.hpp"
 # include "iterator/reverse_iterator.hpp"
+# include "iterator/PointerIterator.hpp"
 
 /*
  * Member types
@@ -68,12 +69,12 @@ namespace ft
         typedef typename allocator_type::const_reference    const_reference;
         typedef typename allocator_type::pointer            pointer;
         typedef typename allocator_type::const_pointer      const_pointer;
-        typedef typename allocator_type::pointer            iterator;
-        typedef typename allocator_type::const_pointer      const_iterator;
+        typedef ft::PointerIterator<T>                      iterator;
+        typedef ft::PointerIterator<const T>                const_iterator;
         typedef ft::reverse_iterator<iterator>              reverse_iterator;
         typedef ft::reverse_iterator<const_iterator>        const_reverse_iterator;
-        typedef typename allocator_type::difference_type    difference_type;  // iterator_traits<iterator>::difference_type
-        typedef typename allocator_type::size_type          size_type;      // iterator_traits<iterator>::size_type
+        typedef typename allocator_type::difference_type    difference_type;
+        typedef typename allocator_type::size_type          size_type;
 
         // ---------------------------------------------------------------------
         // Constructors
@@ -203,12 +204,12 @@ namespace ft
          */
         reverse_iterator rbegin()
         {
-            return reverse_iterator(_end);
+            return reverse_iterator(this->end());
         }
         
         const_reverse_iterator rbegin() const
         {
-            return const_reverse_iterator(_end);
+            return const_reverse_iterator(this->end());
         }
 
         /**
@@ -225,12 +226,12 @@ namespace ft
          */
         reverse_iterator rend()
         {
-            return reverse_iterator(_begin);
+            return reverse_iterator(this->begin());
         }
         
         const_reverse_iterator rend() const
         {
-            return const_reverse_iterator(_begin);
+            return const_reverse_iterator(this->begin());
         }
 
         // ---------------------------------------------------------------------
@@ -290,19 +291,19 @@ namespace ft
         {
             if (n < this->size())
             {
-                iterator it = _begin + n;
-                for (; it != _end; ++it)
-                    _alloc.destroy(it);
+                pointer ptr = _begin + n;
+                for (; ptr != _end; ++ptr)
+                    _alloc.destroy(ptr);
                 _end = _begin + n;
             }
             else if (n > this->size())
             {
                 while (n > this->capacity())
                     this->_reallocate();
-                iterator it = _end;
-                for (; it != _begin + n; ++it)
-                    _alloc.construct(it, val);
-                _end = it;
+                pointer ptr = _end;
+                for (; ptr != _begin + n; ++ptr)
+                    _alloc.construct(ptr, val);
+                _end = ptr;
             }
         }
     
@@ -366,9 +367,9 @@ namespace ft
         {
             if (n > this->capacity())
             {   
-                iterator new_begin = _alloc.allocate(n);
-                iterator new_end = new_begin + this->size();
-                iterator new_end_of_storage = new_begin + n;
+                pointer new_begin = _alloc.allocate(n);
+                pointer new_end = new_begin + this->size();
+                pointer new_end_of_storage = new_begin + n;
                 std::uninitialized_copy(_begin, _end, new_begin);
                 this->clear();
                 _alloc.deallocate(_begin, _end_of_storage - _begin);
@@ -581,15 +582,15 @@ namespace ft
          */
         iterator insert(iterator position, const value_type& val)
         {
-            size_type idx = position - _begin;
+            size_type idx = position - this->begin();
             if (_end == _end_of_storage)    // allocate more space if needed
                 this->_reallocate();
             // move elements after position one position to the right
-            position = _begin + idx;
-            std::copy(position, _end, _begin + 1);
-            _alloc.construct(position, val);
+            pointer ptr = _begin + idx;
+            std::copy(ptr, _end, _begin + 1);
+            _alloc.construct(ptr, val);
             ++_end;
-            return position;
+            return ptr;
         }
 
         /**
@@ -601,13 +602,13 @@ namespace ft
          */
         void insert(iterator position, size_type n, const value_type& val)
         {
-            size_type idx = position - _begin;
+            size_type idx = position - this->begin();
             while (this->size() + n > this->capacity())
                 this->_reallocate();
-            position = _begin + idx;
-            std::copy(position, _end, _begin + n);
+            pointer ptr = _begin + idx;
+            std::copy(ptr, _end, _begin + n);
             for (size_type i = 0; i < n; ++i)
-                _alloc.construct(position + i, val);
+                _alloc.construct(ptr + i, val);
             _end += n;
         }
 
@@ -618,14 +619,14 @@ namespace ft
             InputIterator first,
             InputIterator last)
         {
-            size_type idx = position - _begin;
+            size_type idx = position - this->begin();
             difference_type n = last - first;
             while (_end_of_storage - _end < n)
                 this->_reallocate();
-            position = _begin + idx;
-            std::copy(position, _end, position + n);
+            pointer ptr = _begin + idx;
+            std::copy(ptr, _end, ptr + n);
             for (difference_type i = 0; i < n; ++i)
-                _alloc.construct(position + i, *(first + i));
+                _alloc.construct(ptr + i, *(first + i));
             _end += n;
         }
 
@@ -650,8 +651,8 @@ namespace ft
          */
         iterator erase(iterator position)
         {
-            _alloc.destroy(position);
-            std::copy(position + 1, _end, position);
+            _alloc.destroy(position._ptr);
+            std::copy(position._ptr + 1, _end, position._ptr);
             --_end;
             return position;
         }
@@ -671,8 +672,8 @@ namespace ft
         iterator erase(iterator first, iterator last)
         {
             for (iterator it = first; it != last; ++it)
-                _alloc.destroy(it);
-            std::copy(last, _end, first);
+                _alloc.destroy(it._ptr);
+            std::copy(last._ptr, _end, first._ptr);
             _end -= (last - first);
             return first;
         }
@@ -711,8 +712,8 @@ namespace ft
          */
         void clear()
         {
-            for (iterator it = _begin; it != _end; ++it)
-                _alloc.destroy(it);
+            for (pointer ptr = _begin; ptr != _end; ++ptr)
+                _alloc.destroy(ptr);
             _end = _begin;
         }
 
@@ -733,9 +734,9 @@ namespace ft
             reserve(this->capacity() > 0 ? 2 * this->capacity() : 1);
         }
     
-        iterator _begin;
-        iterator _end;
-        iterator _end_of_storage;
+        pointer _begin;
+        pointer _end;
+        pointer _end_of_storage;
         allocator_type _alloc;
     };
 
@@ -757,7 +758,7 @@ namespace ft
     template <typename T, typename Alloc>
     bool operator<(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
     {
-        return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+        return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
     }
 
     template <typename T, typename Alloc>
