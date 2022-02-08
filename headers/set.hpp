@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
+/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:39 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/08 00:18:33 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/08 16:41:38 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -417,7 +417,7 @@ namespace ft
          * @param val 
          * @return iterator 
          */
-        iterator find (const value_type& val) const
+        iterator find(const value_type& val) const
         {
             return _bst.find(val);
         }
@@ -485,10 +485,7 @@ namespace ft
          */
         iterator upper_bound(const value_type& val) const
         {
-            iterator it = this->find(val);
-            if (it != this->end())
-                return ++it;
-            return it;
+            return _bst.upper_bound(val);
         }
 
         /**
@@ -514,11 +511,7 @@ namespace ft
          */
         ft::pair<iterator,iterator> equal_range(const value_type& val) const
         {
-            iterator start = this->find(val);
-            iterator end = start;
-            if (start != this->end())
-                ++end;
-            return ft::make_pair(start, end);
+            return ft::make_pair(this->lower_bound(val), this->upper_bound(val));
         }
 
         // ---------------------------------------------------------------------

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
+/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:28:21 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/08 00:18:48 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/08 16:41:52 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -602,12 +602,12 @@ namespace ft
          */
         iterator lower_bound(const key_type& key)
         {
-            return this->find(key);
+            return _bst.lower_bound(value_type(key, mapped_type()));
         }
         
         const_iterator lower_bound(const key_type& key) const
         {
-            return this->find(key);
+            return _bst.lower_bound(value_type(key, mapped_type()));
         }
         
         /**
@@ -629,12 +629,12 @@ namespace ft
          */
         iterator upper_bound(const key_type& key)
         {
-            return ++this->find(key);
+            return _bst.upper_bound(value_type(key, mapped_type()));
         }
         
         const_iterator upper_bound(const key_type& key) const
         {
-            return ++this->find(key);
+            return _bst.upper_bound(value_type(key, mapped_type()));
         }
         
         /**
@@ -660,20 +660,12 @@ namespace ft
          */
         pair<iterator, iterator> equal_range(const key_type& key)
         {
-            iterator start = this->find(key);
-            iterator end = start;
-            if (start != this->end())
-                ++end;
-            return ft::make_pair(start, end);
+            return ft::make_pair(this->lower_bound(key), this->upper_bound(key));
         }
         
         pair<const_iterator, const_iterator> equal_range(const key_type& key) const
         {
-            iterator start = this->find(key);
-            iterator end = start;
-            if (start != this->end())
-                ++end;
-            return ft::make_pair(start, end);
+            return ft::make_pair(this->lower_bound(key), this->upper_bound(key));
         }
         
         // ---------------------------------------------------------------------
