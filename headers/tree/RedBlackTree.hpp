@@ -311,16 +311,61 @@ namespace ft
             else // case 4: two children
             {
                 successor = node->right->minimum();
-                node_pointer new_node = _create_value_node(node_value::getData(successor),
-                    node->parent, node->left, node->right);
-                node->set_parent_child(new_node);
-                node->left->parent = new_node;
-                node->right->parent = new_node;
+                node->set_parent_child(successor);
+                std::swap(node->color, successor->color);
+                if (successor == node->right)
+                {
+                    /*
+                     * Connected nodes
+                     *
+                     *       |
+                     *      node
+                     *    /     \
+                     *        successor
+                     *        /     \
+                     */
+                    node->right = successor->right;
+                    successor->parent = node->parent;
+                    successor->update_right(node);
+                    node->parent = successor;
 
-                _erase(successor);
-                successor = new_node;
+                    // swap left
+                    node_pointer tmp = node->left;
+                    node->update_left(successor->left);
+                    successor->update_left(tmp);
+                }
+                else
+                {
+                    /*
+                     * Disconnected nodes
+                     *
+                     *       |
+                     *      node
+                     *    /     \
+                     * 
+                     * 
+                     *         |
+                     *      successor
+                     *      /     \
+                     *
+                     */
+                    successor->set_parent_child(node);
+                    std::swap(node->parent, successor->parent);
+
+                    // swap left
+                    node_pointer tmp = node->left;
+                    node->update_left(successor->left);
+                    successor->update_left(tmp);
+
+                    // swap right
+                    tmp = node->right;
+                    node->update_right(successor->right);
+                    successor->update_right(tmp);
+                }
                 if (this->_root == node)
                     _updateRoot(successor);
+                _erase(node);
+                return ;
             }
             _free(node);
         }
