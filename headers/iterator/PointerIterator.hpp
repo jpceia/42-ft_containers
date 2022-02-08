@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   random_access_iterator.hpp                         :+:      :+:    :+:   */
+/*   PointerIterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
+/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 14:14:15 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/03 22:05:50 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/02/08 15:19:44 by jceia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RANDOM_ACCESS_ITERATOR_HPP
-# define RANDOM_ACCESS_ITERATOR_HPP
+#ifndef POINTERITERATOR_HPP
+# define POINTERITERATOR_HPP
 
 # include <cstddef>
 # include <iterator>
@@ -21,7 +21,7 @@ namespace ft
     // https://stackoverflow.com/questions/6471019/can-should-i-inherit-from-an-stl-iterator
     
     template <typename T>
-    class random_access_iterator
+    class PointerIterator
     {
     public:
         // Member types
@@ -34,34 +34,34 @@ namespace ft
         // ---------------------------------------------------------------------
         // Constructors
         // ---------------------------------------------------------------------
-        random_access_iterator()
+        PointerIterator()
             : _ptr(NULL)
         {}
 
-        random_access_iterator(T* ptr)
+        PointerIterator(T* ptr)
             : _ptr(ptr)
         {}
 
-        random_access_iterator(const random_access_iterator& rhs)
+        PointerIterator(const PointerIterator& rhs)
             : _ptr(rhs._ptr)
         {}
 
-        random_access_iterator& operator=(const random_access_iterator& rhs)
+        PointerIterator& operator=(const PointerIterator& rhs)
         {
             if (this != &rhs)
                 _ptr = rhs._ptr;
             return *this;
         }
 
-        virtual ~random_access_iterator()
+        virtual ~PointerIterator()
         {}
 
         // ---------------------------------------------------------------------
         // Cast operators
         // ---------------------------------------------------------------------
-        operator random_access_iterator<const value_type>() const
+        operator PointerIterator<const value_type>() const
         {
-            return random_access_iterator<const value_type>(_ptr);
+            return PointerIterator<const value_type>(_ptr);
         }
         
         // ---------------------------------------------------------------------
@@ -69,67 +69,67 @@ namespace ft
         // ---------------------------------------------------------------------
         
         // Increment
-        random_access_iterator& operator++()
+        PointerIterator& operator++()
         {
             ++_ptr;
             return *this;
         }
 
-        random_access_iterator operator++(int)
+        PointerIterator operator++(int)
         {
-            random_access_iterator tmp(*this);
+            PointerIterator it(*this);
             ++_ptr;
-            return tmp;
+            return it;
         }
 
         // Decrement
-        random_access_iterator& operator--()
+        PointerIterator& operator--()
         {
             --_ptr;
             return *this;
         }
         
-        random_access_iterator operator--(int)
+        PointerIterator operator--(int)
         {
-            random_access_iterator tmp(*this);
+            PointerIterator it(*this);
             --_ptr;
-            return tmp;
+            return it;
         }
 
         // Addition
-        random_access_iterator& operator+=(const difference_type& n)
+        PointerIterator& operator+=(const difference_type& n)
         {
             _ptr += n;
             return *this;
         }
 
-        random_access_iterator operator+(const difference_type& n) const
+        PointerIterator operator+(const difference_type& n) const
         {
-            random_access_iterator tmp(*this);
-            tmp += n;
-            return tmp;
+            PointerIterator it(*this);
+            it += n;
+            return it;
         }
 
-        friend random_access_iterator operator+(const difference_type& n, const random_access_iterator& rhs)
+        friend PointerIterator operator+(const difference_type& n, const PointerIterator& rhs)
         {
             return rhs + n;
         }
 
         // Subtraction
-        random_access_iterator& operator-=(const difference_type& n)
+        PointerIterator& operator-=(const difference_type& n)
         {
             _ptr -= n;
             return *this;
         }
 
-        random_access_iterator operator-(const difference_type& n) const
+        PointerIterator operator-(const difference_type& n) const
         {
-            random_access_iterator tmp(*this);
-            tmp -= n;
-            return tmp;
+            PointerIterator it(*this);
+            it -= n;
+            return it;
         }
 
-        difference_type operator-(const random_access_iterator& rhs) const
+        difference_type operator-(const PointerIterator& rhs) const
         {
             return _ptr - rhs._ptr;
         }
@@ -137,32 +137,32 @@ namespace ft
         // ---------------------------------------------------------------------
         // Relational operators
         // ---------------------------------------------------------------------
-        bool operator==(const random_access_iterator& rhs) const
+        bool operator==(const PointerIterator& rhs) const
         {
             return _ptr == rhs._ptr;
         }
 
-        bool operator!=(const random_access_iterator& rhs) const
+        bool operator!=(const PointerIterator& rhs) const
         {
             return !(*this == rhs);
         }
 
-        bool operator<(const random_access_iterator& rhs) const
+        bool operator<(const PointerIterator& rhs) const
         {
             return _ptr < rhs._ptr;
         }
         
-        bool operator<=(const random_access_iterator& rhs) const
+        bool operator<=(const PointerIterator& rhs) const
         {
             return !(rhs < *this);
         }
 
-        bool operator>(const random_access_iterator& rhs) const
+        bool operator>(const PointerIterator& rhs) const
         {
             return rhs < *this;
         }
 
-        bool operator>=(const random_access_iterator& rhs) const
+        bool operator>=(const PointerIterator& rhs) const
         {
             return !(*this < rhs);
         }
