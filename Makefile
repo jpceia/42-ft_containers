@@ -6,19 +6,23 @@
 #    By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/04 19:07:05 by jceia             #+#    #+#              #
-#    Updated: 2022/01/27 07:52:43 by jpceia           ###   ########.fr        #
+#    Updated: 2022/02/09 01:38:19 by jpceia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        = ft_containers
 
 INC_DIR     = headers
-SRC_DIR     = tests
+SRC_DIR		= src
+TEST_DIR    = tests
 BIN_DIR     = bin
 LOG_DIR		= logs
 
-SRCS        = $(shell (find $(SRC_DIR) -name "*.cpp" -type f | sort -z ))
-BINS        = $(SRCS:$(SRC_DIR)/%.cpp=$(BIN_DIR)/%)
+TEST_SRCS	= $(shell (find $(TEST_DIR) -name "*.cpp" -type f | sort -z ))
+TEST_BINS	= $(TEST_SRCS:$(TEST_DIR)/%.cpp=$(BIN_DIR)/%)
+
+SRCS		= $(shell (find $(SRC_DIR) -name "*.cpp" -type f | sort -z ))
+BINS		= $(SRCS:$(SRC_DIR)/%.cpp=$(BIN_DIR)/%)
 
 CXX          = clang++
 RM           = rm -f
@@ -36,16 +40,22 @@ FLAGS_INC   = -I$(INC_DIR)
 FLAGS_DEBUG = -g -fsanitize=address -DDEBUG
 FLAGS_OPT   = -O3
 
-FT_CXXFLAGS = $(FLAGS_WARN) $(FLAGS_INC) $(FLAGS_OPT) -std=c++98 -g -fsanitize=address
-CXXFLAGS	= $(FLAGS_WARN) $(FLAGS_INC) $(FLAGS_OPT) -std=c++11 -DUSE_STL -g
+FT_CXXFLAGS = $(FLAGS_WARN) $(FLAGS_INC) $(FLAGS_OPT) -std=c++98 -fsanitize=address
+STD_CXXFLAGS= $(FLAGS_WARN) $(FLAGS_INC) $(FLAGS_OPT) -std=c++11 -DUSE_STL
 
-# Building
-$(BIN_DIR)/%:    $(SRC_DIR)/%.cpp
+all: $(NAME)
+
+$(NAME): $(BINS)
+
+test:	$(TEST_BINS)
+
+# Building - Tests
+$(BIN_DIR)/%:    $(TEST_DIR)/%.cpp
 	$(eval FNAME=$(shell basename $@))
 	@mkdir -p $(dir $@)
 	@mkdir -p $(LOG_DIR)
 	@($(CXX) $(FT_CXXFLAGS) $< -o $@_ft  && \
-		$(CXX) $(CXXFLAGS) $< -o $@_std ) && \
+		$(CXX) $(STD_CXXFLAGS) $< -o $@_std ) && \
 		((./$@_ft > $(LOG_DIR)/$(FNAME)_ft.log && \
 		 ./$@_std > $(LOG_DIR)/$(FNAME)_std.log) && \
 		(diff $(LOG_DIR)/$(FNAME)_ft.log $(LOG_DIR)/$(FNAME)_std.log && \
@@ -54,11 +64,10 @@ $(BIN_DIR)/%:    $(SRC_DIR)/%.cpp
 		printf "$(BWHITE)$(FNAME)$(RESET) $(BRED)runtime error${RESET}\n") || \
 		printf "$(BWHITE)$(FNAME)$(RESET) $(BRED)compilation error${RESET}\n"
 
-
-
-$(NAME): $(BINS)
-
-all: $(NAME)
+# Building - Sources
+$(BIN_DIR)/%:	$(SRC_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(FT_CXXFLAGS) $< -o $@
 
 # Cleaning
 clean:
