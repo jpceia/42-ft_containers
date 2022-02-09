@@ -74,13 +74,20 @@ namespace ft
         typedef ft::PointerIterator<const T>                const_iterator;
         typedef ft::reverse_iterator<iterator>              reverse_iterator;
         typedef ft::reverse_iterator<const_iterator>        const_reverse_iterator;
-        typedef typename allocator_type::difference_type    difference_type;
+        typedef typename iterator::difference_type          difference_type;
         typedef typename allocator_type::size_type          size_type;
 
         // ---------------------------------------------------------------------
         // Constructors
         // ---------------------------------------------------------------------
 
+        /**
+         * @brief Empty container constructor (default constructor)
+         * 
+         * Constructs an empty container, with no elements.
+         * 
+         * @param alloc 
+         */
         explicit vector(const allocator_type& alloc = allocator_type()) :
             _alloc(alloc)
         {
@@ -88,6 +95,16 @@ namespace ft
             _end_of_storage = _begin;
         }
         
+        /**
+         * @brief Fill constructor
+         * 
+         * Constructs a container with n elements.
+         * Each element is a copy of val.
+         * 
+         * @param n 
+         * @param val 
+         * @param alloc 
+         */
         explicit vector(
             size_type n,
             const value_type& val = value_type(),
@@ -99,6 +116,18 @@ namespace ft
             _uninitialized_fill(_begin, _end, val);
         }
 
+        /**
+         * @brief Range constructor
+         * 
+         * Constructs a container with as many elements as the range
+         * [first,last), with each element constructed from its corresponding
+         * element in that range, in the same order.
+         * 
+         * @tparam InputIterator 
+         * @param first 
+         * @param last 
+         * @param alloc 
+         */
         template <typename InputIterator>
         vector(
             InputIterator first,
@@ -112,6 +141,14 @@ namespace ft
             _uninitialized_copy(first, last, _begin);
         }
 
+        /**
+         * @brief Copy constructor
+         * 
+         * Constructs a container with a copy of each of the elements in x,
+         * in the same order.
+         * 
+         * @param v 
+         */
         vector(const vector& v) :
             _alloc(allocator_type())
         {
@@ -120,14 +157,25 @@ namespace ft
             _uninitialized_copy(v.begin(), v.end(), _begin);
         }
         
-        // Destructor
+        /**
+         * @brief Destroy the vector object
+         * 
+         */
         virtual ~vector()
         {
             this->clear();
             _alloc.deallocate(_begin, _end_of_storage - _begin);
         }
 
-        // Assignment operator overload
+        /**
+         * @brief Assign content
+         * 
+         * Assigns new contents to the container, replacing its current
+         * contents, and modifying its size accordingly.
+         * 
+         * @param rhs 
+         * @return vector& 
+         */
         vector& operator=(const vector& rhs)
         {
             if (this != &rhs)
