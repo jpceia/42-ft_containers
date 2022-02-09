@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:39 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/08 16:41:38 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/09 00:57:54 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -463,7 +463,7 @@ namespace ft
          */
         iterator lower_bound(const value_type& val) const
         {
-            return this->find(val);
+            return _bst.lower_bound(val);
         }
 
         /**

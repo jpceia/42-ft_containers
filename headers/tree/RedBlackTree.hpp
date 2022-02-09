@@ -17,6 +17,8 @@
 # include <functional>
 # include "iterator/reverse_iterator.hpp"
 # include "tree/BTIterator.hpp"
+# include "tree/NodeBase.hpp"
+# include "tree/NodeValue.hpp"
 
 namespace ft
 {
@@ -220,15 +222,16 @@ namespace ft
 
         iterator lower_bound(const value_type& val) const
         {
-            return _lower_bound(this->_root, val);
+            node_pointer node = _nil;
+            _lower_bound(this->_root, val, node);
+            return node;
         }
 
         iterator upper_bound(const value_type& val) const
         {
-            iterator it = _upper_bound(this->_root, val);
-            if (it != this->end())
-                return ++it;
-            return it;
+            node_pointer node = _nil;
+            _upper_bound(this->_root, val, node);
+            return node;
         }
 
         // ---------------------------------------------------------------------
@@ -419,30 +422,32 @@ namespace ft
             return node;
         }
 
-        iterator _lower_bound(node_pointer node, const value_type& val) const
+        void _lower_bound(node_pointer node, const value_type& val, node_pointer& curr) const
         {
             if (!node || !node->parent) // empty tree or nil node
-                return _nil;
-            const value_type& data = node_value::getData(node);
-            if (_cmp(val, data))
-                return _lower_bound(node->left, val);
-            const value_type& min_max = node_value::getData(node->successor());
-            if (!node->right->parent || _cmp(val, min_max))
-                return node;
-            return _lower_bound(node->right, val);
-        }
-
-        iterator _upper_bound(node_pointer node, const value_type& val) const
-        {
-            if (!node || !node->parent) // empty tree or nil node
-                return _nil;
+                return ;
             const value_type& data = node_value::getData(node);
             if (_cmp(data, val))
-                return _upper_bound(node->right, val);
-            const value_type& max_min = node_value::getData(node->predecessor());
-            if (!node->left->parent || _cmp(max_min, val))
-                return node;
-            return _upper_bound(node->left, val);
+                _lower_bound(node->right, val, curr);
+            else
+            {
+                curr = node;
+                _lower_bound(node->left, val, curr);
+            }
+        }
+
+        void _upper_bound(node_pointer node, const value_type& val, node_pointer& curr) const
+        {
+            if (!node || !node->parent) // empty tree or nil node
+                return ;
+            const value_type& data = node_value::getData(node);
+            if (_cmp(val, data))
+            {
+                curr = node;
+                _upper_bound(node->left, val, curr);
+            }
+            else
+                _upper_bound(node->right, val, curr);
         }
         
         node_pointer _copy(node_pointer node, node_pointer parent = NULL)
