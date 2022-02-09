@@ -13,10 +13,12 @@
 #ifndef BTITERATOR_HPP
 # define BTITERATOR_HPP
 
-# include "tree/Node.hpp"
 # include "iterator/iterator_traits.hpp"
 # include "type_traits/remove_const.hpp"
-#include <map>
+# include "tree/NodeBase.hpp"
+# include "tree/NodeValue.hpp"
+
+
 namespace ft
 {
     template <typename T>

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NODE_HPP
-# define NODE_HPP
+#ifndef NODEBASE_HPP
+# define NODEBASE_HPP
 
 # define RED false
 # define BLACK true
@@ -139,43 +139,6 @@ namespace ft
                 node = node->parent;
             return node->parent;
         }
-    };
-
-    template <typename T>
-    class NodeValue : public NodeBase
-    {
-    public:
-        NodeValue(
-            const T &data,
-            NodeBase *parent = NULL, 
-            NodeBase *left = NULL,
-            NodeBase *right = NULL) :
-            data(data)
-        {
-            this->parent = parent;
-            this->left = left;
-            this->right = right;
-            this->color = RED;
-        }
-
-        NodeValue(const NodeValue<T> &rhs) :
-            data(rhs.data)
-        {
-            this->parent = rhs.parent;
-            this->left = rhs.left;
-            this->right = rhs.right;
-        }
-
-        virtual ~NodeValue()
-        {
-        }
-
-        static T getData(NodeBase *node)
-        {
-            return static_cast<NodeValue<T>*>(node)->data;
-        }
-
-        T data;
     };
 }
 
