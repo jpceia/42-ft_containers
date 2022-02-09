@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jceia <jceia@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/08 16:54:12 by jceia            ###   ########.fr       */
+/*   Updated: 2022/02/09 01:56:03 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <memory>
 # include <stdexcept>
 # include <iostream>
+# include <sstream>
 
 # include "type_traits/enable_if.hpp"
 # include "type_traits/is_integral.hpp"
@@ -426,15 +427,13 @@ namespace ft
          */
         reference at(size_type n)
         {
-            if (n >= this->size())
-                throw std::out_of_range("Index out of range");
+            _range_check(n);
             return *(_begin + n);
         }
         
         const_reference at(size_type n) const
         {
-            if (n >= this->size())
-                throw std::out_of_range("Index out of range");
+            _range_check(n);
             return *(_begin + n);
         }
 
@@ -728,6 +727,17 @@ namespace ft
         }
         
     private:
+
+        void _range_check(size_type n)
+        {
+            if (n >= this->size())
+            {
+                std::stringstream ss;
+                ss << "vector::_range_check: __n (which is " << n << ")";
+                ss << " >= this->size() (which is " << this->size() << ")";
+                throw std::out_of_range(ss.str());
+            }
+        }
 
         template <typename InputIterator>
         void _uninitialized_copy(InputIterator first, InputIterator last, iterator result)
