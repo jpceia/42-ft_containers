@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/02/09 01:56:03 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/04/05 09:04:16 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -634,7 +634,7 @@ namespace ft
                 this->_reallocate();
             // move elements after position one position to the right
             pointer ptr = _begin + idx;
-            std::copy(ptr, _end, _begin + 1);
+            std::copy(ptr, _end, ptr + 1);
             _alloc.construct(ptr, val);
             ++_end;
             return ptr;
@@ -653,7 +653,7 @@ namespace ft
             while (this->size() + n > this->capacity())
                 this->_reallocate();
             pointer ptr = _begin + idx;
-            std::copy(ptr, _end, _begin + n);
+            std::copy(ptr, _end, ptr + n);
             for (size_type i = 0; i < n; ++i)
                 _alloc.construct(ptr + i, val);
             _end += n;
