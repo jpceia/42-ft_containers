@@ -71,32 +71,32 @@ namespace ft
         {
             return lhs.c == rhs.c;
         }
-        
+
         friend bool operator!= (const stack& lhs, const stack& rhs)
         {
             return !(lhs == rhs);
         }
-        
+
         friend bool operator<  (const stack& lhs, const stack& rhs)
         {
             return lhs.c < rhs.c;
         }
-        
+
         friend bool operator<= (const stack& lhs, const stack& rhs)
         {
             return lhs.c <= rhs.c;
         }
-        
+
         friend bool operator>  (const stack& lhs, const stack& rhs)
         {
             return lhs.c > rhs.c;
         }
-        
+
         friend bool operator>= (const stack& lhs, const stack& rhs)
         {
             return lhs.c >= rhs.c;
         }
-        
+
     protected:
 
         // Member variables
