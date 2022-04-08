@@ -6,7 +6,7 @@
 /*   By: jpceia <joao.p.ceia@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 02:50:27 by jpceia            #+#    #+#             */
-/*   Updated: 2022/04/05 09:04:16 by jpceia           ###   ########.fr       */
+/*   Updated: 2022/04/08 11:39:10 by jpceia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -817,6 +817,8 @@ namespace ft
     template <typename T, typename Alloc>
     bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
     {
+        if (lhs.size() != rhs.size())
+            return false;
         return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
     }
 
